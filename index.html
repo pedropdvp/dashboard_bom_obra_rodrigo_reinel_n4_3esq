@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Concorrência | RPM Renovações - Rua Rodrigo Reinel N4 4Esq</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+    --primary: #1e3a5f;
+    --primary-light: #2c5282;
+    --accent: #d4a574;
+    --accent-dark: #b8895a;
+    --success: #2f855a;
+    --warning: #c05621;
+    --danger: #c53030;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #2d3748;
+    --text-light: #718096;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 30px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.header .subtitle {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.header .project-info {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+.header .project-info span {
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 4px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px 40px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 22px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.kpi-card.rpm { border-left-color: var(--primary); }
+.kpi-card.savings { border-left-color: var(--success); }
+.kpi-card.warning { border-left-color: var(--warning); }
+.kpi-card.danger { border-left-color: var(--danger); }
+
+.kpi-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.kpi-extra {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 6px;
+}
+
+.section {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-title .badge {
+    font-size: 12px;
+    background: var(--accent);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 18px;
+    background: #f8fafc;
+    padding: 22px;
+    border-radius: 8px;
+    margin-bottom: 22px;
+    border: 1px solid var(--border);
+}
+
+.filter-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select,
+.filter-group input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(44,82,130,0.1);
+}
+
+.range-display {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.btn-reset {
+    background: var(--text-light);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-reset:hover { background: var(--text); }
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+thead {
+    background: var(--primary);
+    color: white;
+}
+
+th {
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 13px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+tbody tr:hover { background: #f8fafc; }
+tbody tr.rpm-row { background: #fef3e2; font-weight: 600; }
+tbody tr.rpm-row:hover { background: #fde9c8; }
+
+.tier-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tier-budget { background: #fff5d6; color: #b7791f; }
+.tier-mid { background: #d4edda; color: #155724; }
+.tier-premium { background: #e3d8f0; color: #5a3a8e; }
+
+.value-cell {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.delta-positive { color: var(--success); font-weight: 600; }
+.delta-negative { color: var(--danger); font-weight: 600; }
+.delta-neutral { color: var(--text-light); }
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 22px;
+    margin-top: 22px;
+}
+
+.chart-container {
+    background: #f8fafc;
+    padding: 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    height: 380px;
+    position: relative;
+}
+
+.chart-container h3 {
+    font-size: 15px;
+    color: var(--primary);
+    margin-bottom: 14px;
+}
+
+.swot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.swot-card {
+    padding: 22px;
+    border-radius: 10px;
+    border-top: 4px solid;
+}
+
+.swot-strengths { background: #e6f4ea; border-color: var(--success); }
+.swot-weaknesses { background: #fce8e8; border-color: var(--danger); }
+.swot-opportunities { background: #e3edf7; border-color: var(--primary-light); }
+.swot-threats { background: #fef0e2; border-color: var(--warning); }
+
+.swot-card h4 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.swot-strengths h4 { color: var(--success); }
+.swot-weaknesses h4 { color: var(--danger); }
+.swot-opportunities h4 { color: var(--primary-light); }
+.swot-threats h4 { color: var(--warning); }
+
+.swot-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.swot-card li {
+    padding: 7px 0 7px 22px;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+}
+
+.swot-card li:last-child { border-bottom: none; }
+
+.swot-card li::before {
+    content: '\25C6';
+    position: absolute;
+    left: 4px;
+    top: 7px;
+    font-size: 10px;
+}
+
+.swot-strengths li::before { color: var(--success); }
+.swot-weaknesses li::before { color: var(--danger); }
+.swot-opportunities li::before { color: var(--primary-light); }
+.swot-threats li::before { color: var(--warning); }
+
+.swot-selector {
+    background: #f8fafc;
+    padding: 16px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.swot-selector label {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.swot-selector select {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    min-width: 240px;
+}
+
+.comparative-table th:first-child {
+    width: 30%;
+}
+
+.check { color: var(--success); font-weight: 700; font-size: 18px; }
+.cross { color: var(--danger); font-weight: 700; font-size: 18px; }
+.partial { color: var(--warning); font-weight: 700; font-size: 18px; }
+
+.rpm-col { background: #fef3e2; }
+.rpm-col-header { background: var(--accent) !important; color: white !important; }
+
+.summary-box {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 28px;
+    border-radius: 10px;
+    margin-top: 25px;
+}
+
+.summary-box h3 {
+    font-size: 20px;
+    margin-bottom: 14px;
+}
+
+.summary-box p {
+    font-size: 15px;
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.summary-stat {
+    text-align: center;
+}
+
+.summary-stat .num {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.summary-stat .lbl {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    margin-top: 12px;
+    color: var(--text-light);
+}
+
+.legend-item { display: flex; align-items: center; gap: 6px; }
+
+footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+@media (max-width: 900px) {
+    .filters { grid-template-columns: 1fr 1fr; }
+    .swot-grid { grid-template-columns: 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .header { padding: 20px; }
+    .container { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Dashboard de Concorrência | Mercado de Remodelações Grande Lisboa</h1>
+    <div class="subtitle">Análise comparativa de fornecedores | Projeto Rua Rodrigo Reinel N4 4Esq - Restelo</div>
+    <div class="project-info">
+        <span><strong>Cliente:</strong> Alfredo Varela Pinto</span>
+        <span><strong>Orç. nº:</strong> 26_03</span>
+        <span><strong>Data:</strong> 02/05/2026</span>
+        <span><strong>Tipologia:</strong> T3 com remodelação total</span>
+        <span><strong>Área estimada:</strong> 85 m²</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="kpi-grid">
+        <div class="kpi-card rpm">
+            <div class="kpi-label">Proposta RPM Renovações</div>
+            <div class="kpi-value" id="kpi-rpm">43.055 &euro;</div>
+            <div class="kpi-extra">Sem IVA | 506 &euro;/m&sup2;</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">M&eacute;dia de Mercado</div>
+            <div class="kpi-value" id="kpi-avg">52.450 &euro;</div>
+            <div class="kpi-extra">9 concorrentes analisados</div>
+        </div>
+        <div class="kpi-card savings">
+            <div class="kpi-label">Poupan&ccedil;a vs M&eacute;dia</div>
+            <div class="kpi-value" id="kpi-savings">9.395 &euro;</div>
+            <div class="kpi-extra">RPM cobra 18% abaixo da m&eacute;dia</div>
+        </div>
+        <div class="kpi-card warning">
+            <div class="kpi-label">Posi&ccedil;&atilde;o no Mercado</div>
+            <div class="kpi-value" id="kpi-position">5&ordm; / 10</div>
+            <div class="kpi-extra">Tier mid com qualidade premium</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Tabela Comparativa de Fornecedores
+            <span class="badge" id="result-count">10 resultados</span>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filter-supplier">Fornecedor</label>
+                <select id="filter-supplier">
+                    <option value="">Todos os fornecedores</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-tier">Tier de Mercado</label>
+                <select id="filter-tier">
+                    <option value="">Todos os tiers</option>
+                    <option value="Budget">Budget</option>
+                    <option value="Mid">Mid</option>
+                    <option value="Premium">Premium</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-min">Valor M&iacute;nimo (&euro;)</label>
+                <input type="number" id="filter-min" placeholder="Ex: 30000" min="0" step="500">
+                <div class="range-display" id="range-display">Intervalo ativo: 0 &euro; a sem limite</div>
+            </div>
+            <div class="filter-group">
+                <label for="filter-max">Valor M&aacute;ximo (&euro;)</label>
+                <input type="number" id="filter-max" placeholder="Ex: 60000" min="0" step="500">
+                <button class="btn-reset" onclick="resetFilters()" style="margin-top:8px; width:100%;">Limpar Filtros</button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="suppliers-table">
+                <thead>
+                    <tr>
+                        <th>Fornecedor</th>
+                        <th>Tier</th>
+                        <th>Valor (sem IVA)</th>
+                        <th>&euro;/m&sup2;</th>
+                        <th>&Delta; vs RPM</th>
+                        <th>Prazo (semanas)</th>
+                        <th>Garantia</th>
+                        <th>Especializa&ccedil;&atilde;o</th>
+                    </tr>
+                </thead>
+                <tbody id="suppliers-tbody"></tbody>
+            </table>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Distribui&ccedil;&atilde;o de valores por fornecedor</h3>
+                <canvas id="chart-bar"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Ratio Pre&ccedil;o vs Garantia</h3>
+                <canvas id="chart-scatter"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            An&aacute;lise SWOT Comparativa
+            <span class="badge">Selecione o fornecedor</span>
+        </div>
+
+        <div class="swot-selector">
+            <label for="swot-supplier">Fornecedor a analisar:</label>
+            <select id="swot-supplier"></select>
+        </div>
+
+        <div class="swot-grid">
+            <div class="swot-card swot-strengths">
+                <h4>For&ccedil;as</h4>
+                <ul id="swot-s"></ul>
+            </div>
+            <div class="swot-card swot-weaknesses">
+                <h4>Fraquezas</h4>
+                <ul id="swot-w"></ul>
+            </div>
+            <div class="swot-card swot-opportunities">
+                <h4>Oportunidades</h4>
+                <ul id="swot-o"></ul>
+            </div>
+            <div class="swot-card swot-threats">
+                <h4>Amea&ccedil;as</h4>
+                <ul id="swot-t"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Porqu&ecirc; Escolher RPM Renova&ccedil;&otilde;es | Tabela Comparativa de Atributos
+            <span class="badge">Recomenda&ccedil;&atilde;o</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="comparative-table">
+                <thead>
+                    <tr>
+                        <th>Crit&eacute;rio</th>
+                        <th class="rpm-col-header">RPM Renova&ccedil;&otilde;es</th>
+                        <th>Habin&eacute;dita</th>
+                        <th>Neocasa</th>
+                        <th>Reforma J&aacute;</th>
+                        <th>Frota Constru&ccedil;&otilde;es</th>
+                        <th>Tudo na Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pre&ccedil;o competitivo (&euro;/m&sup2;)</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span> 506 &euro;/m&sup2;</td>
+                        <td>621 &euro;/m&sup2;</td>
+                        <td>806 &euro;/m&sup2;</td>
+                        <td>411 &euro;/m&sup2;</td>
+                        <td>581 &euro;/m&sup2;</td>
+                        <td>374 &euro;/m&sup2;</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Garantia contratual de 2 anos</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span> 5 anos</td>
+                        <td><span class="check">&#10003;</span> 5 anos</td>
+                        <td><span class="cross">&#10007;</span> 1 ano</td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span> 1 ano</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cobertura completa de instala&ccedil;&otilde;es t&eacute;cnicas</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Equipa fixa e especializada</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Acompanhamento direto do dono da obra</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Flexibilidade em altera&ccedil;&otilde;es ao plano</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experi&ecirc;ncia comprovada em Lisboa</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pagamento faseado 50/30/20</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span> 40/40/20</td>
+                        <td><span class="cross">&#10007;</span> 30/30/40</td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cobertura de defeitos ocultos sem custos</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tecto falso em todas as divis&otilde;es inclu&iacute;do</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span> opcional</td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demoli&ccedil;&atilde;o estrutural sala/hall inclu&iacute;da</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Substitui&ccedil;&atilde;o completa de cablagem</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="partial">~</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aparelhagem Efapel Logus 90 inclu&iacute;da</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                        <td><span class="cross">&#10007;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entrega final com obra limpa</strong></td>
+                        <td class="rpm-col"><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                        <td><span class="check">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Score Global (0 a 10)</strong></td>
+                        <td class="rpm-col"><strong style="color:var(--success); font-size:18px;">9.2</strong></td>
+                        <td>8.0</td>
+                        <td>8.7</td>
+                        <td>5.4</td>
+                        <td>7.8</td>
+                        <td>4.6</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><span class="check">&#10003;</span> Cumpre o crit&eacute;rio</div>
+            <div class="legend-item"><span class="partial">~</span> Cumpre parcialmente</div>
+            <div class="legend-item"><span class="cross">&#10007;</span> N&atilde;o cumpre</div>
+        </div>
+
+        <div class="summary-box">
+            <h3>Conclus&atilde;o da An&aacute;lise para o Sr. Alfredo Varela Pinto</h3>
+            <p>A RPM Renova&ccedil;&otilde;es apresenta a melhor rela&ccedil;&atilde;o qualidade pre&ccedil;o do mercado da Grande Lisboa para este tipo de obra. Fica 18% abaixo da m&eacute;dia de mercado. Mant&eacute;m o n&iacute;vel de execu&ccedil;&atilde;o t&eacute;cnica de empresas premium. O or&ccedil;amento de 43.055&euro; inclui desmontagens completas. Inclui instala&ccedil;&otilde;es t&eacute;cnicas integrais. Inclui demoli&ccedil;&atilde;o estrutural sala/hall. Inclui tectos falsos em todas as divis&otilde;es. Inclui redefini&ccedil;&atilde;o de paredes da casa de banho principal. Inclui cobertura de garantia de 2 anos com responsabilidade por defeitos ocultos. Concorrentes com valor inferior cortam servi&ccedil;os cr&iacute;ticos. Concorrentes com valor superior cobram pelo nome. A RPM entrega o equil&iacute;brio ideal entre pre&ccedil;o e qualidade.</p>
+
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="num">9.2</div>
+                    <div class="lbl">Score global mais alto</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="num">14/14</div>
+                    <div class="lbl">Crit&eacute;rios cumpridos</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="num">9.395 &euro;</div>
+                    <div class="lbl">Poupan&ccedil;a vs m&eacute;dia de mercado</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Dashboard gerado para an&aacute;lise interna RPM Renova&ccedil;&otilde;es | Dados de mercado Grande Lisboa | Atualiza&ccedil;&atilde;o: Abril 2026
+    </footer>
+</div>
+
+<script>
+const suppliers = [
+    {
+        name: "RPM Renovacoes",
+        tier: "Mid",
+        value: 43055,
+        m2: 506,
+        weeks: "8 a 10",
+        warranty: 2,
+        speciality: "Remodelacao integral residencial",
+        isRPM: true,
+        swot: {
+            s: [
+                "Equipa fixa com Pedro e Marcelo no acompanhamento direto da obra",
+                "Margem competitiva permite preco 18% abaixo da media de mercado",
+                "Cobertura tecnica completa: canalizacao, eletricidade, gesso cartonado",
+                "Pagamento faseado equilibrado 50/30/20 alinhado com fluxo de obra",
+                "Inclusao de aparelhagem Efapel Logus 90 sem custo adicional",
+                "Garantia contratual de 2 anos com responsabilidade por defeitos ocultos",
+                "Demolicao estrutural sala/hall incluida no escopo base"
+            ],
+            w: [
+                "Garantia inferior a oferta premium do mercado (5 anos)",
+                "Estrutura mais pequena limita execucao simultanea de varias obras",
+                "Marca menos reconhecida que players historicos do mercado lisboeta"
+            ],
+            o: [
+                "Crescente procura por remodelacoes no Restelo e zona ocidental",
+                "Clientes premium a procurar alternativas a empresas saturadas",
+                "Possibilidade de upsell em materiais de acabamento e mobilias",
+                "Parcerias com fornecedores de ceramica e cantaria locais",
+                "Captura de clientes insatisfeitos com prazos das marcas grandes"
+            ],
+            t: [
+                "Pressao de empresas low cost no segmento sensivel ao preco",
+                "Aumento do custo de materias primas e mao de obra qualificada",
+                "Concorrencia de marcas com forte investimento em marketing digital"
+            ]
+        }
+    },
+    {
+        name: "Habinedita",
+        tier: "Mid",
+        value: 52800,
+        m2: 621,
+        weeks: "10 a 12",
+        warranty: 5,
+        speciality: "Remodelacoes chave na mao",
+        swot: {
+            s: ["Garantia alargada de 5 anos sobre execucao", "Marca consolidada com forte presenca em Lisboa", "Showroom proprio com materiais de acabamento expostos"],
+            w: ["Preco 23% acima da RPM para o mesmo escopo de obra", "Pagamento adiantado de 40% no inicio onera o cliente", "Burocracia interna atrasa decisoes em obra"],
+            o: ["Capacidade financeira para suportar grandes projetos", "Rede de subempreiteiros estavel e treinada"],
+            t: ["Estruturas mais ageis a captar clientes mid market", "Reclamacoes publicas de prazos nao cumpridos"]
+        }
+    },
+    {
+        name: "Neocasa",
+        tier: "Premium",
+        value: 68500,
+        m2: 806,
+        weeks: "12 a 14",
+        warranty: 5,
+        speciality: "Remodelacoes premium e design",
+        swot: {
+            s: ["Acabamentos de alta qualidade com materiais selecionados", "Equipa de arquitetura integrada no processo", "Portfolio robusto com obras em zonas premium"],
+            w: ["Preco 59% acima da RPM para o mesmo escopo", "Estrutura pesada com muitos intermediarios", "Fraco acompanhamento direto do dono da obra"],
+            o: ["Clientes high end com orcamento elevado", "Projetos chave na mao integrais com design"],
+            t: ["Concorrencia boutique com igual qualidade e melhor preco", "Sensibilidade ao preco em momentos de incerteza economica"]
+        }
+    },
+    {
+        name: "Decorstore",
+        tier: "Premium",
+        value: 71200,
+        m2: 838,
+        weeks: "12 a 16",
+        warranty: 5,
+        speciality: "Boutique design e remodelacao",
+        swot: {
+            s: ["Design integrado com remodelacao", "Forte componente estetica e curadoria de materiais", "Garantia alargada de 5 anos"],
+            w: ["Preco 65% acima da RPM", "Prazos longos e pouco previsiveis", "Custos extra frequentes ao longo da obra"],
+            o: ["Mercado de luxo no Restelo, Estoril e Cascais"],
+            t: ["Empresas mid tier a oferecer servico equivalente por menos"]
+        }
+    },
+    {
+        name: "Reforma Ja",
+        tier: "Budget",
+        value: 34900,
+        m2: 411,
+        weeks: "6 a 8",
+        warranty: 1,
+        speciality: "Plataforma agregadora low cost",
+        swot: {
+            s: ["Preco inicial atrativo para captacao de leads", "Prazos curtos prometidos", "Marketing digital forte"],
+            w: ["Subempreiteiros rotativos sem controlo de qualidade", "Garantia minima de 1 ano", "Custos extra frequentes durante a execucao", "Sem cobertura de defeitos ocultos"],
+            o: ["Captacao de clientes muito sensiveis ao preco"],
+            t: ["Reputacao online com queixas frequentes em foruns", "Empresas mid tier a estabilizar precos competitivos"]
+        }
+    },
+    {
+        name: "Frota Construcoes",
+        tier: "Mid",
+        value: 49350,
+        m2: 581,
+        weeks: "9 a 11",
+        warranty: 2,
+        speciality: "Construcao civil e remodelacao",
+        swot: {
+            s: ["Experiencia solida em construcao civil pesada", "Capacidade de demolicao estrutural"],
+            w: ["Pouca especializacao em remodelacao fina", "Preco 15% acima da RPM", "Fraca componente estetica nos acabamentos"],
+            o: ["Projetos com demolicao estrutural relevante"],
+            t: ["Empresas especializadas em remodelacao a captar mercado"]
+        }
+    },
+    {
+        name: "Tudo na Hora",
+        tier: "Budget",
+        value: 31750,
+        m2: 374,
+        weeks: "5 a 7",
+        warranty: 1,
+        speciality: "Pequenas reformas e arranjos",
+        swot: {
+            s: ["Preco muito baixo de entrada", "Disponibilidade rapida da equipa"],
+            w: ["Sem capacidade para obras integrais", "Equipa nao especializada", "Sem garantia de execucao tecnica complexa", "Sem cobertura de defeitos ocultos"],
+            o: ["Clientes com orcamento muito limitado e obras pequenas"],
+            t: ["Marca associada a falta de qualidade", "Saida do mercado em recessao"]
+        }
+    },
+    {
+        name: "Larq Renovations",
+        tier: "Premium",
+        value: 75400,
+        m2: 887,
+        weeks: "14 a 16",
+        warranty: 5,
+        speciality: "Remodelacao de luxo",
+        swot: {
+            s: ["Materiais top de gama incluidos no orcamento", "Project management dedicado por obra"],
+            w: ["Preco 75% acima da RPM", "Inflexibilidade contratual em alteracoes", "Prazos longos com obras superiores a 4 meses"],
+            o: ["Mercado ultra premium no centro historico de Lisboa"],
+            t: ["Boutiques com equipa enxuta a oferecer mesma qualidade"]
+        }
+    },
+    {
+        name: "Casa Pronta",
+        tier: "Mid",
+        value: 46900,
+        m2: 552,
+        weeks: "8 a 10",
+        warranty: 2,
+        speciality: "Remodelacao T2 e T3 standard",
+        swot: {
+            s: ["Processo padronizado com prazos previsiveis", "Boa cobertura tecnica geral"],
+            w: ["Preco 9% acima da RPM", "Pouca flexibilidade em alteracoes", "Solucoes pouco personalizadas"],
+            o: ["Clientes que valorizam previsibilidade acima de tudo"],
+            t: ["Empresas com mesma cobertura e preco inferior"]
+        }
+    },
+    {
+        name: "Edibarra Construcoes",
+        tier: "Mid",
+        value: 41200,
+        m2: 485,
+        weeks: "8 a 10",
+        warranty: 2,
+        speciality: "Construcao e remodelacao geral",
+        swot: {
+            s: ["Preco proximo da RPM", "Experiencia em obra civil"],
+            w: ["Acabamentos com qualidade inferior", "Equipa rotativa sem fixacao", "Pouco foco em cliente residencial premium"],
+            o: ["Mercado low mid em zonas perifericas de Lisboa"],
+            t: ["RPM com melhor cobertura tecnica pelo mesmo valor"]
+        }
+    }
+];
+
+const RPM_VALUE = 43055;
+let filteredSuppliers = [...suppliers];
+let chartBar, chartScatter;
+
+function formatEuro(value) {
+    return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(value);
+}
+
+function calcDelta(value) {
+    const diff = value - RPM_VALUE;
+    const pct = ((diff / RPM_VALUE) * 100).toFixed(1);
+    return { diff, pct };
+}
+
+function renderTable() {
+    const tbody = document.getElementById('suppliers-tbody');
+    tbody.innerHTML = '';
+
+    if (filteredSuppliers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="no-results">Nenhum fornecedor corresponde aos filtros aplicados.</td></tr>';
+        document.getElementById('result-count').textContent = '0 resultados';
+        return;
+    }
+
+    filteredSuppliers.forEach(s => {
+        const delta = calcDelta(s.value);
+        let deltaText, deltaClass;
+        if (s.isRPM) {
+            deltaText = 'Referência';
+            deltaClass = 'delta-neutral';
+        } else if (delta.diff > 0) {
+            deltaText = `+${formatEuro(delta.diff)} (+${delta.pct}%)`;
+            deltaClass = 'delta-negative';
+        } else {
+            deltaText = `${formatEuro(delta.diff)} (${delta.pct}%)`;
+            deltaClass = 'delta-positive';
+        }
+
+        const tierClass = `tier-${s.tier.toLowerCase()}`;
+        const rowClass = s.isRPM ? 'rpm-row' : '';
+        const refSuffix = s.isRPM ? ' (Referência)' : '';
+
+        const row = `
+            <tr class="${rowClass}">
+                <td><strong>${s.name}</strong>${refSuffix}</td>
+                <td><span class="tier-badge ${tierClass}">${s.tier}</span></td>
+                <td class="value-cell">${formatEuro(s.value)}</td>
+                <td>${s.m2} €/m²</td>
+                <td class="${deltaClass}">${deltaText}</td>
+                <td>${s.weeks}</td>
+                <td>${s.warranty} ano${s.warranty > 1 ? 's' : ''}</td>
+                <td>${s.speciality}</td>
+            </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+    });
+
+    const count = filteredSuppliers.length;
+    document.getElementById('result-count').textContent = `${count} resultado${count !== 1 ? 's' : ''}`;
+}
+
+function applyFilters() {
+    const supplier = document.getElementById('filter-supplier').value;
+    const tier = document.getElementById('filter-tier').value;
+    const min = parseFloat(document.getElementById('filter-min').value) || 0;
+    const max = parseFloat(document.getElementById('filter-max').value) || Infinity;
+
+    filteredSuppliers = suppliers.filter(s => {
+        if (supplier && s.name !== supplier) return false;
+        if (tier && s.tier !== tier) return false;
+        if (s.value < min || s.value > max) return false;
+        return true;
+    });
+
+    document.getElementById('range-display').textContent =
+        `Intervalo ativo: ${formatEuro(min)} a ${max === Infinity ? 'sem limite' : formatEuro(max)}`;
+
+    renderTable();
+    updateCharts();
+    updateKPIs();
+}
+
+function resetFilters() {
+    document.getElementById('filter-supplier').value = '';
+    document.getElementById('filter-tier').value = '';
+    document.getElementById('filter-min').value = '';
+    document.getElementById('filter-max').value = '';
+    applyFilters();
+}
+
+function updateKPIs() {
+    if (filteredSuppliers.length === 0) return;
+    const competitors = filteredSuppliers.filter(s => !s.isRPM);
+    if (competitors.length === 0) {
+        document.getElementById('kpi-avg').textContent = '—';
+        document.getElementById('kpi-savings').textContent = '—';
+        return;
+    }
+    const avg = competitors.reduce((acc, s) => acc + s.value, 0) / competitors.length;
+    document.getElementById('kpi-avg').textContent = formatEuro(Math.round(avg));
+    const savings = avg - RPM_VALUE;
+    document.getElementById('kpi-savings').textContent = formatEuro(Math.round(savings));
+
+    const sorted = [...suppliers].sort((a, b) => a.value - b.value);
+    const pos = sorted.findIndex(s => s.isRPM) + 1;
+    document.getElementById('kpi-position').textContent = `${pos}º / ${suppliers.length}`;
+}
+
+function populateSelects() {
+    const supplierSelect = document.getElementById('filter-supplier');
+    const swotSelect = document.getElementById('swot-supplier');
+    suppliers.forEach(s => {
+        supplierSelect.insertAdjacentHTML('beforeend', `<option value="${s.name}">${s.name}</option>`);
+        const rpmTag = s.isRPM ? ' (RPM)' : '';
+        const sel = s.isRPM ? ' selected' : '';
+        swotSelect.insertAdjacentHTML('beforeend', `<option value="${s.name}"${sel}>${s.name}${rpmTag}</option>`);
+    });
+}
+
+function renderSWOT() {
+    const name = document.getElementById('swot-supplier').value;
+    const supplier = suppliers.find(s => s.name === name);
+    if (!supplier) return;
+
+    ['s', 'w', 'o', 't'].forEach(key => {
+        const list = document.getElementById(`swot-${key}`);
+        list.innerHTML = supplier.swot[key].map(item => `<li>${item}</li>`).join('');
+    });
+}
+
+function buildBarChart() {
+    const ctx = document.getElementById('chart-bar').getContext('2d');
+    if (chartBar) chartBar.destroy();
+
+    const labels = filteredSuppliers.map(s => s.name);
+    const data = filteredSuppliers.map(s => s.value);
+    const colors = filteredSuppliers.map(s => s.isRPM ? '#d4a574' : '#2c5282');
+
+    chartBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Valor da proposta',
+                data: data,
+                backgroundColor: colors,
+                borderColor: colors.map(c => c === '#d4a574' ? '#b8895a' : '#1e3a5f'),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => formatEuro(ctx.parsed.y)
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: v => (v/1000) + 'k €' }
+                },
+                x: {
+                    ticks: { autoSkip: false, maxRotation: 45, minRotation: 45, font: { size: 10 } }
+                }
+            }
+        }
+    });
+}
+
+function buildScatterChart() {
+    const ctx = document.getElementById('chart-scatter').getContext('2d');
+    if (chartScatter) chartScatter.destroy();
+
+    const points = filteredSuppliers.map(s => ({
+        x: s.value,
+        y: s.warranty,
+        label: s.name,
+        isRPM: s.isRPM
+    }));
+
+    chartScatter = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Fornecedores',
+                data: points,
+                backgroundColor: points.map(p => p.isRPM ? '#d4a574' : '#2c5282'),
+                pointRadius: points.map(p => p.isRPM ? 10 : 7),
+                pointHoverRadius: 12
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.raw.label}: ${formatEuro(ctx.raw.x)} | ${ctx.raw.y} ano${ctx.raw.y > 1 ? 's' : ''}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Valor da proposta (€)' },
+                    ticks: { callback: v => (v/1000) + 'k €' }
+                },
+                y: {
+                    title: { display: true, text: 'Garantia (anos)' },
+                    beginAtZero: true,
+                    max: 6
+                }
+            }
+        }
+    });
+}
+
+function updateCharts() {
+    buildBarChart();
+    buildScatterChart();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    populateSelects();
+    renderTable();
+    updateKPIs();
+    renderSWOT();
+    updateCharts();
+
+    document.getElementById('filter-supplier').addEventListener('change', applyFilters);
+    document.getElementById('filter-tier').addEventListener('change', applyFilters);
+    document.getElementById('filter-min').addEventListener('input', applyFilters);
+    document.getElementById('filter-max').addEventListener('input', applyFilters);
+    document.getElementById('swot-supplier').addEventListener('change', renderSWOT);
+});
+</script>
+
+</body>
+</html>
