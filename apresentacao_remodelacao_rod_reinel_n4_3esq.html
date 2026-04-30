@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remodelação – Rua Rodrigo Reinel N.4 3ºEsq | RPM Renovações</title>
+<style>
+  :root {
+    --navy: #1a3a5c;
+    --navy-dark: #0f2540;
+    --navy-mid: #234d7a;
+    --gold: #c8922a;
+    --gold-light: #e8b04a;
+    --white: #ffffff;
+    --off-white: #f4f6f9;
+    --light-gray: #e8edf3;
+    --text-dark: #1a2535;
+    --text-mid: #3d5270;
+    --text-light: #6b84a0;
+    --success: #2d8a5e;
+    --sidebar-width: 270px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+
+  /* ── SIDEBAR ───────────────────────────────────────── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--navy-dark);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+  }
+
+  .sidebar-brand {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .sidebar-brand .brand-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar-brand .brand-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .sidebar-title {
+    padding: 16px 22px 8px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .nav-list { list-style: none; padding: 0 0 20px; }
+
+  .nav-list a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-list a:hover,
+  .nav-list a.active {
+    color: var(--white);
+    background: rgba(255,255,255,0.07);
+    border-left-color: var(--gold-light);
+  }
+
+  .nav-list a .nav-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+
+  .nav-list a .nav-num {
+    font-size: 10px;
+    background: rgba(200,146,42,0.25);
+    color: var(--gold-light);
+    border-radius: 10px;
+    padding: 1px 7px;
+    margin-left: auto;
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 16px 22px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+  }
+
+  /* ── MAIN CONTENT ──────────────────────────────────── */
+  #main {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ──────────────────────────────────────────── */
+  #hero {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, #2a5f94 100%);
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,146,42,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 40%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .hero-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-title span { color: var(--gold-light); }
+
+  .hero-subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+
+  .hero-kpis {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .kpi-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 20px 28px;
+    backdrop-filter: blur(4px);
+    min-width: 150px;
+  }
+
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .kpi-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  /* ── SECTIONS ──────────────────────────────────────── */
+  .section {
+    padding: 60px 60px;
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-alt { background: var(--white); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .section-num {
+    width: 42px; height: 42px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy-dark);
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    margin: 16px 0 32px;
+  }
+
+  /* ── INFO TABLE ────────────────────────────────────── */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  .info-table th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 13px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .info-table td {
+    padding: 13px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .info-table tr:last-child td { border-bottom: none; }
+
+  .info-table tr:nth-child(even) td { background: var(--off-white); }
+
+  .info-table .field-name {
+    color: var(--text-mid);
+    font-weight: 600;
+    width: 200px;
+  }
+
+  .info-table .field-value {
+    color: var(--text-dark);
+  }
+
+  .info-table .field-value.highlight {
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* ── CARDS GRID ────────────────────────────────────── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--navy);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 8px;
+  }
+
+  .card-body {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .card-body ul {
+    padding-left: 16px;
+    margin-top: 6px;
+  }
+
+  .card-body li { margin-bottom: 4px; }
+
+  /* ── PHASE CARDS ───────────────────────────────────── */
+  .phases-list { display: flex; flex-direction: column; gap: 20px; }
+
+  .phase-card {
+    background: var(--white);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    display: flex;
+  }
+
+  .phase-stripe {
+    width: 6px;
+    background: var(--navy);
+    flex-shrink: 0;
+  }
+
+  .phase-stripe.s2 { background: #2d6a9f; }
+  .phase-stripe.s3 { background: #3a7fba; }
+  .phase-stripe.s4 { background: #4a95d4; }
+  .phase-stripe.s5 { background: var(--gold); }
+
+  .phase-content { padding: 22px 26px; flex: 1; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .phase-num {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .phase-num.n2 { background: #2d6a9f; }
+  .phase-num.n3 { background: #3a7fba; }
+  .phase-num.n4 { background: #4a95d4; }
+  .phase-num.n5 { background: var(--gold); }
+
+  .phase-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy-dark);
+  }
+
+  .phase-body {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .phase-body ul {
+    padding-left: 18px;
+    margin-top: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 20px;
+  }
+
+  .phase-body li { margin-bottom: 4px; }
+
+  .phase-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .tag {
+    font-size: 11px;
+    background: var(--off-white);
+    color: var(--text-mid);
+    border-radius: 20px;
+    padding: 3px 10px;
+    border: 1px solid var(--light-gray);
+  }
+
+  /* ── ORCAMENTO TABLE ───────────────────────────────── */
+  .orc-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    font-size: 13px;
+  }
+
+  .orc-table thead tr { background: var(--navy); color: var(--white); }
+  .orc-table th {
+    padding: 13px 16px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .orc-table .section-row td {
+    background: var(--navy-mid);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 16px;
+  }
+
+  .orc-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: top;
+    color: var(--text-dark);
+  }
+
+  .orc-table tr:last-child td { border-bottom: none; }
+
+  .orc-table .item-num {
+    color: var(--text-light);
+    font-weight: 600;
+    width: 50px;
+  }
+
+  .orc-table .total-row td {
+    background: var(--navy-dark);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 16px;
+  }
+
+  /* ── PAYMENT STEPS ─────────────────────────────────── */
+  .payment-steps {
+    display: flex;
+    gap: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+
+  .pay-step {
+    flex: 1;
+    padding: 30px 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .pay-step.p1 { background: var(--navy); }
+  .pay-step.p2 { background: var(--navy-mid); }
+  .pay-step.p3 { background: var(--gold); }
+
+  .pay-pct {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .pay-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 4px;
+  }
+
+  .pay-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+  }
+
+  .pay-amount {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  /* ── GUARANTEE CARDS ───────────────────────────────── */
+  .guarantee-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .guar-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    text-align: center;
+  }
+
+  .guar-icon { font-size: 32px; margin-bottom: 10px; }
+
+  .guar-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 6px;
+  }
+
+  .guar-text {
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── EXCLUSIONS ────────────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .excl-box {
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+
+  .excl-box.included { background: #edf7f2; border-left: 4px solid var(--success); }
+  .excl-box.excluded { background: #fdf2f2; border-left: 4px solid #c0392b; }
+
+  .excl-box h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .excl-box.included h3 { color: var(--success); }
+  .excl-box.excluded h3 { color: #c0392b; }
+
+  .excl-box ul {
+    padding-left: 16px;
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.8;
+  }
+
+  /* ── ALERT ─────────────────────────────────────────── */
+  .alert {
+    background: #fff8ec;
+    border: 1px solid #f5c842;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #7a5a00;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  /* ── EXEC SUMMARY ──────────────────────────────────── */
+  .exec-box {
+    background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+    border-radius: 16px;
+    padding: 40px 44px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exec-box::before {
+    content: '"';
+    position: absolute;
+    top: -20px; right: 30px;
+    font-size: 180px;
+    color: rgba(255,255,255,0.05);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .exec-box p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .exec-box p + p { margin-top: 14px; }
+
+  .exec-highlights {
+    display: flex;
+    gap: 20px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .exec-hl {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .exec-hl strong { color: var(--gold-light); }
+
+  /* ── FOOTER ────────────────────────────────────────── */
+  #footer {
+    background: var(--navy-dark);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 28px 40px;
+    font-size: 12px;
+  }
+
+  #footer strong { color: var(--gold-light); }
+
+  /* ── RESPONSIVE ────────────────────────────────────── */
+  @media (max-width: 900px) {
+    #sidebar { display: none; }
+    #main { margin-left: 0; }
+    .section { padding: 40px 24px; }
+    #hero { padding: 50px 24px 44px; }
+    .hero-title { font-size: 26px; }
+    .phase-body ul { grid-template-columns: 1fr; }
+    .guarantee-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .payment-steps { flex-direction: column; }
+    .hero-kpis { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ───────────────────────────────────────── -->
+<nav id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-name">RPM Renovações</div>
+    <div class="brand-sub">Gestão de Obra</div>
+  </div>
+
+  <div class="sidebar-title">Índice</div>
+
+  <ul class="nav-list">
+    <li><a href="#hero" class="active">
+      <span class="nav-icon">🏠</span> Apresentação
+    </a></li>
+    <li><a href="#resumo">
+      <span class="nav-icon">📋</span> Resumo Executivo
+    </a></li>
+    <li><a href="#projeto">
+      <span class="nav-icon">📌</span> Identificação do Projeto
+    </a></li>
+    <li><a href="#ambito">
+      <span class="nav-icon">🔍</span> Âmbito da Intervenção
+    </a></li>
+    <li><a href="#plano">
+      <span class="nav-icon">📅</span> Plano de Gestão de Obra
+      <span class="nav-num">5 Fases</span>
+    </a></li>
+    <li><a href="#orcamento">
+      <span class="nav-icon">💶</span> Orçamento Detalhado
+    </a></li>
+    <li><a href="#garantias">
+      <span class="nav-icon">🛡️</span> Garantias e Exclusões
+    </a></li>
+    <li><a href="#pagamento">
+      <span class="nav-icon">💳</span> Condições de Pagamento
+    </a></li>
+  </ul>
+
+  <div class="sidebar-footer">
+    Orç nº 26_03 · 02/05/2026<br>
+    Alfredo Varela Pinto
+  </div>
+</nav>
+
+<!-- ── MAIN ──────────────────────────────────────────── -->
+<div id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-badge">Orçamento nº 26_03 · Remodelação e Recuperação</div>
+    <h1 class="hero-title">
+      Rua Rodrigo Reinel, N.4<br>
+      <span>3.º Esquerdo</span>
+    </h1>
+    <p class="hero-subtitle">
+      Projeto de reabilitação integral de apartamento T3 · 85 m² · Restelo, Lisboa
+    </p>
+    <div class="hero-kpis">
+      <div class="kpi-card">
+        <div class="kpi-value">43 055 €</div>
+        <div class="kpi-label">Valor Total (s/ IVA)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">85 m²</div>
+        <div class="kpi-label">Área do Apartamento</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">5 Fases</div>
+        <div class="kpi-label">Plano de Obra</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2 Anos</div>
+        <div class="kpi-label">Garantia Contratual</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUMO EXECUTIVO -->
+  <section id="resumo" class="section section-alt">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">Resumo Executivo</div>
+        <div class="section-desc">Síntese da proposta de remodelação e recuperação integral</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="exec-box">
+      <p>
+        Este projeto contempla a <strong>remodelação e recuperação integral</strong> de um apartamento
+        T3 situado na Rua Rodrigo Reinel, n.º 4, 3.º Esq., orçamentado em
+        <strong>43.055,00 € (sem IVA)</strong>, e visa a modernização das infraestruturas técnicas,
+        a reconfiguração de espaços interiores e a renovação de acabamentos.
+      </p>
+      <p>
+        Os pontos críticos incluem a substituição completa das redes de águas, esgotos e eletricidade,
+        a <strong>ampliação da sala</strong> através de demolição estrutural e a alteração das dimensões
+        da casa de banho principal para a criação de um novo roupeiro no quarto adjacente.
+      </p>
+      <p>
+        O prazo de garantia contratual estabelecido é de <strong>dois anos</strong> para a execução
+        dos trabalhos, com responsabilidade do empreiteiro por defeitos ocultos resultantes de má
+        execução ou materiais inadequados.
+      </p>
+
+      <div class="exec-highlights">
+        <div class="exec-hl">🔧 Substituição total das infraestruturas</div>
+        <div class="exec-hl">🏗️ Demolição e reconfiguração de espaços</div>
+        <div class="exec-hl">🎨 Renovação completa de acabamentos</div>
+        <div class="exec-hl">📋 Garantia <strong>2 anos</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDENTIFICAÇÃO DO PROJETO -->
+  <section id="projeto" class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">Identificação do Projeto</div>
+        <div class="section-desc">Dados fundamentais para o controlo administrativo e operacional</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Detalhe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="field-name">Cliente</td>
+          <td class="field-value">Alfredo Varela Pinto</td>
+        </tr>
+        <tr>
+          <td class="field-name">Morada da Obra</td>
+          <td class="field-value">Rua Rodrigo Reinel, N.4, 3.º Esquerdo, Lisboa</td>
+        </tr>
+        <tr>
+          <td class="field-name">Tipologia</td>
+          <td class="field-value">T3</td>
+        </tr>
+        <tr>
+          <td class="field-name">Área Estimada</td>
+          <td class="field-value">85 m²</td>
+        </tr>
+        <tr>
+          <td class="field-name">Valor a Adjudicar</td>
+          <td class="field-value highlight">43.055 € (sem IVA)</td>
+        </tr>
+        <tr>
+          <td class="field-name">Número do Orçamento</td>
+          <td class="field-value">Orç nº 26_03</td>
+        </tr>
+        <tr>
+          <td class="field-name">Data de Referência</td>
+          <td class="field-value">02 de Maio de 2026</td>
+        </tr>
+        <tr>
+          <td class="field-name">Empreiteiro</td>
+          <td class="field-value">RPM Renovações – Pedro & Marcelo</td>
+        </tr>
+        <tr>
+          <td class="field-name">Garantia Contratual</td>
+          <td class="field-value">2 anos (execução técnica)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ÂMBITO -->
+  <section id="ambito" class="section section-alt">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">Âmbito Detalhado da Intervenção</div>
+        <div class="section-desc">Frentes de trabalho abrangendo infraestrutura, espaços e acabamentos</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">💧</div>
+        <div class="card-title">Rede de Águas</div>
+        <div class="card-body">
+          Substituição integral de tubagens antigas por nova canalização em multicamada na cozinha e casas de banho (principal e social), com inclusão de válvulas de corte em pontos estratégicos.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🚰</div>
+        <div class="card-title">Rede de Esgotos</div>
+        <div class="card-body">
+          Execução de nova rede em tubos PVC com instalação de caixas de sifão de pavimento e ramal de descarga "terra" para o exterior.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Eletricidade e ITED</div>
+        <div class="card-body">
+          <ul>
+            <li>Substituição total da cablagem por cabos de cobre rígido</li>
+            <li>Novo quadro elétrico dimensionado para necessidades atuais</li>
+            <li>Aparelhagem Efapel Logus 90 branca</li>
+            <li>Circuitos dedicados para eletrodomésticos de cozinha</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛁</div>
+        <div class="card-title">Casas de Banho</div>
+        <div class="card-body">
+          Desmontagem completa de sanitários existentes (WC Principal e WC Social), abertura de roços, aplicação de novos revestimentos, montagem final de loiças e resguardos com isolamentos em silicone fungicida.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🍳</div>
+        <div class="card-title">Cozinha</div>
+        <div class="card-body">
+          Desmontagem cuidada dos móveis para reaproveitamento. Substituição dos peitos de cantaria das janelas. Execução de toda a infraestrutura para novos pontos de água e eletricidade.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">Alterações Estruturais</div>
+        <div class="card-body">
+          Demolição de paredes entre a sala e o hall de entrada para ampliação da área social. Remoção e criação de novas paredes para redefinição da casa de banho principal e instalação de roupeiro no quarto adjacente.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🪟</div>
+        <div class="card-title">Tetos Falsos</div>
+        <div class="card-body">
+          Instalação de teto falso em gesso cartonado (pladur) em todas as divisões da habitação, garantindo um acabamento contemporâneo e uniforme.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">Pintura e Acabamentos</div>
+        <div class="card-body">
+          Preparação de superfícies com primário e aplicação de 2 a 3 demãos de tinta Vinyl Matt branca em paredes e tetos. Reparação técnica e pintura integral das portas interiores.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🪵</div>
+        <div class="card-title">Pavimentos</div>
+        <div class="card-body">
+          Nivelamento e preparação do suporte para aplicação de novo pavimento e rodapés em toda a habitação. Aplicação de cerâmicas com cimento cola flex e betumação de juntas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANO DE GESTÃO DE OBRA -->
+  <section id="plano" class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">Plano de Gestão de Obra</div>
+        <div class="section-desc">Faseamento rigoroso e diretrizes técnicas de execução</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="phases-list">
+
+      <div class="phase-card">
+        <div class="phase-stripe"></div>
+        <div class="phase-content">
+          <div class="phase-header">
+            <div class="phase-num">1</div>
+            <div class="phase-title">Preparação, Desmontagens e Demolições Estruturais</div>
+          </div>
+          <div class="phase-body">
+            <p>Desconstrução seletiva e reconfiguração espacial, garantindo a integridade dos elementos a reaproveitar:</p>
+            <ul>
+              <li>Desmontagem e inventariação integral dos móveis de cozinha para reaproveitamento</li>
+              <li>Desmontagem técnica das pedras das janelas (peitos de cantaria)</li>
+              <li>Desmontagem completa do WC Social (sanitários, bidé, lavatório, banheira)</li>
+              <li>Desmontagem completa do WC Principal (sanitários, bidé, lavatório, banheira)</li>
+              <li>Demolição estrutural das paredes entre sala e hall de entrada</li>
+              <li>Remoção de paredes para redefinição do WC principal e nicho de roupeiro</li>
+              <li>Triagem, transporte e depósito de resíduos em vazadouro legalizado</li>
+            </ul>
+          </div>
+          <div class="phase-tags">
+            <span class="tag">Demolições</span>
+            <span class="tag">Desmontagem</span>
+            <span class="tag">Resíduos</span>
+            <span class="tag">Reconfiguração espacial</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-stripe s2"></div>
+        <div class="phase-content">
+          <div class="phase-header">
+            <div class="phase-num n2">2</div>
+            <div class="phase-title">Redes Técnicas e Infraestruturas (Instalações)</div>
+          </div>
+          <div class="phase-body">
+            <p>Controlo rigoroso da execução das especialidades, assegurando conformidade normativa:</p>
+            <ul>
+              <li>Nova rede de águas quente/fria em multicamada com válvulas de corte</li>
+              <li>Nova rede de drenagem de esgotos em PVC com caixas sifonadas</li>
+              <li>Substituição integral da cablagem com cabos de cobre rígido</li>
+              <li>Novo quadro elétrico e ramal de descarga "terra"</li>
+              <li>Aparelhagem Efapel Logus 90 branca</li>
+              <li>Circuitos dedicados por eletrodoméstico (forno, placa, exaustor, etc.)</li>
+            </ul>
+          </div>
+          <div class="phase-tags">
+            <span class="tag">Canalização</span>
+            <span class="tag">Esgotos</span>
+            <span class="tag">Eletricidade</span>
+            <span class="tag">ITED</span>
+            <span class="tag">Quadro elétrico</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-stripe s3"></div>
+        <div class="phase-content">
+          <div class="phase-header">
+            <div class="phase-num n3">3</div>
+            <div class="phase-title">Construção Civil e Alvenarias</div>
+          </div>
+          <div class="phase-body">
+            <p>Trabalhos de pedreiro e trolha focados na consolidação e preparação de suportes:</p>
+            <ul>
+              <li>Execução de roços em paredes e pavimentos para as novas redes técnicas</li>
+              <li>Aplicação de rebocos e betonilhas de regularização</li>
+              <li>Construção de novas paredes (alvenaria ou gesso cartonado) para reconfiguração do WC e nicho do roupeiro</li>
+              <li>Reparação do sistema de caixilharia da casa de banho (roldanas e fitas de estore)</li>
+            </ul>
+          </div>
+          <div class="phase-tags">
+            <span class="tag">Roços</span>
+            <span class="tag">Rebocos</span>
+            <span class="tag">Betonilhas</span>
+            <span class="tag">Alvenaria</span>
+            <span class="tag">Caixilharia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-stripe s4"></div>
+        <div class="phase-content">
+          <div class="phase-header">
+            <div class="phase-num n4">4</div>
+            <div class="phase-title">Revestimentos e Acabamentos de Superfície</div>
+          </div>
+          <div class="phase-body">
+            <p>Aplicação de materiais de acabamento com foco no detalhe e compatibilidade química dos produtos:</p>
+            <ul>
+              <li><strong>Tetos:</strong> Gesso cartonado (pladur) em todas as divisões</li>
+              <li><strong>Paredes:</strong> 1 demão primário + 2/3 demãos Vinyl Matt branco</li>
+              <li><strong>Cerâmicas:</strong> Cimento cola flex sobre piso existente e betume para juntas</li>
+              <li><strong>Pavimentos:</strong> Nivelamento e preparação do suporte</li>
+              <li><strong>Carpintarias:</strong> Reparação técnica e pintura das portas interiores</li>
+            </ul>
+          </div>
+          <div class="phase-tags">
+            <span class="tag">Pladur</span>
+            <span class="tag">Pintura</span>
+            <span class="tag">Cerâmicos</span>
+            <span class="tag">Pavimentos</span>
+            <span class="tag">Vinyl Matt</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-stripe s5"></div>
+        <div class="phase-content">
+          <div class="phase-header">
+            <div class="phase-num n5">5</div>
+            <div class="phase-title">Montagens Finais e Equipamentos</div>
+          </div>
+          <div class="phase-body">
+            <p>Finalização e comissionamento da obra:</p>
+            <ul>
+              <li>Montagem de loiças sanitárias, resguardos e aplicação de silicones fungicidas</li>
+              <li>Instalação dos novos peitos de cantaria nas janelas</li>
+              <li>Montagem e ajuste final da cozinha (módulos reaproveitados)</li>
+              <li>Instalação final da aparelhagem elétrica (centros, teclas e espelhos Efapel)</li>
+              <li>Limpeza total da obra para entrega</li>
+            </ul>
+          </div>
+          <div class="phase-tags">
+            <span class="tag">Loiças sanitárias</span>
+            <span class="tag">Cozinha</span>
+            <span class="tag">Aparelhagem</span>
+            <span class="tag">Cantaria</span>
+            <span class="tag">Entrega</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ORÇAMENTO -->
+  <section id="orcamento" class="section section-alt">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title">Orçamento Detalhado</div>
+        <div class="section-desc">Mapa de trabalhos — Orç nº 26_03 · Data: 02/05/2026</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <table class="orc-table">
+      <thead>
+        <tr>
+          <th style="width:60px">Item</th>
+          <th>Designação dos Trabalhos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row">
+          <td colspan="2">🛁 Casa de Banho Principal</td>
+        </tr>
+        <tr>
+          <td class="item-num">1.1</td>
+          <td>Desmontagem completa da casa de banho (sanita, bidé, lavatório e banheira), incluindo triagem, depósito, transporte, reciclagem e/ou colocação dos resíduos em vazadouro.</td>
+        </tr>
+        <tr>
+          <td class="item-num">1.2</td>
+          <td>Aberturas de roços para nova canalização, esgotos e eletricidade nas paredes conforme necessidade para a instalação.</td>
+        </tr>
+        <tr>
+          <td class="item-num">1.3</td>
+          <td>Trabalhos de construção civil, acompanhamento dos roços e outros trabalhos necessários incluindo rebocos e betonilhas; remoção e criação de novas paredes de modo a redefinir as dimensões da casa de banho com espaço para novo roupeiro do quarto.</td>
+        </tr>
+        <tr>
+          <td class="item-num">1.4</td>
+          <td>Aplicação dos revestimentos e pavimentos (cerâmicas a fornecer pelo dono da obra), incluindo cimento cola flex para aplicação sobre piso existente e betume para juntas.</td>
+        </tr>
+        <tr>
+          <td class="item-num">1.5</td>
+          <td>Montagem das loiças sanitárias incluindo resguardos e aplicação dos isolamentos em silicones.</td>
+        </tr>
+
+        <tr class="section-row">
+          <td colspan="2">🚿 Casa de Banho Social (Da Entrada)</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.1</td>
+          <td>Desmontagem completa da casa de banho (sanita, bidé, lavatório e banheira), incluindo triagem, depósito, transporte, reciclagem e/ou colocação dos resíduos em vazadouro.</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.2</td>
+          <td>Aberturas de roços para nova canalização, esgotos e eletricidade nas paredes conforme necessidade para a instalação.</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.3</td>
+          <td>Trabalhos de construção civil, acompanhamento dos roços e outros trabalhos necessários incluindo rebocos e betonilhas.</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.4</td>
+          <td>Aplicação dos revestimentos e pavimentos (cerâmicas a fornecer pelo dono da obra), incluindo cimento cola flex e betume para juntas.</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.5</td>
+          <td>Montagem das loiças sanitárias incluindo resguardos e aplicação dos isolamentos em silicones.</td>
+        </tr>
+        <tr>
+          <td class="item-num">2.6</td>
+          <td>Execução de trabalhos na zona de janela de modo a embutir as roldanas e fita para o fecho e abertura da janela da casa de banho.</td>
+        </tr>
+
+        <tr class="section-row">
+          <td colspan="2">🍳 Cozinha</td>
+        </tr>
+        <tr>
+          <td class="item-num">3.1</td>
+          <td>Desmontagem cuidada dos móveis para serem aproveitados para montar conforme a disposição da mesma.</td>
+        </tr>
+        <tr>
+          <td class="item-num">3.2</td>
+          <td>Aberturas de roços para nova canalização, esgotos e eletricidade nas paredes e chão conforme necessidade para a instalação.</td>
+        </tr>
+        <tr>
+          <td class="item-num">3.3</td>
+          <td>Aplicação dos revestimentos e pavimentos (cerâmicas a fornecer pelo dono da obra), incluindo cimento cola flex e betume para juntas.</td>
+        </tr>
+        <tr>
+          <td class="item-num">3.4</td>
+          <td>Montagem da cozinha.</td>
+        </tr>
+        <tr>
+          <td class="item-num">3.5</td>
+          <td>Desmontagem cuidada das pedras das janelas incluindo fornecimento e montagem do peito cantaria novo.</td>
+        </tr>
+
+        <tr class="section-row">
+          <td colspan="2">⚡ Instalações Técnicas</td>
+        </tr>
+        <tr>
+          <td class="item-num">4.1</td>
+          <td>Fornecimento e execução da nova rede de canalização de água fria/quente, substituição dos tubos antigos por nova canalização em multicamada na zona de cozinha, WC principal e WC entrada, incluindo válvulas de corte.</td>
+        </tr>
+        <tr>
+          <td class="item-num">4.2</td>
+          <td>Fornecimento e execução da rede de esgoto para tubos PVC incluindo caixa sifão de pavimento e todo o material necessário para o seu perfeito acabamento.</td>
+        </tr>
+        <tr>
+          <td class="item-num">4.3</td>
+          <td>Fornecimento e execução da parte elétrica para zona da cozinha com passagens únicas com recurso a disjuntores separados (forno, placa, exaustor, frigorífico, microondas, máquina lavar roupa, máquina lavar loiça, tomadas bancada e tomadas serviços). Substituição de toda a cablagem com novos enfiamentos de cobre rígido em todas as divisões, montagem de novo quadro elétrico, ramal de terra e aparelhagem Efapel Logus 90 branca.</td>
+        </tr>
+
+        <tr class="section-row">
+          <td colspan="2">🪵 Pavimentos · 🎨 Pintura · 🚪 Portas · 🪟 Teto Falso · 🏠 Sala · 🛏️ Quarto</td>
+        </tr>
+        <tr>
+          <td class="item-num">5</td>
+          <td>Aplicação de novo pavimento e rodapés (a escolher e fornecer pelo dono da obra). Para cada situação é necessário um pavimento firme e nivelado.</td>
+        </tr>
+        <tr>
+          <td class="item-num">6</td>
+          <td>Fornecimento e execução de trabalhos de preparação e pintura das paredes e tetos do apartamento em geral: uma demão de primário e duas a três de tinta Vinyl Matt branca.</td>
+        </tr>
+        <tr>
+          <td class="item-num">7</td>
+          <td>Pintura e Reparação das Portas.</td>
+        </tr>
+        <tr>
+          <td class="item-num">8</td>
+          <td>Fornecimento e aplicação de teto falso em gesso cartonado em todas as divisões da casa.</td>
+        </tr>
+        <tr>
+          <td class="item-num">9</td>
+          <td>Demolição e preparação para saída das paredes sala/hall de entrada de modo a aumentar a área da sala. A abertura beneficiará bastante a sala, tornando-a bastante mais apelativa.</td>
+        </tr>
+        <tr>
+          <td class="item-num">10</td>
+          <td>Remoção e criação de novas paredes de modo a redefinir as dimensões da casa de banho principal com espaço para novo roupeiro do quarto.</td>
+        </tr>
+
+        <tr class="total-row">
+          <td colspan="1">TOTAL</td>
+          <td><strong>43.055,00 €</strong> — Total Trabalhos a Executar (sem IVA)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert">
+      <span>⚠️</span>
+      <span>Todos os valores apresentados não incluem IVA. Neste orçamento estão contabilizados todos os materiais consumíveis e indispensáveis à concretização dos trabalhos de construção, <strong>exceto</strong> o material de acabamento (louças sanitárias, pavimentos e revestimentos).</span>
+    </div>
+  </section>
+
+  <!-- GARANTIAS E EXCLUSÕES -->
+  <section id="garantias" class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <div class="section-title">Garantias, Exclusões e Responsabilidades</div>
+        <div class="section-desc">Condições contratuais e âmbito de fornecimento</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="guarantee-grid">
+      <div class="guar-card">
+        <div class="guar-icon">🛡️</div>
+        <div class="guar-title">Garantia de Execução</div>
+        <div class="guar-text">2 anos para revestimentos, pinturas, canalizações, sistemas elétricos e restantes componentes da renovação.</div>
+      </div>
+      <div class="guar-card">
+        <div class="guar-icon">📦</div>
+        <div class="guar-title">Garantia de Materiais</div>
+        <div class="guar-text">A garantia de materiais e equipamentos acompanha os prazos do fabricante (caixilharias, sanitários, eletrodomésticos).</div>
+      </div>
+      <div class="guar-card">
+        <div class="guar-icon">🔍</div>
+        <div class="guar-title">Defeitos Ocultos</div>
+        <div class="guar-text">O empreiteiro assegura a reparação sem custos adicionais se os problemas resultarem de má execução ou utilização de materiais inadequados.</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="excl-box included">
+        <h3>✅ Incluído no Orçamento (Empreiteiro)</h3>
+        <ul>
+          <li>Todos os materiais consumíveis (cimento, colas, tubagens, cablagem)</li>
+          <li>Gesso cartonado (pladur)</li>
+          <li>Tintas e primários</li>
+          <li>Mão de obra especializada</li>
+          <li>Gestão de resíduos (triagem e transporte para vazadouro)</li>
+          <li>Limpeza final da obra</li>
+          <li>Cimento cola flex e betumes para juntas</li>
+          <li>Aparelhagem elétrica Efapel Logus 90</li>
+          <li>Peitos de cantaria novos para janelas</li>
+        </ul>
+      </div>
+
+      <div class="excl-box excluded">
+        <h3>❌ Excluído do Orçamento (Fornecimento do Cliente)</h3>
+        <ul>
+          <li>Loiças sanitárias, bases de duche e torneiras</li>
+          <li>Cerâmicos de parede e revestimentos</li>
+          <li>Pavimentos e rodapés de acabamento</li>
+          <li>Eletrodomésticos de cozinha</li>
+          <li>Focos de iluminação para tetos</li>
+          <li>Mobiliário e roupeiros</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top:24px">
+      <span>📝</span>
+      <span><strong>Gestão de Alterações:</strong> Nenhum trabalho não previsto no orçamento ou alteração aos previstos poderá ser iniciado sem confirmação formal do Dono da Obra sobre as características e acordo final sobre o respetivo valor. A obra deverá ser entregue completamente limpa.</span>
+    </div>
+  </section>
+
+  <!-- CONDIÇÕES DE PAGAMENTO -->
+  <section id="pagamento" class="section section-alt">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div>
+        <div class="section-title">Condições de Pagamento</div>
+        <div class="section-desc">Plano estruturado em três fases distintas — valores sem IVA</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="payment-steps">
+      <div class="pay-step p1">
+        <div class="pay-pct">50%</div>
+        <div class="pay-label">i. Adjudicação</div>
+        <div class="pay-desc">Início dos trabalhos</div>
+        <div class="pay-amount">21.527,50 €</div>
+      </div>
+      <div class="pay-step p2">
+        <div class="pay-pct">30%</div>
+        <div class="pay-label">ii. Reforço de Obra</div>
+        <div class="pay-desc">Data a combinar durante a execução</div>
+        <div class="pay-amount">12.916,50 €</div>
+      </div>
+      <div class="pay-step p3">
+        <div class="pay-pct">20%</div>
+        <div class="pay-label">iii. Conclusão</div>
+        <div class="pay-desc">Entrega da obra concluída</div>
+        <div class="pay-amount">8.611,00 €</div>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top:24px">
+      <span>💡</span>
+      <span>Todos os valores apresentados <strong>não incluem IVA</strong>. Qualquer alteração ou trabalho extra carece de confirmação formal e acordo de valores por parte do Dono da Obra.</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <p>
+      <strong>RPM Renovações – Pedro &amp; Marcelo</strong><br>
+      Orçamento nº 26_03 · Remodelação e Recuperação – Rua Rodrigo Reinel, N.4, 3.º Esq. · Lisboa<br>
+      Documento gerado em 02/05/2026 · Valores sem IVA
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id], div#hero');
+  const navLinks = document.querySelectorAll('.nav-list a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
