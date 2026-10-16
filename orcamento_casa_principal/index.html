@@ -2,9 +2,10 @@
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orçamento Casa Principal</title>
-<meta name="description" content="Dashboard interativo da proposta de remodelação da casa principal: cliente, fornecedor, âmbito, valor, pagamento, validade e concorrência.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Análise independente de uma proposta de remodelação (3 casas de banho e escritório): âmbito, valor, IVA, pagamento, validade e comparação com o mercado. Não elaborada pelo fornecedor.">
 <style>
 :root{
   color-scheme: light;
@@ -21,7 +22,7 @@
   --brand:#1b2f5b;
   --brand-ink:#ffffff;
   --brand-soft:#e4e9f3;
-  --cover-bg:#36434e;
+  --cover-bg:#2a3d63;
   --cover-ink:#f4f2ec;
   --band:rgba(27,47,91,.08);
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
@@ -30,6 +31,7 @@
   --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
   --wash-good:rgba(12,163,12,.10); --wash-warn:rgba(250,178,25,.18); --wash-crit:rgba(208,59,59,.10); --wash-info:rgba(42,120,214,.09);
   --shadow:0 1px 0 rgba(17,26,46,.04), 0 10px 28px -16px rgba(17,26,46,.22);
+  --pay1:#256abf; --on-pay1:#ffffff; --on-t3:#ffffff;
   --radius:14px;
   --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
@@ -42,7 +44,7 @@
     --cover-bg:#1f2b45; --cover-ink:#eef0f5; --band:rgba(157,184,240,.10);
     --s1:#3987e5; --s2:#d95926; --s3:#199e70;
     --t1:#256abf; --t2:#5598e7; --t3:#9ec5f4;
-    --deemph:#3a4458;
+    --deemph:#3a4458; --crit:#ef6b6b; --pay1:#3987e5; --on-pay1:#0c1220; --on-t3:#0c1220;
     --wash-good:rgba(12,163,12,.18); --wash-warn:rgba(250,178,25,.16); --wash-crit:rgba(208,59,59,.20); --wash-info:rgba(57,135,229,.14);
     --shadow:0 1px 0 rgba(0,0,0,.25), 0 12px 30px -18px rgba(0,0,0,.7);
   }
@@ -55,7 +57,7 @@
   --cover-bg:#1f2b45; --cover-ink:#eef0f5; --band:rgba(157,184,240,.10);
   --s1:#3987e5; --s2:#d95926; --s3:#199e70;
   --t1:#256abf; --t2:#5598e7; --t3:#9ec5f4;
-  --deemph:#3a4458;
+  --deemph:#3a4458; --crit:#ef6b6b; --pay1:#3987e5; --on-pay1:#0c1220; --on-t3:#0c1220;
   --wash-good:rgba(12,163,12,.18); --wash-warn:rgba(250,178,25,.16); --wash-crit:rgba(208,59,59,.20); --wash-info:rgba(57,135,229,.14);
   --shadow:0 1px 0 rgba(0,0,0,.25), 0 12px 30px -18px rgba(0,0,0,.7);
 }
@@ -80,7 +82,9 @@ a{color:var(--brand)}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--s1);outline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.app{max-width:1240px;margin:0 auto;padding:28px 16px 48px}
+.app{max-width:1240px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--page)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}.kpi:hover,.qcard:hover{transform:none}}
 
 /* Header */
 .top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 28px;align-items:end;margin-bottom:22px}
@@ -96,6 +100,7 @@ button,input,select{font:inherit;color:inherit}
 .cover{background:var(--cover-bg);color:var(--cover-ink);border-radius:10px;padding:16px 22px;font-size:14.5px;display:grid;gap:8px;min-width:min(380px,100%)}
 .cover span{opacity:.72}
 .cover b{font-weight:600}
+.cover .cover-note{font-size:12.5px;opacity:.8;border-top:1px solid currentColor;padding-top:8px;margin-top:2px}
 @media (max-width:820px){.top{grid-template-columns:1fr}.toolbar{justify-content:flex-start}}
 
 /* KPI strip */
@@ -111,7 +116,7 @@ button,input,select{font:inherit;color:inherit}
 @media (max-width:480px){.kpis{grid-template-columns:1fr}}
 
 /* Tabs */
-.tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;padding:5px;background:var(--surface);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:20;margin-bottom:22px}
+.tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;padding:5px;background:var(--surface);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);position:sticky;top:calc(env(safe-area-inset-top, 0px) + 8px);z-index:20;margin-bottom:22px}
 .tab{appearance:none;border:0;background:transparent;color:var(--ink-2);font-size:13.5px;font-weight:580;line-height:1.25;padding:10px 6px;border-radius:11px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;text-align:center;cursor:pointer;min-width:0}
 .tab:hover{background:var(--surface-2);color:var(--ink)}
 .tab[aria-selected="true"]{background:var(--brand);color:var(--brand-ink)}
@@ -197,6 +202,7 @@ input[type=range]{width:100%;accent-color:var(--brand)}
 .btn.sm{padding:5px 10px;font-size:12.5px;border-radius:8px}
 .btn:hover{filter:brightness(1.08)}
 .err{color:var(--crit);font-size:13px;min-height:1em}
+.csv-fallback{width:100%;margin-top:10px;font:12px ui-monospace,Menlo,Consolas,monospace;border:1px solid var(--hair);border-radius:8px;background:var(--surface-2);color:var(--ink);padding:8px}
 
 /* Charts */
 .chart{width:100%;position:relative;min-height:40px}
@@ -281,11 +287,9 @@ tbody tr:last-child td{border-bottom:0}
 
 /* Payment bar */
 .paybar{display:flex;gap:2px;height:30px;margin:16px 0 8px}
-.paybar div{border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:680;color:#fff}
-.paybar .p1{background:var(--s1)}
-.paybar .p2{background:var(--t3)}
-:root[data-theme="dark"] .paybar .p2{color:#0c1220}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .paybar .p2{color:#0c1220}}
+.paybar div{border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:680}
+.paybar .p1{background:var(--pay1);color:var(--on-pay1)}
+.paybar .p2{background:var(--t3);color:var(--on-t3)}
 .inst{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .inst>div{border:1px solid var(--hair);border-radius:12px;padding:12px 14px;background:var(--surface-2)}
 .inst .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:650;display:flex;align-items:center;gap:7px}
@@ -337,7 +341,7 @@ tbody tr:last-child td{border-bottom:0}
 .chips b{font-variant-numeric:tabular-nums;font-weight:700}
 
 /* Days strip */
-.days{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
 .day{border:1px solid var(--hair);border-radius:8px;padding:6px 3px 5px;text-align:center;background:var(--surface);font-size:11px;line-height:1.25;position:relative;color:var(--ink-2)}
 .day b{display:block;font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
 .day.past{background:var(--brand-soft);color:var(--muted)}
@@ -347,7 +351,7 @@ tbody tr:last-child td{border-bottom:0}
 .day.last b{color:var(--brand-ink)}
 .day.wknd:not(.last):not(.past){background:var(--surface-2)}
 .day .ms{position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--s2)}
-@media (max-width:640px){.days{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media (max-width:640px){.days{grid-template-columns:repeat(auto-fill,minmax(52px,1fr))}}
 .ms-list{display:grid;gap:0;margin-top:4px}
 .ms-item{display:grid;grid-template-columns:140px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--hair)}
 .ms-item:first-child{border-top:0}
@@ -404,22 +408,15 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
 
   <header class="top">
     <div>
-      <div class="eyebrow"><i></i>Proposta de Intervenção · Dashboard de orçamento</div>
-      <h1>Casa Principal</h1>
-      <p class="sub">Projeto de Remodelação &amp; Recuperação — 3 casas de banho e escritório de entrada</p>
+      <div class="eyebrow"><i></i>Análise independente · Proposta de remodelação</div>
+      <h1>Casa Principal: análise do orçamento</h1>
+      <p class="sub">Leitura crítica da proposta da IMPERIOU'S para 3 casas de banho e escritório de entrada</p>
     </div>
     <div class="side">
-      <div class="toolbar no-print">
-        <button class="tool" id="btn-theme" type="button" aria-label="Alternar modo claro/escuro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span>Modo escuro</span>
-        </button>
-        <button class="tool" id="btn-print" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/></svg>Imprimir
-        </button>
-      </div>
       <div class="cover">
-        <div><span>Preparado exclusivamente para:</span> <b>João Carvalho</b></div>
-        <div><span>Por:</span> <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b></div>
+        <div><span>Proposta analisada:</span> <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b></div>
+        <div><span>Destinatário da proposta:</span> <b>João Carvalho</b></div>
+        <div class="cover-note">Análise independente: não foi elaborada, revista nem validada pelo fornecedor.</div>
       </div>
     </div>
   </header>
@@ -443,7 +440,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
     <a class="kpi" href="#concorrencia">
       <span class="label">Completude da proposta <em>boas práticas</em></span>
       <span class="value">7 / 14</span>
-      <span class="meta">critérios cumpridos · faltam prazo, garantia, IVA…</span>
+      <span class="meta">critérios cumpridos · faltam prazo, garantia, taxa de IVA…</span>
       <span class="meter" aria-hidden="true"><span style="width:50%"></span></span>
     </a>
   </section>
@@ -485,14 +482,15 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         <p>Inclui o fornecimento de materiais de qualidade e a mão de obra necessária, com demolições, gestão de entulhos e a instalação de novas loiças e bases de duche com cabine.</p>
         <p>O custo total é de <b>51.100 € + IVA</b>, pago em <b>duas prestações iguais de 50%</b>: no arranque e na conclusão dos trabalhos. A proposta é <b>válida por 30 dias</b>.</p>
         <ol class="tl" aria-label="Ciclo da proposta">
-          <li class="on"><b>Emissão</b><span data-b="emissao">16/10/2026</span></li>
-          <li><b>Fim da validade</b><span data-b="fim">15/11/2026</span></li>
-          <li><b>Arranque · 50%</b><span data-b="prest-r">31.426,50 €</span></li>
-          <li><b>Conclusão · 50%</b><span data-b="prest-r">31.426,50 €</span></li>
+          <li class="on"><b>Emissão (assumida)</b><span data-b="emissao">16/10/2026</span></li>
+          <li><b>Fim da validade (estimado)</b><span data-b="fim">15/11/2026</span></li>
+          <li><b>Arranque · 50%</b><span><span data-b="prest-base">25.550 €</span> + IVA</span></li>
+          <li><b>Conclusão · 50%</b><span><span data-b="prest-base">25.550 €</span> + IVA</span></li>
         </ol>
+        <p class="hint">A proposta não indica data de emissão: assume-se a data dos ficheiros PDF. As datas e o prazo de validade restante são estimativas.</p>
       </div>
       <div class="card c5">
-        <h3>Leitura do especialista</h3>
+        <h3>Leitura do analista</h3>
         <div class="insights">
           <div class="ins"><div><b class="h">Valor no segmento premium</b><p>51.100 € + IVA para 3 casas de banho e 1 escritório equivale a cerca de <b data-b="wc">14.478 €</b> por casa de banho (estimativa). É coerente com materiais de gama alta e intervenção profunda, mas a proposta não o demonstra: falta discriminar quantidades e marcas.</p></div></div>
           <div class="ins"><div><b class="h">Risco concentrado no arranque</b><p>50% (<span data-b="prest-base">25.550 €</span> + IVA) é pago antes de qualquer trabalho executado. Um plano 30/40/30 ou por autos de medição reduz a exposição máxima para 30% ou 10%.</p></div></div>
@@ -507,7 +505,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
           <a class="qcard" href="#casa"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg>Casa Principal</span><span class="v">3 WC + escritório</span><span class="s">Zonas húmidas e zona seca</span></a>
           <a class="qcard" href="#valor"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17.5 6.5a7 7 0 1 0 0 11"/><path d="M4 10h9.5M4 14h9.5"/></svg>Valor total</span><span class="v">51.100 € + IVA</span><span class="s">Com IVA: <span data-b="total-r">62.853 €</span></span></a>
           <a class="qcard" href="#pagamento"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>Pagamento</span><span class="v">50% + 50%</span><span class="s">Início e fim da obra</span></a>
-          <a class="qcard" href="#validade"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg>Validade</span><span class="v">30 dias</span><span class="s">Até <span data-b="fim">15/11/2026</span></span></a>
+          <a class="qcard" href="#validade"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg>Validade</span><span class="v">30 dias</span><span class="s">Até <span data-b="fim">15/11/2026</span> (estimado)</span></a>
           <a class="qcard" href="#concorrencia"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 20.5h18M6 20.5V12M11 20.5V5M16 20.5v-6"/></svg>Concorrência</span><span class="v" data-b="segmento">Segmento premium</span><span class="s">Referências de mercado e propostas</span></a>
         </div>
       </div>
@@ -534,17 +532,18 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         </dl>
       </div>
       <div class="card c7">
-        <h3>O que o cliente está a contratar</h3>
+        <h3>Como a proposta descreve a intervenção</h3>
         <div class="flags">
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg><div><b>O Projeto</b><p>Foco exclusivo na remodelação da habitação principal, elevando a estética e a funcionalidade do espaço.</p></div></div>
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 12h8M12 4v16M12 15h8"/></svg><div><b>O Foco</b><p>Intervenção profunda e estrutural em três casas de banho, complementada pela recuperação integral do escritório situado na entrada da casa.</p></div></div>
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>A Promessa</b><p>Fornecimento garantido de materiais de alta qualidade, com mão de obra especializada, para uma execução sem falhas.</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg><div><b>O Projeto</b><p>«Foco exclusivo na remodelação da habitação principal, elevando a estética e a funcionalidade do espaço.»</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 12h8M12 4v16M12 15h8"/></svg><div><b>O Foco</b><p>«Intervenção profunda e estrutural em três casas de banho, complementada pela recuperação integral do escritório situado na entrada da casa.»</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>A Promessa</b><p>«Fornecimento garantido de materiais de alta qualidade aliados a mão de obra especializada para uma execução sem falhas.»</p>
+          <p class="hint" style="grid-column:2">Citações da proposta (diapositivo 2). Não são garantias verificadas pelo analista.</p></div></div>
         </div>
       </div>
       <div class="card c5">
         <h3>Compromissos financeiros do cliente</h3>
         <div class="inst" style="margin-top:0">
-          <div><span class="k"><i style="background:var(--s1)"></i>1.ª prestação · 50%</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s">No início da obra · <span data-b="prest-base">25.550 €</span> + IVA</span></div>
+          <div><span class="k"><i style="background:var(--pay1)"></i>1.ª prestação · 50%</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s">No início da obra · <span data-b="prest-base">25.550 €</span> + IVA</span></div>
           <div><span class="k"><i style="background:var(--t3)"></i>2.ª prestação · 50%</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s">No fim da obra · <span data-b="prest-base">25.550 €</span> + IVA</span></div>
         </div>
         <p class="hint" style="margin-top:10px">Valores com IVA no cenário <b data-b="regime-short">23%</b>. Altere o cenário em <a href="#valor">Valor Total do Orçamento</a>.</p>
@@ -568,14 +567,14 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
     </div>
     <div class="grid">
       <div class="card c6">
-        <h3>Dados da empresa <span class="tag">Legal &amp; Corporate Credentials</span></h3>
+        <h3>Dados da empresa <span class="tag">Declarados na proposta</span></h3>
         <dl class="dl">
           <dt>Empresa</dt><dd>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</dd>
           <dt>Forma jurídica</dt><dd>Sociedade unipessoal por quotas<span class="hint">Um único sócio; responsabilidade limitada ao capital social</span></dd>
           <dt>NIF</dt><dd><span class="num">519 525 825</span> <span id="nif-check"></span></dd>
           <dt>Matrícula</dt><dd><span class="num">519525825</span><span class="hint">Coincide com o NIF, como é norma no registo comercial</span></dd>
           <dt>Registo comercial</dt><dd>Conservatória do Registo Comercial de Lisboa</dd>
-          <dt>Capital social</dt><dd>1 €</dd>
+          <dt>Capital social</dt><dd>1 €<span class="hint">O resumo indica «Capital Social: 1». Confirmar na certidão permanente</span></dd>
           <dt>Sede operacional</dt><dd>Praceta João Azevedo N.º 5, 1.º Dt.<br>2825-432 Costa da Caparica, Portugal</dd>
           <dt>Contactos</dt><dd>Não indicados<span class="hint">A proposta não inclui telefone, email nem responsável técnico</span></dd>
         </dl>
@@ -592,8 +591,8 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
       <div class="card c6">
         <h3>Sinais de atenção</h3>
         <div class="flags">
-          <div class="flag warn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg><div><b>Capital social de 1 €</b><p>É legal, mas a garantia patrimonial da sociedade perante credores é mínima. Reforça a importância de limitar adiantamentos.</p></div></div>
-          <div class="flag crit"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><div><b>Alvará de construção não indicado</b><p>Pelo valor da obra, o fornecedor deverá deter alvará do IMPIC na classe e subcategorias adequadas. Confirmar no portal do IMPIC.</p></div></div>
+          <div class="flag warn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg><div><b>Capital social declarado de 1 €</b><p>É legal (nas sociedades por quotas a quota mínima é de 1 €). O capital social é um valor nominal e não mostra o património atual da empresa, que é o que responde perante credores; sem as contas não é possível avaliar essa solidez. Pedir a certidão permanente e as últimas contas, e limitar adiantamentos.</p></div></div>
+          <div class="flag crit"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><div><b>Alvará de construção não indicado na proposta</b><p>Pelo valor da obra (51.100 € sem IVA), o fornecedor deverá deter alvará de empreiteiro (de obras particulares ou de obras públicas) de classe 1 ou superior; o certificado de empreiteiro só cobre obras de pequeno valor. Confirmar no portal do IMPIC.</p></div></div>
           <div class="flag crit"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><div><b>Sem garantia nem prazo por escrito</b><p>A proposta não refere prazo de execução, garantia da obra nem penalizações por atraso.</p></div></div>
           <div class="flag warn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg><div><b>Seguros e contactos omissos</b><p>Sem referência a seguro de acidentes de trabalho, responsabilidade civil ou a um responsável técnico pela obra.</p></div></div>
         </div>
@@ -706,7 +705,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
       <div class="card c5">
         <h3>Investimento total</h3>
         <div class="hero">51.100 €<small>+ IVA</small></div>
-        <p class="lead" style="margin-top:8px">Valor global de um projeto chave-na-mão, estruturado e sem surpresas.</p>
+        <p class="lead" style="margin-top:8px">A proposta apresenta-o como «projeto chave-na-mão estruturado e sem surpresas», mas não discrimina valores, materiais nem prazo.</p>
         <div class="compo" aria-label="Componentes incluídos no valor">
           <div class="in top-in">Mão de obra especializada<i aria-hidden="true">↓</i></div>
           <div class="in l-in">Materiais de qualidade superior <i aria-hidden="true" style="display:inline">→</i></div>
@@ -729,7 +728,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         </div>
         <div class="table-wrap" style="margin-top:14px">
           <table>
-            <thead><tr><th>Componente</th><th class="n">Base</th><th class="n">Taxa</th><th class="n">IVA</th></tr></thead>
+            <thead><tr><th>Componente</th><th class="n">Base</th><th class="n">Taxa</th><th class="n">IVA</th><th class="n">Total</th></tr></thead>
             <tbody id="iva-body"></tbody>
           </table>
         </div>
@@ -771,7 +770,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         <h3>Plano proposto: duas prestações iguais</h3>
         <div class="paybar" aria-hidden="true"><div class="p1" style="flex:1">50%</div><div class="p2" style="flex:1">50%</div></div>
         <div class="inst">
-          <div><span class="k"><i style="background:var(--s1)"></i>Arranque do projeto</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s"><span data-b="prest-base">25.550 €</span> + IVA · com o início oficial da obra. Mobiliza a equipa e adquire os materiais.</span></div>
+          <div><span class="k"><i style="background:var(--pay1)"></i>Arranque do projeto</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s"><span data-b="prest-base">25.550 €</span> + IVA · com o início oficial da obra. Mobiliza a equipa e adquire os materiais.</span></div>
           <div><span class="k"><i style="background:var(--t3)"></i>Entrega da obra</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s"><span data-b="prest-base">25.550 €</span> + IVA · com o fim da obra, após validação do espaço intervencionado.</span></div>
         </div>
         <p class="hint" style="margin-top:10px">Valores com IVA no cenário <b data-b="regime-short">23%</b>.</p>
@@ -793,7 +792,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
 
       <div class="card c12">
         <h3>Exposição financeira do cliente</h3>
-        <p class="lead">Compara o valor pago com o trabalho executado (estimado linear). A área sombreada é o dinheiro adiantado sem obra correspondente.</p>
+        <p class="lead">Compara o valor pago com o trabalho executado (estimativa com progresso linear). A área sombreada é o dinheiro adiantado sem obra correspondente.</p>
         <div class="seg" role="group" aria-label="Modelo de pagamento" id="seg-modelo" style="margin-top:12px">
           <button type="button" data-modelo="proposto" aria-pressed="true">Proposto · 50/50</button>
           <button type="button" data-modelo="tres" aria-pressed="false">Alternativa · 30/40/30</button>
@@ -812,11 +811,11 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         <div class="two">
           <div class="flags">
             <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg><div><b>Fracionar o adiantamento</b><p>Propor 30% na adjudicação, 40% a meio da obra (após validação de uma etapa) e 30% na receção.</p></div></div>
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><div><b>Ligar pagamentos a marcos verificáveis</b><p>Por exemplo: materiais entregues em obra, WC 1 concluída, receção final sem defeitos.</p></div></div>
+            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><div><b>Ligar pagamentos a marcos verificáveis</b><p>Por exemplo: materiais entregues em obra, casa de banho 1 concluída, receção final sem defeitos.</p></div></div>
           </div>
           <div class="flags">
             <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/></svg><div><b>Retenção de garantia</b><p>Reter 5% do valor até 30 a 60 dias após a receção, para cobrir pequenos defeitos.</p></div></div>
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg><div><b>Faturação com IVA discriminado</b><p>Cada pagamento contra fatura, por transferência bancária, com a taxa de IVA aplicada indicada.</p></div></div>
+            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg><div><b>Faturação com IVA discriminado</b><p>Cada pagamento contra fatura, por transferência bancária, com mão de obra e materiais discriminados, a taxa de IVA de cada parcela e a menção à verba 2.27. Sem essa discriminação aplica-se 23% a todo o valor.</p></div></div>
           </div>
         </div>
       </div>
@@ -843,14 +842,14 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         <div class="field" style="margin-top:16px">
           <label for="i-emissao">Data de emissão da proposta</label>
           <input type="date" id="i-emissao">
-          <span class="hint">A proposta não indica data de emissão; por defeito usa-se a data do documento (16/10/2026). Ajuste se necessário.</span>
+          <span class="hint">A proposta não indica data de emissão. Por defeito assume-se 16/10/2026 (data em que os ficheiros PDF foram gerados), que pode ser posterior à emissão real. Confirme a data com o fornecedor e ajuste aqui.</span>
         </div>
       </div>
       <div class="card c7">
         <h3>Condições de validade</h3>
         <dl class="dl">
           <dt>Prazo</dt><dd>30 dias de calendário após a emissão</dd>
-          <dt>Válida até</dt><dd data-b="fim-long">15 de novembro de 2026</dd>
+          <dt>Válida até (estimativa)</dt><dd data-b="fim-long">15 de novembro de 2026</dd>
           <dt>Último dia útil</dt><dd id="val-util">—</dd>
           <dt>Finalidade</dt><dd>Garantir a alocação da equipa e os valores dos materiais apresentados</dd>
           <dt>Após o prazo</dt><dd>O fornecedor pode rever preços e disponibilidade<span class="hint">Se precisar de mais tempo, peça prorrogação por escrito antes do fim do prazo</span></dd>
@@ -928,9 +927,11 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
           </div>
           <div class="row-ctrls" style="margin-top:12px">
             <button type="submit" class="btn">Adicionar proposta</button>
-            <button type="button" class="btn ghost" id="btn-csv">Exportar CSV</button>
+            <button type="button" class="btn ghost" id="btn-csv">Copiar tabela</button>
+            <span class="hint" id="csv-msg" role="status"></span>
             <span class="err" id="f-err" role="alert"></span>
           </div>
+          <textarea id="csv-fallback" class="csv-fallback" rows="5" readonly hidden aria-label="Tabela em texto para copiar"></textarea>
         </form>
         <div class="table-wrap" style="margin-top:16px">
           <table>
@@ -951,8 +952,8 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   </main>
 
   <footer>
-    <span>Fontes: “Proposta de Intervenção: Casa Principal” (9 páginas) e “Descrição do orçamento — apenas casa principal” (2 páginas), IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA.</span>
-    <span>Valores marcados como estimativa, simulação ou referência de mercado são análises do autor do dashboard e não constam da proposta. Enquadramento de IVA indicativo (Código do IVA, Lista I, verbas 2.23 e 2.27): confirmar com o fornecedor ou contabilista.</span>
+    <span>Fontes: «Proposta de Intervenção: Casa Principal» (9 páginas), da IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA, e um resumo dessa proposta (2 páginas).</span>
+    <span>Análise independente: esta página não foi preparada, revista nem aprovada pela IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA. As apreciações são opinião do analista, com base nos documentos indicados, e não constituem aconselhamento jurídico, fiscal ou técnico. Valores marcados como estimativa, simulação ou referência de mercado são do analista e não constam da proposta. Enquadramento de IVA indicativo (Código do IVA, Lista I, verbas 2.23 e 2.27): confirmar com o fornecedor ou contabilista.</span>
   </footer>
 </div>
 
@@ -1007,7 +1008,7 @@ var PRESENTES = [
 ];
 
 var PERGUNTAS = [
-  { id:'q-iva',   t:'Qual a taxa de IVA aplicável e o valor final com IVA?', w:'A proposta indica apenas “+ IVA”.' },
+  { id:'q-iva',   t:'Qual a taxa de IVA aplicável e o valor final com IVA?', w:'A proposta indica apenas “+ IVA” e um preço global; pedir que a fatura discrimine mão de obra e materiais.' },
   { id:'q-disc',  t:'Pode discriminar o valor por casa de banho e pelo escritório?', w:'Permite comparar com outras propostas e controlar trabalhos a menos.' },
   { id:'q-mat',   t:'Que marcas e gamas de loiças, bases de duche e revestimentos estão incluídas?', w:'“Materiais de qualidade” não é verificável.' },
   { id:'q-prazo', t:'Qual o prazo de execução e a data de arranque possível?', w:'Sem prazo não há base para penalizações por atraso.' },
@@ -1018,7 +1019,7 @@ var PERGUNTAS = [
 ];
 var DUE = [
   { id:'d-cert', t:'Certidão permanente do registo comercial', w:'Confirma sócio, gerência e objeto social. Pedir o código de acesso.' },
-  { id:'d-alv',  t:'Alvará de construção (IMPIC) válido', w:'Classe e subcategorias compatíveis com o valor e o tipo de obra.' },
+  { id:'d-alv',  t:'Alvará de construção (IMPIC) válido', w:'Alvará de obras particulares ou de obras públicas, de classe compatível com o valor da obra.' },
   { id:'d-sat',  t:'Seguro de acidentes de trabalho', w:'Apólice válida para os trabalhadores em obra.' },
   { id:'d-rc',   t:'Seguro de responsabilidade civil', w:'Cobre danos no imóvel e a terceiros.' },
   { id:'d-div',  t:'Declarações de não dívida (AT e Segurança Social)', w:'Situação contributiva e tributária regularizada.' },
@@ -1075,7 +1076,7 @@ var AMBITO = [
 var ST = {
   inc:{ l:'Incluído', k:'good' },
   gen:{ l:'Incluído sem especificação', k:'warn' },
-  nao:{ l:'Não especificado', k:'crit' }
+  nao:{ l:'Não referido na proposta', k:'crit' }
 };
 
 var MODELOS = {
@@ -1325,6 +1326,7 @@ function drawEspacos(){
     sv('rect', { x:cx-bandW/2, y:sy(it.ref[1]), width:bandW, height:sy(it.ref[0])-sy(it.ref[1]), rx:3, style:'fill:var(--band)' }, svg);
     var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':it.n + ': ' + eur0(it.v) }, svg);
     sv('rect', { x:cx-slot/2, y:top, width:slot, height:plotH, fill:'transparent' }, g);
+    sv('rect', { x:cx-slot/2+2, y:top, width:slot-4, height:plotH, rx:6, fill:'none', 'class':'focus-ring' }, g);
     sv('path', { d:vbar(cx-bw/2, bw, sy(0), sy(it.v), 4), style:'fill:var(--s1)' }, g);
     st(g, cx, sy(it.v)-8, eur0(it.v), { 'text-anchor':'middle', 'class':'val' });
     st(svg, cx, H-8, it.n, { 'text-anchor':'middle', 'class':'lbl-2' });
@@ -1441,6 +1443,7 @@ function drawMercado(){
     var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':'Segmento ' + t.nome + ': ' + eur0(t.min) + ' a ' + eur0(t.max) }, svg);
     sv('rect', { x:sx(t.min), y:y-6, width:sx(t.max)-sx(t.min), height:barH+12, fill:'transparent' }, g);
     sv('rect', { x:sx(t.min), y:y, width:sx(t.max)-sx(t.min), height:barH, rx:4, style:'fill:' + t.cor }, g);
+    sv('rect', { x:sx(t.min)-3, y:y-3, width:sx(t.max)-sx(t.min)+6, height:barH+6, rx:6, fill:'none', 'class':'focus-ring' }, g);
     tipFor(g, function(){ return { t:'Segmento ' + t.nome.toLowerCase(), r:[
       { c:null, v:eur0(t.min) + ' – ' + eur0(t.max), l:'sem IVA' },
       { c:null, v:'3 × ' + kEur(BENCH.wc[t.id][0]) + '–' + kEur(BENCH.wc[t.id][1]), l:'casas de banho' },
@@ -1456,6 +1459,7 @@ function drawMercado(){
       var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':p.nome + ': ' + eur0(p.valor) }, svg);
       sv('circle', { cx:x, cy:yp, r:13, fill:'transparent' }, g);
       sv('circle', { cx:x, cy:yp, r:6, style:'fill:var(--s3);stroke:var(--surface);stroke-width:2' }, g);
+      sv('circle', { cx:x, cy:yp, r:10, fill:'none', 'class':'focus-ring' }, g);
       if(props.length <= 4 && x - lastX > 90){ st(svg, x, yp+20, p.nome.length > 16 ? p.nome.slice(0,15) + '…' : p.nome, { 'text-anchor':'middle', 'class':'lbl-2' }); lastX = x; }
       var dd = p.valor - BASE;
       tipFor(g, function(){ return { t:p.nome, r:[ { c:'var(--s3)', v:eur0(p.valor), l:'sem IVA' }, { c:null, v:(dd>0?'+':'') + eur0(dd) + ' (' + signPct(dd/BASE) + ')', l:'vs IMPERIOU\'S' } ] }; });
@@ -1486,15 +1490,15 @@ function renderIVA(){
   var tb = $('#iva-body'); tb.textContent = '';
   c.lines.forEach(function(x){
     var tr = mk('tr');
-    tr.appendChild(mk('td', '', x.l)); tr.appendChild(mk('td', 'n', eur(x.b))); tr.appendChild(mk('td', 'n', Math.round(x.r*100) + '%')); tr.appendChild(mk('td', 'n', eur(x.iva)));
+    tr.appendChild(mk('td', '', x.l)); tr.appendChild(mk('td', 'n', eur(x.b))); tr.appendChild(mk('td', 'n', Math.round(x.r*100) + '%')); tr.appendChild(mk('td', 'n', eur(x.iva))); tr.appendChild(mk('td', 'n', eur(x.b + x.iva)));
     tb.appendChild(tr);
   });
-  var t1 = mk('tr', 'total'); t1.appendChild(mk('td', '', 'Total com IVA')); t1.appendChild(mk('td', 'n', eur(BASE))); t1.appendChild(mk('td', 'n', '')); t1.appendChild(mk('td', 'n', eur(c.total)));
+  var t1 = mk('tr', 'total'); t1.appendChild(mk('td', '', 'Total')); t1.appendChild(mk('td', 'n', eur(BASE))); t1.appendChild(mk('td', 'n', '')); t1.appendChild(mk('td', 'n', eur(c.iva))); t1.appendChild(mk('td', 'n', eur(c.total)));
   tb.appendChild(t1);
   var note = {
-    normal:'Cenário conservador: toda a obra à taxa normal de 23%. É o valor máximo que o cliente pode vir a pagar.',
-    mista:'Verba 2.27 da Lista I do CIVA: empreitadas de remodelação de imóveis afetos à habitação pagam 6%, mas os materiais incorporados pagam 23% quando excedem 20% do valor global. É o enquadramento mais provável numa obra com fornecimento de materiais.',
-    reduzida:'Taxa de 6% sobre todo o valor: aplica-se se os materiais não excederem 20% do valor (verba 2.27) ou se o imóvel estiver numa Área de Reabilitação Urbana com obra de reabilitação (verba 2.23).'
+    normal:'Cenário conservador: toda a obra à taxa normal de 23%. É o que se aplica se a fatura apresentar um preço global, sem discriminar mão de obra e materiais.',
+    mista:'Verba 2.27 da Lista I do CIVA: nas empreitadas de remodelação de imóveis afetos à habitação, a mão de obra paga 6%; se os materiais incorporados excederem 20% do valor global, os materiais pagam 23%. Segundo a Autoridade Tributária, isto exige que a fatura discrimine o valor da mão de obra e o dos materiais. É o enquadramento mais provável se o fornecedor faturar de forma discriminada.',
+    reduzida:'Taxa de 6% sobre todo o valor: aplica-se se os materiais não excederem 20% do valor global (verba 2.27, com fatura discriminada) ou numa empreitada de reabilitação de edifício localizado em Área de Reabilitação Urbana (verba 2.23).'
   }[S.iva];
   $('#iva-note').textContent = note + ' Confirmar com o fornecedor ou contabilista.';
   bind('total-r', eur0(c.total));
@@ -1512,7 +1516,7 @@ function renderKVal(){
     kv.textContent = v.rem + (v.rem === 1 ? ' dia' : ' dias');
     km.appendChild(pill(v.st === 'breve' ? 'warn' : 'good', v.st === 'breve' ? 'expira em breve' : 'válida'));
   }
-  km.appendChild(document.createTextNode(' até ' + dmy(v.X)));
+  km.appendChild(document.createTextNode((v.st === 'exp' ? ' · terminou a ' : ' até ') + dmy(v.X)));
   bind('emissao', dmy(v.E)); bind('fim', dmy(v.X)); bind('fim-long', longDate(v.X));
 }
 function renderBinds(){
@@ -1573,7 +1577,7 @@ function renderScope(){
   var chips = $('#scope-chips'); chips.textContent = '';
   var counts = { all:AMBITO.length, inc:0, gen:0, nao:0 };
   AMBITO.forEach(function(a){ counts[a.s]++; });
-  [['all','Todos'],['inc','Incluído'],['gen','Sem especificação'],['nao','Não especificado']].forEach(function(f){
+  [['all','Todos'],['inc','Incluído'],['gen','Incluído sem especificação'],['nao','Não referido']].forEach(function(f){
     var b = mk('button'); b.type = 'button'; b.setAttribute('aria-pressed', String(S.scope === f[0]));
     b.appendChild(document.createTextNode(f[1] + ' ')); b.appendChild(mk('b', '', String(counts[f[0]])));
     b.addEventListener('click', function(){ S.scope = f[0]; save(); renderScope(); });
@@ -1651,7 +1655,7 @@ function renderValidade(){
     { d:VALIDADE, t:'Fim da validade', s:'Depois desta data o fornecedor pode rever preços.' }
   ];
   var days = $('#days'); days.textContent = '';
-  for(var i=1;i<=VALIDADE;i++){
+  for(var i=0;i<=VALIDADE;i++){
     var d = addDays(v.E, i), cls = 'day';
     var rel = diffDays(v.T, d);
     if(rel < 0) cls += ' past'; else if(rel === 0) cls += ' today';
@@ -1660,7 +1664,7 @@ function renderValidade(){
     var cell = mk('div', cls); cell.setAttribute('role', 'listitem');
     var ms = MS.filter(function(m){ return m.d === i && i !== VALIDADE; })[0];
     cell.setAttribute('aria-label', 'Dia ' + i + ', ' + WDL[d.getDay()] + ' ' + dmy(d) + (rel === 0 ? ', hoje' : '') + (ms ? ', ' + ms.t : '') + (i === VALIDADE ? ', último dia de validade' : ''));
-    cell.appendChild(mk('b', '', dm(d))); cell.appendChild(document.createTextNode(WD[d.getDay()] + ' · D' + i));
+    cell.appendChild(mk('b', '', dm(d))); cell.appendChild(document.createTextNode(i === 0 ? 'emissão' : WD[d.getDay()] + ' · D' + i));
     if(ms){ var dot = mk('i', 'ms'); dot.title = ms.t; cell.appendChild(dot); }
     days.appendChild(cell);
   }
@@ -1760,7 +1764,7 @@ function initForm(){
   var box = $('#f-crit');
   CRIT.forEach(function(c){
     var l = document.createElement('label'), i = document.createElement('input');
-    i.type = 'checkbox'; i.value = c.id; l.appendChild(i); l.appendChild(document.createTextNode(c.nome)); box.appendChild(l);
+    i.type = 'checkbox'; i.value = c.id; i.id = 'f-crit-' + c.id; l.appendChild(i); l.appendChild(document.createTextNode(c.nome)); box.appendChild(l);
   });
   $('#f-prop').addEventListener('submit', function(e){
     e.preventDefault();
@@ -1776,13 +1780,15 @@ function initForm(){
     save(); this.reset(); updateConc(); $('#f-nome').focus();
   });
   $('#btn-csv').addEventListener('click', function(){
-    var rows = [['Proposta','Valor sem IVA (EUR)','Diferenca vs IMPERIOUS (EUR)','Pagamento','Prazo (semanas)','Garantia (anos)','Criterios-chave (de 7)']];
-    rows.push(['IMPERIOU\'S Remodelacoes', BASE, 0, '50/50', '', '', 0]);
+    var rows = [['Proposta','Valor sem IVA (€)','Diferença vs IMPERIOU\'S (€)','Pagamento','Prazo (semanas)','Garantia (anos)','Critérios-chave (de 7)']];
+    rows.push(['IMPERIOU\'S Remodelações', BASE, 0, '50/50', '', '', 0]);
     S.propostas.forEach(function(p){ rows.push([p.nome, p.valor, Math.round((p.valor-BASE)*100)/100, p.pagamento || '', isNum(p.prazo) ? p.prazo : '', isNum(p.garantia) ? p.garantia : '', critScore(p)]); });
-    var csv = '﻿' + rows.map(function(r){ return r.map(function(c){ var s = String(c).replace(/"/g, '""'); if(/^[=+\-@]/.test(s)) s = "'" + s; return '"' + s + '"'; }).join(';'); }).join('\r\n');
-    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
-    a.download = 'comparacao_propostas_casa_principal.csv'; document.body.appendChild(a); a.click();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    var tsv = rows.map(function(r){ return r.map(function(c){ return typeof c === 'number' ? String(c).replace('.', ',') : String(c).replace(/[\t\r\n]+/g, ' '); }).join('\t'); }).join('\n');
+    var msg = $('#csv-msg'), ta = $('#csv-fallback');
+    function fallback(){ ta.value = tsv; ta.hidden = false; ta.focus(); ta.select(); msg.textContent = 'Selecione o texto e copie (Ctrl+C / Cmd+C).'; }
+    try {
+      navigator.clipboard.writeText(tsv).then(function(){ ta.hidden = true; msg.textContent = 'Tabela copiada. Cole no Excel ou no Google Sheets.'; }, fallback);
+    } catch(e){ fallback(); }
   });
 }
 function updateConc(){ renderTiers(); renderProps(); renderNeg(); drawMercado(); }
@@ -1803,10 +1809,16 @@ function showTab(id, scroll){
   if(scroll){
     var nav = $('#tabs'), sticky = getComputedStyle(nav).position === 'sticky';
     var off = sticky ? nav.offsetHeight + 16 : 8, r = $('#p-' + id).getBoundingClientRect();
-    if(r.top < off || r.top > window.innerHeight*.6) window.scrollTo({ top:window.scrollY + r.top - off - (sticky ? 0 : nav.offsetHeight + 8), behavior:'smooth' });
+    if(r.top < off || r.top > window.innerHeight*.6) window.scrollTo({ top:window.scrollY + r.top - off - (sticky ? 0 : nav.offsetHeight + 8), behavior:(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth' });
   }
 }
-function go(id){ if(location.hash !== '#' + id) history.replaceState(null, '', '#' + id); showTab(id); }
+function go(id, scroll){ try { if(location.hash !== '#' + id) history.replaceState(null, '', '#' + id); } catch(e){} showTab(id, scroll); }
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href^="#"]');
+  if(!a) return;
+  var id = a.getAttribute('href').slice(1);
+  if(IDS.indexOf(id) > -1){ e.preventDefault(); go(id, true); }
+});
 TABS.forEach(function(b, i){
   b.addEventListener('click', function(){ go(b.dataset.tab); });
   b.addEventListener('keydown', function(e){
@@ -1834,20 +1846,6 @@ var rz = null;
 window.addEventListener('resize', function(){ if(rz) cancelAnimationFrame(rz); rz = requestAnimationFrame(drawAll); });
 window.addEventListener('beforeprint', function(){ $$('.panel').forEach(function(p){ p.dataset.wasHidden = p.hidden ? '1' : ''; p.hidden = false; }); drawAll(); });
 window.addEventListener('afterprint', function(){ $$('.panel').forEach(function(p){ p.hidden = p.dataset.wasHidden === '1'; }); drawAll(); });
-$('#btn-print').addEventListener('click', function(){ window.print(); });
-
-/* Tema */
-var TKEY = 'orc-casa-principal:tema';
-function effTheme(){ var a = document.documentElement.getAttribute('data-theme'); if(a) return a; return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-function paintThemeBtn(){ $('#btn-theme span').textContent = effTheme() === 'dark' ? 'Modo claro' : 'Modo escuro'; }
-try { var tsaved = localStorage.getItem(TKEY); if(tsaved === 'light' || tsaved === 'dark') document.documentElement.setAttribute('data-theme', tsaved); } catch(e){}
-$('#btn-theme').addEventListener('click', function(){
-  var n = effTheme() === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', n);
-  try { localStorage.setItem(TKEY, n); } catch(e){}
-  paintThemeBtn();
-});
-paintThemeBtn();
 
 /* ---------- Arranque ---------- */
 var nc = $('#nif-check'); nc.appendChild(nifValido(NIF) ? pill('good', 'dígito de controlo válido') : pill('crit', 'dígito de controlo inválido'));
@@ -1855,7 +1853,8 @@ checklist($('#q-list'), PERGUNTAS, $('#q-meter'), $('#q-count'));
 checklist($('#d-list'), DUE, $('#d-meter'), $('#d-count'));
 renderPhase(); renderScope(); renderOffice(); renderValidade(); renderTiers(); renderProps(); renderCL(); initForm();
 renderIVA(); renderKVal(); renderBinds(); renderPagamento(); renderNeg(); renderRoom();
-showTab(location.hash.slice(1) || 'resumo');
+var h0 = ''; try { h0 = location.hash.slice(1); } catch(e){}
+showTab(h0 || 'resumo');
 })();
 </script>
 </body>
