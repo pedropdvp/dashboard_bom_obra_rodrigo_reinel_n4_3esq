@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orçamento Casa Principal</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Análise independente de uma proposta de remodelação (3 casas de banho e escritório): âmbito, valor, IVA, pagamento, validade e comparação com o mercado. Não elaborada pelo fornecedor.">
+<meta name="description" content="Dashboard da proposta de remodelação da casa principal: cliente, fornecedor, âmbito, valor, forma de pagamento e validade.">
 <style>
 :root{
   color-scheme: light;
@@ -401,6 +401,33 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   .panel:first-of-type{break-before:auto}
   .card,.kpi,.mini{box-shadow:none}
 }
+.tabs{grid-template-columns:repeat(7,minmax(0,1fr))}
+@media (max-width:1000px){.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi .v-sm{font-size:22px}
+.cover{background:var(--brand-soft);color:var(--ink)}
+.plain{display:grid;gap:8px;padding-left:20px}
+.zones{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.zone{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:center;text-align:left;border:1px solid var(--hair);background:var(--surface-2);border-radius:12px;padding:14px 16px;cursor:pointer}
+.zone .zn{grid-row:span 2;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-weight:700;background:var(--brand-soft);color:var(--brand)}
+.zone b{font-size:16px}.zone span:last-child{font-size:13px;color:var(--ink-2)}
+.zone[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.zone[aria-pressed="true"] .zn{background:var(--brand);color:var(--brand-ink)}
+.zone-body{margin-top:14px;padding:16px;border-radius:12px;border:1px dashed var(--axis)}
+.zone-body h4{font-size:18px;margin-bottom:10px}
+.zone-body .hint{margin-top:10px}
+@media (max-width:560px){.zones{grid-template-columns:1fr}}
+.trans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.trans div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.trans svg{width:44px;height:44px;color:var(--brand)}
+.trans p{color:var(--ink-2)}
+@media (max-width:560px){.trans{grid-template-columns:1fr}}
+.paybar{height:auto}
+.paybar button{border:0;border-radius:6px;padding:12px 8px;font-weight:680;font-size:14px;cursor:pointer;opacity:.55}
+.paybar button[aria-pressed="true"]{opacity:1}
+.inst>div.sel{border-color:var(--brand);background:var(--brand-soft)}
+.inst .v small{font-size:.6em;color:var(--ink-2);font-weight:560}
+.compo{grid-template-columns:1fr auto 1fr}
 </style>
 </head>
 <body>
@@ -408,44 +435,26 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
 
   <header class="top">
     <div>
-      <div class="eyebrow"><i></i>Análise independente · Proposta de remodelação</div>
-      <h1>Casa Principal: análise do orçamento</h1>
-      <p class="sub">Leitura crítica da proposta da IMPERIOU'S para 3 casas de banho e escritório de entrada</p>
+      <div class="eyebrow"><i></i>Dashboard do orçamento · Proposta de Intervenção</div>
+      <h1>Casa Principal</h1>
+      <p class="sub">Projeto de Remodelação &amp; Recuperação</p>
     </div>
     <div class="side">
       <div class="cover">
-        <div><span>Proposta analisada:</span> <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b></div>
-        <div><span>Destinatário da proposta:</span> <b>João Carvalho</b></div>
-        <div class="cover-note">Análise independente: não foi elaborada, revista nem validada pelo fornecedor.</div>
+        <div><span>Cliente:</span> <b>João Carvalho</b></div>
+        <div><span>Fornecedor:</span> <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b></div>
       </div>
     </div>
   </header>
 
-  <section class="kpis" aria-label="Indicadores principais">
-    <a class="kpi" href="#valor">
-      <span class="label">Valor da obra <em>sem IVA</em></span>
-      <span class="value">51.100 €</span>
-      <span class="meta">Global, chave-na-mão · materiais + mão de obra</span>
-    </a>
-    <a class="kpi" href="#valor">
-      <span class="label">Total com IVA <em data-b="regime-short">23%</em></span>
-      <span class="value" data-b="total-r">62.853 €</span>
-      <span class="meta">IVA: <span data-b="iva-r">11.753 €</span> · cenário selecionado</span>
-    </a>
-    <a class="kpi" href="#validade">
-      <span class="label">Validade da proposta <em>30 dias</em></span>
-      <span class="value" id="k-val">—</span>
-      <span class="meta" id="k-val-meta">—</span>
-    </a>
-    <a class="kpi" href="#concorrencia">
-      <span class="label">Completude da proposta <em>boas práticas</em></span>
-      <span class="value">7 / 14</span>
-      <span class="meta">critérios cumpridos · faltam prazo, garantia, taxa de IVA…</span>
-      <span class="meter" aria-hidden="true"><span style="width:50%"></span></span>
-    </a>
+  <section class="kpis" aria-label="Dados principais">
+    <a class="kpi" href="#cliente"><span class="label">Cliente</span><span class="value v-sm">João Carvalho</span><span class="meta">Orçamento apenas para a casa principal</span></a>
+    <a class="kpi" href="#valor"><span class="label">Valor total do orçamento</span><span class="value">51.100 €</span><span class="meta">+ IVA</span></a>
+    <a class="kpi" href="#pagamento"><span class="label">Forma de pagamento</span><span class="value">50% + 50%</span><span class="meta">Início da obra · fim da obra</span></a>
+    <a class="kpi" href="#validade"><span class="label">Validade do orçamento</span><span class="value">30 dias</span><span class="meta">Após emissão</span></a>
   </section>
 
-  <nav class="tabs no-print" role="tablist" aria-label="Secções do dashboard" id="tabs">
+  <nav class="tabs" role="tablist" aria-label="Secções do dashboard" id="tabs">
     <button class="tab" role="tab" id="t-resumo" data-tab="resumo" aria-controls="p-resumo" aria-selected="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg>Resumo</button>
     <button class="tab" role="tab" id="t-cliente" data-tab="cliente" aria-controls="p-cliente" aria-selected="false" tabindex="-1">
@@ -460,216 +469,102 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>Forma de Pagamento</button>
     <button class="tab" role="tab" id="t-validade" data-tab="validade" aria-controls="p-validade" aria-selected="false" tabindex="-1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/><path d="M12 13v3.2l2.2 1.4"/></svg>Validade do Orçamento</button>
-    <button class="tab" role="tab" id="t-concorrencia" data-tab="concorrencia" aria-controls="p-concorrencia" aria-selected="false" tabindex="-1">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 20.5h18"/><path d="M6 20.5V12M11 20.5V5M16 20.5v-6M20 20.5V9"/></svg>Concorrência</button>
   </nav>
 
   <main>
 
-  <!-- ============ RESUMO ============ -->
   <section class="panel" id="p-resumo" role="tabpanel" aria-labelledby="t-resumo" tabindex="0">
-    <div class="panel-head">
-      <div>
-        <h2>Resumo da proposta</h2>
-        <p>Visão de conjunto da proposta comercial e dos pontos que exigem decisão antes da adjudicação.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Resumo</h2><p>Proposta comercial para a remodelação da casa principal.</p></div></div>
     <div class="grid">
       <div class="card c7 stack">
-        <h3>O que diz o orçamento</h3>
-        <p>Proposta comercial elaborada pela empresa <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b> para o cliente <b>João Carvalho</b>.</p>
-        <p>Refere-se <b>exclusivamente à remodelação da casa principal</b>: as <b>três casas de banho</b> e a <b>recuperação do escritório de entrada</b>.</p>
-        <p>Inclui o fornecimento de materiais de qualidade e a mão de obra necessária, com demolições, gestão de entulhos e a instalação de novas loiças e bases de duche com cabine.</p>
-        <p>O custo total é de <b>51.100 € + IVA</b>, pago em <b>duas prestações iguais de 50%</b>: no arranque e na conclusão dos trabalhos. A proposta é <b>válida por 30 dias</b>.</p>
-        <ol class="tl" aria-label="Ciclo da proposta">
-          <li class="on"><b>Emissão (assumida)</b><span data-b="emissao">16/10/2026</span></li>
-          <li><b>Fim da validade (estimado)</b><span data-b="fim">15/11/2026</span></li>
-          <li><b>Arranque · 50%</b><span><span data-b="prest-base">25.550 €</span> + IVA</span></li>
-          <li><b>Conclusão · 50%</b><span><span data-b="prest-base">25.550 €</span> + IVA</span></li>
-        </ol>
-        <p class="hint">A proposta não indica data de emissão: assume-se a data dos ficheiros PDF. As datas e o prazo de validade restante são estimativas.</p>
+        <h3>Resumo da proposta</h3>
+        <p>Este documento apresenta uma proposta comercial elaborada pela empresa <b>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</b> para o cliente <b>João Carvalho</b>.</p>
+        <p>O orçamento refere-se exclusivamente à <b>remodelação da casa principal</b>, incluindo <b>três casas de banho</b> e a <b>recuperação do escritório de entrada</b>.</p>
+        <p>O projeto abrange o fornecimento de materiais de qualidade e a mão de obra necessária, contemplando demolições, gestão de entulhos e a instalação de novas loiças e bases de duche.</p>
+        <p>O custo total dos serviços é de <b>51.100 € + IVA</b>, valor apresentado sem a aplicação do IVA correspondente.</p>
+        <p>Em termos de condições de pagamento, o valor está dividido em <b>duas prestações iguais de 50%</b>: a primeira no arranque dos trabalhos e a segunda na respetiva conclusão.</p>
+        <p>A proposta comercial mantém a sua validade por um período máximo de <b>30 dias</b>.</p>
       </div>
       <div class="card c5">
-        <h3>Leitura do analista</h3>
-        <div class="insights">
-          <div class="ins"><div><b class="h">Valor no segmento premium</b><p>51.100 € + IVA para 3 casas de banho e 1 escritório equivale a cerca de <b data-b="wc">14.478 €</b> por casa de banho (estimativa). É coerente com materiais de gama alta e intervenção profunda, mas a proposta não o demonstra: falta discriminar quantidades e marcas.</p></div></div>
-          <div class="ins"><div><b class="h">Risco concentrado no arranque</b><p>50% (<span data-b="prest-base">25.550 €</span> + IVA) é pago antes de qualquer trabalho executado. Um plano 30/40/30 ou por autos de medição reduz a exposição máxima para 30% ou 10%.</p></div></div>
-          <div class="ins"><div><b class="h">Faltam cláusulas essenciais</b><p>Prazo de execução, garantia, taxa de IVA, alvará e seguros não constam. Devem ficar por escrito antes de adjudicar.</p></div></div>
-        </div>
-      </div>
-      <div class="card c12">
-        <h3>Aceder às secções</h3>
-        <div class="qcards">
-          <a class="qcard" href="#cliente"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>Cliente</span><span class="v">João Carvalho</span><span class="s">Orçamento apenas para a casa principal</span></a>
-          <a class="qcard" href="#fornecedor"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2M3 13h18"/></svg>Fornecedor</span><span class="v">IMPERIOU'S Remodelações</span><span class="s">NIF 519 525 825 · Costa da Caparica</span></a>
-          <a class="qcard" href="#casa"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg>Casa Principal</span><span class="v">3 WC + escritório</span><span class="s">Zonas húmidas e zona seca</span></a>
-          <a class="qcard" href="#valor"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17.5 6.5a7 7 0 1 0 0 11"/><path d="M4 10h9.5M4 14h9.5"/></svg>Valor total</span><span class="v">51.100 € + IVA</span><span class="s">Com IVA: <span data-b="total-r">62.853 €</span></span></a>
-          <a class="qcard" href="#pagamento"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>Pagamento</span><span class="v">50% + 50%</span><span class="s">Início e fim da obra</span></a>
-          <a class="qcard" href="#validade"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg>Validade</span><span class="v">30 dias</span><span class="s">Até <span data-b="fim">15/11/2026</span> (estimado)</span></a>
-          <a class="qcard" href="#concorrencia"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 20.5h18M6 20.5V12M11 20.5V5M16 20.5v-6"/></svg>Concorrência</span><span class="v" data-b="segmento">Segmento premium</span><span class="s">Referências de mercado e propostas</span></a>
+        <h3>Uma visão integrada para a revitalização da habitação principal</h3>
+        <div class="flags">
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg><div><b>O Projeto</b><p>Foco exclusivo na remodelação da habitação principal, elevando a estética e a funcionalidade do espaço.</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 12h8M12 4v16M12 15h8"/></svg><div><b>O Foco</b><p>Intervenção profunda e estrutural em três casas de banho, complementada pela recuperação integral do escritório situado na entrada da casa.</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>A Promessa</b><p>Fornecimento garantido de materiais de alta qualidade aliados a mão de obra especializada para uma execução sem falhas.</p></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CLIENTE ============ -->
   <section class="panel" id="p-cliente" role="tabpanel" aria-labelledby="t-cliente" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Cliente</h2>
-        <p>Quem contrata, o que fica abrangido e o que o cliente deve garantir antes de assinar.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Cliente</h2><p>A quem se destina a proposta.</p></div></div>
     <div class="grid">
-      <div class="card c5">
-        <h3>Ficha do cliente</h3>
+      <div class="card c6">
+        <h3>Dados do cliente</h3>
         <dl class="dl">
           <dt>Nome</dt><dd>João Carvalho</dd>
-          <dt>Imóvel</dt><dd>Habitação principal do cliente<span class="hint">Morada da obra não indicada na proposta</span></dd>
-          <dt>Âmbito</dt><dd>Orçamento apenas para a casa principal<span class="hint">Outras construções da propriedade ficam excluídas</span></dd>
-          <dt>Intervenção</dt><dd>3 casas de banho + escritório de entrada</dd>
-          <dt>Documento</dt><dd>Proposta preparada exclusivamente para o cliente</dd>
+          <dt>Âmbito</dt><dd>Orçamento apenas para a casa principal</dd>
+          <dt>Proposta</dt><dd>Preparada exclusivamente para o cliente</dd>
         </dl>
       </div>
+      <div class="card c6">
+        <h3>O que a proposta inclui para o cliente</h3>
+        <ul class="plain">
+          <li>Remodelação das 3 casas de banho</li>
+          <li>Recuperação do escritório que fica na entrada da casa</li>
+          <li>Mão de obra</li>
+          <li>Demolição, remoção de entulhos, reabilitação e instalação de loiças e base de duche com cabine</li>
+          <li>Materiais de qualidade</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-fornecedor" role="tabpanel" aria-labelledby="t-fornecedor" tabindex="0" hidden>
+    <div class="panel-head"><div><h2>Fornecedor</h2><p>Dados do fornecedor indicados na proposta.</p></div></div>
+    <div class="grid">
       <div class="card c7">
-        <h3>Como a proposta descreve a intervenção</h3>
-        <div class="flags">
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/></svg><div><b>O Projeto</b><p>«Foco exclusivo na remodelação da habitação principal, elevando a estética e a funcionalidade do espaço.»</p></div></div>
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 12h8M12 4v16M12 15h8"/></svg><div><b>O Foco</b><p>«Intervenção profunda e estrutural em três casas de banho, complementada pela recuperação integral do escritório situado na entrada da casa.»</p></div></div>
-          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>A Promessa</b><p>«Fornecimento garantido de materiais de alta qualidade aliados a mão de obra especializada para uma execução sem falhas.»</p>
-          <p class="hint" style="grid-column:2">Citações da proposta (diapositivo 2). Não são garantias verificadas pelo analista.</p></div></div>
-        </div>
+        <h3>Dados do fornecedor <span class="tag">Legal &amp; Corporate Credentials</span></h3>
+        <dl class="dl">
+          <dt>Nome da empresa</dt><dd>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</dd>
+          <dt>Morada</dt><dd>Praceta João Azevedo N 5 1 Dt<br>2825-432 Costa da Caparica<br>Portugal</dd>
+          <dt>N.º Contribuinte (NIF)</dt><dd class="num">519 525 825</dd>
+          <dt>Capital Social</dt><dd>1</dd>
+          <dt>Cons. Reg. Com.</dt><dd>Lisboa (Conservatória de Lisboa)</dd>
+          <dt>Matrícula</dt><dd class="num">519525825</dd>
+        </dl>
       </div>
       <div class="card c5">
-        <h3>Compromissos financeiros do cliente</h3>
-        <div class="inst" style="margin-top:0">
-          <div><span class="k"><i style="background:var(--pay1)"></i>1.ª prestação · 50%</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s">No início da obra · <span data-b="prest-base">25.550 €</span> + IVA</span></div>
-          <div><span class="k"><i style="background:var(--t3)"></i>2.ª prestação · 50%</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s">No fim da obra · <span data-b="prest-base">25.550 €</span> + IVA</span></div>
+        <h3>Transparência e rigor profissional</h3>
+        <div class="flags">
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20h16M7 20V9l5-4 5 4v11"/></svg><div><b>Gestão integral</b><p>Metodologia que assegura uma gestão integral desde a demolição à entrega final.</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16l-2 12H6z"/><path d="M9 7V4h6v3"/></svg><div><b>Entulhos</b><p>Custo e logística de remoção de entulhos 100% assumidos pela equipa, garantindo uma obra limpa e sem transtornos para o cliente.</p></div></div>
+          <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/></svg><div><b>Materiais e mão de obra</b><p>Materiais de qualidade superior e mão de obra especializada.</p></div></div>
         </div>
-        <p class="hint" style="margin-top:10px">Valores com IVA no cenário <b data-b="regime-short">23%</b>. Altere o cenário em <a href="#valor">Valor Total do Orçamento</a>.</p>
-      </div>
-      <div class="card c7">
-        <h3>Perguntas a colocar ao fornecedor antes de adjudicar <span class="tag" id="q-count">0/8</span></h3>
-        <div class="meter" aria-hidden="true"><span id="q-meter" style="width:0"></span></div>
-        <div class="checks" id="q-list"></div>
-        <p class="hint" style="margin-top:8px">O progresso fica guardado neste navegador.</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ FORNECEDOR ============ -->
-  <section class="panel" id="p-fornecedor" role="tabpanel" aria-labelledby="t-fornecedor" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Fornecedor</h2>
-        <p>Dados legais declarados na proposta, compromissos assumidos e verificações recomendadas antes da adjudicação.</p>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="card c6">
-        <h3>Dados da empresa <span class="tag">Declarados na proposta</span></h3>
-        <dl class="dl">
-          <dt>Empresa</dt><dd>IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA</dd>
-          <dt>Forma jurídica</dt><dd>Sociedade unipessoal por quotas<span class="hint">Um único sócio; responsabilidade limitada ao capital social</span></dd>
-          <dt>NIF</dt><dd><span class="num">519 525 825</span> <span id="nif-check"></span></dd>
-          <dt>Matrícula</dt><dd><span class="num">519525825</span><span class="hint">Coincide com o NIF, como é norma no registo comercial</span></dd>
-          <dt>Registo comercial</dt><dd>Conservatória do Registo Comercial de Lisboa</dd>
-          <dt>Capital social</dt><dd>1 €<span class="hint">O resumo indica «Capital Social: 1». Confirmar na certidão permanente</span></dd>
-          <dt>Sede operacional</dt><dd>Praceta João Azevedo N.º 5, 1.º Dt.<br>2825-432 Costa da Caparica, Portugal</dd>
-          <dt>Contactos</dt><dd>Não indicados<span class="hint">A proposta não inclui telefone, email nem responsável técnico</span></dd>
-        </dl>
-      </div>
-      <div class="card c6">
-        <h3>Compromissos assumidos na proposta</h3>
-        <div class="flags">
-          <div class="flag good"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.7 8.3l2.2 2.2 4.4-4.7" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Projeto chave-na-mão</b><p>Gestão integral desde a demolição à entrega final.</p></div></div>
-          <div class="flag good"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.7 8.3l2.2 2.2 4.4-4.7" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Materiais e mão de obra incluídos</b><p>Materiais de qualidade superior e mão de obra especializada.</p></div></div>
-          <div class="flag good"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.7 8.3l2.2 2.2 4.4-4.7" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Entulhos 100% a cargo do fornecedor</b><p>Custo e logística de remoção assumidos, com obra limpa e sem transtornos para o cliente.</p></div></div>
-          <div class="flag good"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.7 8.3l2.2 2.2 4.4-4.7" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Preço garantido durante 30 dias</b><p>Mantém a alocação da equipa e os valores dos materiais apresentados.</p></div></div>
-        </div>
-      </div>
-      <div class="card c6">
-        <h3>Sinais de atenção</h3>
-        <div class="flags">
-          <div class="flag warn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg><div><b>Capital social declarado de 1 €</b><p>É legal (nas sociedades por quotas a quota mínima é de 1 €). O capital social é um valor nominal e não mostra o património atual da empresa, que é o que responde perante credores; sem as contas não é possível avaliar essa solidez. Pedir a certidão permanente e as últimas contas, e limitar adiantamentos.</p></div></div>
-          <div class="flag crit"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><div><b>Alvará de construção não indicado na proposta</b><p>Pelo valor da obra (51.100 € sem IVA), o fornecedor deverá deter alvará de empreiteiro (de obras particulares ou de obras públicas) de classe 1 ou superior; o certificado de empreiteiro só cobre obras de pequeno valor. Confirmar no portal do IMPIC.</p></div></div>
-          <div class="flag crit"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><div><b>Sem garantia nem prazo por escrito</b><p>A proposta não refere prazo de execução, garantia da obra nem penalizações por atraso.</p></div></div>
-          <div class="flag warn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg><div><b>Seguros e contactos omissos</b><p>Sem referência a seguro de acidentes de trabalho, responsabilidade civil ou a um responsável técnico pela obra.</p></div></div>
-        </div>
-      </div>
-      <div class="card c6">
-        <h3>Verificações recomendadas <span class="tag" id="d-count">0/7</span></h3>
-        <div class="meter" aria-hidden="true"><span id="d-meter" style="width:0"></span></div>
-        <div class="checks" id="d-list"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CASA PRINCIPAL ============ -->
   <section class="panel" id="p-casa" role="tabpanel" aria-labelledby="t-casa" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Casa Principal</h2>
-        <p>Mapa das áreas de intervenção, metodologia de execução e grau de definição de cada item do âmbito.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Casa Principal</h2><p>Mapeamento das áreas de intervenção e respetivo foco operacional. Selecione uma zona.</p></div></div>
     <div class="grid">
       <div class="card c12">
-        <h3>Mapa espacial de intervenção <span class="tag">Esquema ilustrativo</span></h3>
-        <div class="plan-wrap">
-          <div class="plan">
-            <div class="legend">
-              <span><i class="sw" style="background:var(--s1);opacity:.45"></i>Zona húmida · 3 casas de banho</span>
-              <span><i class="sw" style="background:var(--s2);opacity:.45"></i>Zona seca · escritório de entrada</span>
-              <span><i class="sw" style="background:var(--surface-2);border:1px solid var(--hair)"></i>Fora do âmbito</span>
-            </div>
-            <svg viewBox="0 0 640 390" role="group" aria-label="Esquema da casa principal com as quatro áreas de intervenção">
-              <defs>
-                <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <rect width="10" height="10" style="fill:var(--surface-2)"/>
-                  <line x1="0" y1="0" x2="0" y2="10" style="stroke:var(--hair);stroke-width:2"/>
-                </pattern>
-              </defs>
-              <rect class="out-scope" x="20" y="20" width="600" height="330"/>
-              <text class="plan-note" x="330" y="235" text-anchor="middle">Restantes divisões — fora do âmbito</text>
-              <g class="room wet" data-room="wc1" tabindex="0" role="button" aria-pressed="false" aria-label="Casa de banho 1">
-                <rect class="fill" x="220" y="20" width="130" height="130"/><rect class="ol" x="220" y="20" width="130" height="130"/>
-                <rect class="glyph" x="300" y="30" width="40" height="40"/><path class="glyph" d="M300 30l40 40M340 30l-40 40"/>
-                <text x="235" y="135">WC 1</text>
-              </g>
-              <g class="room wet" data-room="wc2" tabindex="0" role="button" aria-pressed="false" aria-label="Casa de banho 2">
-                <rect class="fill" x="350" y="20" width="130" height="130"/><rect class="ol" x="350" y="20" width="130" height="130"/>
-                <rect class="glyph" x="430" y="30" width="40" height="40"/><path class="glyph" d="M430 30l40 40M470 30l-40 40"/>
-                <text x="365" y="135">WC 2</text>
-              </g>
-              <g class="room wet" data-room="wc3" tabindex="0" role="button" aria-pressed="false" aria-label="Casa de banho 3">
-                <rect class="fill" x="490" y="215" width="130" height="135"/><rect class="ol" x="490" y="215" width="130" height="135"/>
-                <rect class="glyph" x="570" y="300" width="40" height="40"/><path class="glyph" d="M570 300l40 40M610 300l-40 40"/>
-                <text x="505" y="240">WC 3</text>
-              </g>
-              <g class="room dry" data-room="esc" tabindex="0" role="button" aria-pressed="false" aria-label="Escritório de entrada">
-                <rect class="fill" x="20" y="200" width="190" height="150"/><rect class="ol" x="20" y="200" width="190" height="150"/>
-                <rect class="glyph" x="40" y="222" width="70" height="34"/><circle class="glyph" cx="75" cy="272" r="9"/>
-                <text x="120" y="244">Escritório</text>
-              </g>
-              <rect class="wall" x="20" y="20" width="600" height="330"/>
-              <path class="iwall" d="M220 20V150H490V20M350 20V150M20 200H210V350M490 215H620M490 215V350"/>
-              <rect x="80" y="344" width="60" height="12" style="fill:var(--surface)"/>
-              <path class="door" d="M80 350A60 60 0 0 1 140 290M140 290V350"/>
-              <text class="plan-note" x="110" y="378" text-anchor="middle">Entrada</text>
-            </svg>
-            <div class="roombtns" role="group" aria-label="Selecionar área">
-              <button type="button" data-room="wc1" aria-pressed="false">WC 1</button>
-              <button type="button" data-room="wc2" aria-pressed="false">WC 2</button>
-              <button type="button" data-room="wc3" aria-pressed="false">WC 3</button>
-              <button type="button" data-room="esc" aria-pressed="false">Escritório</button>
-            </div>
-            <p class="hint" style="margin-top:8px">A proposta não inclui plantas nem áreas; a disposição é meramente ilustrativa.</p>
-          </div>
-          <div class="roomdetail" id="room-detail" aria-live="polite"></div>
+        <h3>Áreas de intervenção</h3>
+        <div class="zones" role="group" aria-label="Zonas de intervenção">
+          <button type="button" class="zone" data-zone="humida" aria-pressed="true"><span class="zn">1</span><b>Zonas Húmidas</b><span>3 casas de banho</span></button>
+          <button type="button" class="zone" data-zone="seca" aria-pressed="false"><span class="zn">2</span><b>Zona Seca</b><span>Escritório de entrada</span></button>
+        </div>
+        <div class="zone-body" id="zone-body" aria-live="polite"></div>
+        <p class="hint" style="margin-top:12px">Uma abordagem segmentada para garantir a especialização adequada em cada metro quadrado.</p>
+      </div>
+      <div class="card c12">
+        <h3>Ações transversais</h3>
+        <div class="trans">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14 4l6 6-3 3-6-6zM11 7l-8 8 3 3 8-8"/></svg><p>Demolição e rigorosa remoção de entulhos.</p></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3v6a3 3 0 0 0 6 0V3M9 12v9M15 14h4v3h-4zM19 15.5h2"/></svg><p>Reabilitação de infraestruturas.</p></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M12 6v2M9 10h6M10 13v4M12 13v5M14 13v4"/></svg><p>Instalação de novas louças e base de duche com cabine fechada.</p></div>
         </div>
       </div>
-
       <div class="card c12">
         <h3>Metodologia: da demolição à entrega final</h3>
         <div class="phases" role="group" aria-label="Fases da obra">
@@ -679,272 +574,63 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         </div>
         <div class="phase-body" id="phase-body" aria-live="polite"></div>
       </div>
-
-      <div class="card c12">
-        <h3>Âmbito: o que está definido e o que falta clarificar</h3>
-        <div class="chips" role="group" aria-label="Filtrar itens do âmbito" id="scope-chips"></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Item</th><th>Onde</th><th>Estado na proposta</th><th>Nota técnica</th></tr></thead>
-            <tbody id="scope-body"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- ============ VALOR TOTAL ============ -->
   <section class="panel" id="p-valor" role="tabpanel" aria-labelledby="t-valor" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Valor Total do Orçamento</h2>
-        <p>O valor é apresentado sem IVA e sem discriminação. Simule o IVA aplicável e a repartição provável por espaço.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Valor Total do Orçamento</h2><p>O investimento reflete a entrega de um projeto chave-na-mão estruturado e sem surpresas.</p></div></div>
     <div class="grid">
-      <div class="card c5">
-        <h3>Investimento total</h3>
+      <div class="card c6">
+        <h3>Valor da obra · Casa Principal</h3>
         <div class="hero">51.100 €<small>+ IVA</small></div>
-        <p class="lead" style="margin-top:8px">A proposta apresenta-o como «projeto chave-na-mão estruturado e sem surpresas», mas não discrimina valores, materiais nem prazo.</p>
-        <div class="compo" aria-label="Componentes incluídos no valor">
+        <p class="lead" style="margin-top:8px">Valor apresentado sem a aplicação do IVA correspondente.</p>
+      </div>
+      <div class="card c6">
+        <h3>O que compõe o investimento</h3>
+        <div class="compo" aria-label="Componentes do investimento">
           <div class="in top-in">Mão de obra especializada<i aria-hidden="true">↓</i></div>
           <div class="in l-in">Materiais de qualidade superior <i aria-hidden="true" style="display:inline">→</i></div>
-          <div class="box"><b>Investimento total</b><span>51.100 €</span></div>
+          <div class="box"><b>Investimento total</b><span>51.100 € (+ IVA)</span></div>
           <div class="in r-in"><i aria-hidden="true" style="display:inline">←</i> Gestão total de demolição e entulhos</div>
         </div>
-        <p class="hint" style="margin-top:16px">Sem valores por casa de banho, por artigo ou por material.</p>
-      </div>
-
-      <div class="card c7">
-        <h3>Simulador de IVA</h3>
-        <div class="seg" role="group" aria-label="Regime de IVA" id="seg-iva">
-          <button type="button" data-iva="normal" aria-pressed="true">23% · taxa normal</button>
-          <button type="button" data-iva="mista" aria-pressed="false">Misto 6% / 23%</button>
-          <button type="button" data-iva="reduzida" aria-pressed="false">6% · taxa reduzida</button>
-        </div>
-        <div class="ctrl" id="ctrl-mat">
-          <label for="r-mat"><span>Peso dos materiais no valor da obra</span><output id="o-mat" for="r-mat">40%</output></label>
-          <input type="range" id="r-mat" min="10" max="70" step="5" value="40">
-        </div>
-        <div class="table-wrap" style="margin-top:14px">
-          <table>
-            <thead><tr><th>Componente</th><th class="n">Base</th><th class="n">Taxa</th><th class="n">IVA</th><th class="n">Total</th></tr></thead>
-            <tbody id="iva-body"></tbody>
-          </table>
-        </div>
-        <p class="hint" id="iva-note" style="margin-top:10px"></p>
-      </div>
-
-      <div class="card c12">
-        <h3>Total com IVA por cenário</h3>
-        <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Valor sem IVA</span><span><i class="sw" style="background:var(--s2)"></i>IVA</span></div>
-        <div class="chart" id="ch-regimes"></div>
-        <p class="hint">Clique numa barra para selecionar o cenário. A diferença entre o cenário mais caro e o mais barato é de <b data-b="iva-gap">8.687 €</b>.</p>
-        <details class="tv"><summary>Ver dados em tabela</summary><div class="table-wrap"><table><thead><tr><th>Cenário</th><th class="n">Sem IVA</th><th class="n">IVA</th><th class="n">Total</th></tr></thead><tbody id="tv-regimes"></tbody></table></div></details>
-      </div>
-
-      <div class="card c12">
-        <h3>Repartição estimada por espaço <span class="tag est">Estimativa</span></h3>
-        <p class="lead">O orçamento não discrimina valores. Ajuste o peso do escritório para ver o custo implícito de cada casa de banho face ao intervalo de referência do segmento médio de mercado.</p>
-        <div class="ctrl">
-          <label for="r-office"><span>Peso do escritório no valor total</span><output id="o-office" for="r-office">15%</output></label>
-          <input type="range" id="r-office" min="5" max="35" step="1" value="15">
-        </div>
-        <div class="legend" style="margin-top:12px"><span><i class="sw" style="background:var(--s1)"></i>Custo implícito (sem IVA)</span><span><i class="sw" style="background:var(--band);border:1px solid var(--hair)"></i>Referência · segmento médio de mercado</span></div>
-        <div class="chart" id="ch-espacos"></div>
-        <details class="tv"><summary>Ver dados em tabela</summary><div class="table-wrap"><table><thead><tr><th>Espaço</th><th class="n">Custo implícito</th><th class="n">Referência (médio)</th><th class="n">Δ vs topo da referência</th></tr></thead><tbody id="tv-espacos"></tbody></table></div></details>
       </div>
     </div>
   </section>
 
-  <!-- ============ PAGAMENTO ============ -->
   <section class="panel" id="p-pagamento" role="tabpanel" aria-labelledby="t-pagamento" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Forma de Pagamento</h2>
-        <p>Modelo financeiro proposto, calendário de pagamentos e exposição do cliente ao longo da obra.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Forma de Pagamento</h2><p>Um modelo financeiro transparente alinhado com o progresso físico da remodelação.</p></div></div>
     <div class="grid">
-      <div class="card c7">
-        <h3>Plano proposto: duas prestações iguais</h3>
-        <div class="paybar" aria-hidden="true"><div class="p1" style="flex:1">50%</div><div class="p2" style="flex:1">50%</div></div>
+      <div class="card c12">
+        <h3>Cronograma financeiro</h3>
+        <div class="paybar" role="group" aria-label="Prestações">
+          <button type="button" class="p1" data-pay="0" aria-pressed="true" style="flex:1">50% · Início da obra</button>
+          <button type="button" class="p2" data-pay="1" aria-pressed="false" style="flex:1">50% · Fim da obra</button>
+        </div>
         <div class="inst">
-          <div><span class="k"><i style="background:var(--pay1)"></i>Arranque do projeto</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s"><span data-b="prest-base">25.550 €</span> + IVA · com o início oficial da obra. Mobiliza a equipa e adquire os materiais.</span></div>
-          <div><span class="k"><i style="background:var(--t3)"></i>Entrega da obra</span><div class="v" data-b="prest-r">31.426,50 €</div><span class="s"><span data-b="prest-base">25.550 €</span> + IVA · com o fim da obra, após validação do espaço intervencionado.</span></div>
+          <div id="pay-0"><span class="k"><i style="background:var(--pay1)"></i>Arranque do projeto · 50%</span><div class="v">25.550 € <small>+ IVA</small></div><span class="s">Pagamento de 50% com o início oficial da obra. Permite a mobilização da equipa e aquisição dos materiais de qualidade: alocação de equipa, aquisição de materiais e arranque das demolições.</span></div>
+          <div id="pay-1"><span class="k"><i style="background:var(--t3)"></i>Entrega da obra · 50%</span><div class="v">25.550 € <small>+ IVA</small></div><span class="s">Pagamento dos restantes 50% com o fim da obra e validação do espaço intervencionado: instalação final validada, limpeza de entulhos concluída e entrega do espaço pronto a habitar.</span></div>
         </div>
-        <p class="hint" style="margin-top:10px">Valores com IVA no cenário <b data-b="regime-short">23%</b>.</p>
-      </div>
-      <div class="card c5">
-        <h3>Calendário de pagamentos <span class="tag est">Simulação</span></h3>
-        <div class="row-ctrls">
-          <div class="field" style="flex:1 1 160px"><label for="i-inicio">Data prevista de arranque</label><input type="date" id="i-inicio"></div>
-        </div>
-        <div class="ctrl">
-          <label for="r-dur"><span>Duração estimada da obra</span><output id="o-dur" for="r-dur">10 semanas</output></label>
-          <input type="range" id="r-dur" min="4" max="20" step="1" value="10">
-        </div>
-        <p class="hint" style="margin-top:6px">A proposta não indica prazo de execução. Para 3 casas de banho e um escritório, 8 a 12 semanas é um intervalo habitual.</p>
-        <div class="table-wrap" style="margin-top:10px">
-          <table><thead><tr><th>Momento</th><th>Data</th><th class="n">Valor</th></tr></thead><tbody id="cal-body"></tbody></table>
-        </div>
-      </div>
-
-      <div class="card c12">
-        <h3>Exposição financeira do cliente</h3>
-        <p class="lead">Compara o valor pago com o trabalho executado (estimativa com progresso linear). A área sombreada é o dinheiro adiantado sem obra correspondente.</p>
-        <div class="seg" role="group" aria-label="Modelo de pagamento" id="seg-modelo" style="margin-top:12px">
-          <button type="button" data-modelo="proposto" aria-pressed="true">Proposto · 50/50</button>
-          <button type="button" data-modelo="tres" aria-pressed="false">Alternativa · 30/40/30</button>
-          <button type="button" data-modelo="autos" aria-pressed="false">Autos de medição mensais</button>
-        </div>
-        <p class="hint" id="modelo-desc" style="margin-top:8px"></p>
-        <div class="legend" style="margin-top:10px"><span><i class="ln" style="background:var(--s1)"></i>Valor pago (acumulado)</span><span><i class="ln" style="background:var(--s2)"></i>Trabalho executado (estimativa)</span><span><i class="sw" style="background:var(--s1);opacity:.18"></i>Exposição do cliente</span></div>
-        <div class="chart" id="ch-exposicao"></div>
-        <div class="table-wrap" style="margin-top:12px">
-          <table><thead><tr><th>Modelo</th><th>Estrutura</th><th class="n">Exposição máxima</th><th class="n">Valor (s/ IVA)</th></tr></thead><tbody id="modelos-body"></tbody></table>
-        </div>
-      </div>
-
-      <div class="card c12">
-        <h3>Recomendações para negociar o pagamento</h3>
-        <div class="two">
-          <div class="flags">
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg><div><b>Fracionar o adiantamento</b><p>Propor 30% na adjudicação, 40% a meio da obra (após validação de uma etapa) e 30% na receção.</p></div></div>
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><div><b>Ligar pagamentos a marcos verificáveis</b><p>Por exemplo: materiais entregues em obra, casa de banho 1 concluída, receção final sem defeitos.</p></div></div>
-          </div>
-          <div class="flags">
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/></svg><div><b>Retenção de garantia</b><p>Reter 5% do valor até 30 a 60 dias após a receção, para cobrir pequenos defeitos.</p></div></div>
-            <div class="flag info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg><div><b>Faturação com IVA discriminado</b><p>Cada pagamento contra fatura, por transferência bancária, com mão de obra e materiais discriminados, a taxa de IVA de cada parcela e a menção à verba 2.27. Sem essa discriminação aplica-se 23% a todo o valor.</p></div></div>
-          </div>
-        </div>
+        <p class="hint" style="margin-top:10px">25.550 € corresponde a 50% de 51.100 €.</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ VALIDADE ============ -->
   <section class="panel" id="p-validade" role="tabpanel" aria-labelledby="t-validade" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Validade do Orçamento</h2>
-        <p>A proposta mantém-se em vigor por um período máximo de 30 dias após a emissão.</p>
-      </div>
-    </div>
+    <div class="panel-head"><div><h2>Validade do Orçamento</h2><p>Esta proposta comercial mantém a sua validade por um período máximo de 30 dias.</p></div></div>
     <div class="grid">
-      <div class="card c5">
-        <h3>Estado da proposta <span id="val-pill"></span></h3>
-        <div class="hero" id="val-hero">—</div>
-        <p class="lead" id="val-sub" style="margin-top:6px">—</p>
-        <div style="margin-top:16px">
-          <div class="meter-row"><span>Prazo decorrido</span><span id="val-pct" class="num">—</span></div>
-          <div class="meter" aria-hidden="true"><span id="val-meter" style="width:0"></span></div>
-        </div>
-        <div class="field" style="margin-top:16px">
+      <div class="card c6">
+        <h3>Validade da proposta</h3>
+        <div class="hero">30<small>dias</small></div>
+        <p class="lead" style="margin-top:8px">Para garantir a alocação da equipa e os valores dos materiais apresentados, este orçamento mantém-se em vigor por um período de 30 dias após emissão.</p>
+      </div>
+      <div class="card c6">
+        <h3>Calcular a data limite</h3>
+        <p class="lead">A proposta não indica a data de emissão. Introduza-a para ver até quando é válida.</p>
+        <div class="field" style="margin-top:12px">
           <label for="i-emissao">Data de emissão da proposta</label>
           <input type="date" id="i-emissao">
-          <span class="hint">A proposta não indica data de emissão. Por defeito assume-se 16/10/2026 (data em que os ficheiros PDF foram gerados), que pode ser posterior à emissão real. Confirme a data com o fornecedor e ajuste aqui.</span>
         </div>
-      </div>
-      <div class="card c7">
-        <h3>Condições de validade</h3>
-        <dl class="dl">
-          <dt>Prazo</dt><dd>30 dias de calendário após a emissão</dd>
-          <dt>Válida até (estimativa)</dt><dd data-b="fim-long">15 de novembro de 2026</dd>
-          <dt>Último dia útil</dt><dd id="val-util">—</dd>
-          <dt>Finalidade</dt><dd>Garantir a alocação da equipa e os valores dos materiais apresentados</dd>
-          <dt>Após o prazo</dt><dd>O fornecedor pode rever preços e disponibilidade<span class="hint">Se precisar de mais tempo, peça prorrogação por escrito antes do fim do prazo</span></dd>
-        </dl>
-      </div>
-      <div class="card c12">
-        <h3>Os 30 dias de validade</h3>
-        <div class="legend"><span><i class="sw" style="background:var(--brand-soft);border:1px solid var(--hair)"></i>Dias decorridos</span><span><i class="sw" style="background:var(--surface);box-shadow:0 0 0 2px var(--s2)"></i>Hoje</span><span><i class="dot" style="background:var(--s2)"></i>Marco sugerido</span><span><i class="sw" style="background:var(--brand)"></i>Último dia</span></div>
-        <div class="days" id="days" role="list" aria-label="Calendário dos 30 dias de validade"></div>
-      </div>
-      <div class="card c12">
-        <h3>Plano de decisão sugerido</h3>
-        <div class="ms-list" id="ms-list"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CONCORRÊNCIA ============ -->
-  <section class="panel" id="p-concorrencia" role="tabpanel" aria-labelledby="t-concorrencia" tabindex="0" hidden>
-    <div class="panel-head">
-      <div>
-        <h2>Concorrência</h2>
-        <p>Posicionamento do valor face ao mercado, comparação com propostas concorrentes e qualidade documental da proposta.</p>
-      </div>
-    </div>
-    <div class="notice">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
-      <div><b>Referências indicativas.</b> Os segmentos de mercado são estimativas do analista para remodelações na Grande Lisboa e Península de Setúbal (valores sem IVA), não propostas de empresas concretas. Registe abaixo as propostas concorrentes que receber para uma comparação real.</div>
-    </div>
-    <div class="minis">
-      <div class="mini"><div class="l">Posicionamento da proposta</div><div class="v" data-b="segmento">Segmento premium</div><div class="s">Intervalo: <span data-b="seg-range">39.500 € – 58.000 €</span></div></div>
-      <div class="mini"><div class="l">Diferença vs. ponto médio do segmento médio</div><div class="v" data-b="delta-medio">+58%</div><div class="s">Ponto médio: 32.250 € (sem IVA)</div></div>
-      <div class="mini"><div class="l">Custo implícito por casa de banho</div><div class="v" data-b="wc">14.478 €</div><div class="s">Estimativa · referência média: 7.500 € – 10.500 €</div></div>
-    </div>
-    <div class="grid">
-      <div class="card c12">
-        <h3>Posição no mercado · 3 casas de banho + escritório</h3>
-        <div class="legend">
-          <span><i class="sw" style="background:var(--t1)"></i>Económico</span>
-          <span><i class="sw" style="background:var(--t2)"></i>Médio</span>
-          <span><i class="sw" style="background:var(--t3)"></i>Premium</span>
-          <span><i class="ln" style="background:var(--s2)"></i>IMPERIOU'S</span>
-          <span id="lg-props" hidden><i class="dot" style="background:var(--s3)"></i>Propostas concorrentes</span>
-        </div>
-        <div class="chart" id="ch-mercado"></div>
-        <div class="ctrl" style="max-width:560px">
-          <label for="r-desc"><span>Simular negociação com a IMPERIOU'S</span><output id="o-desc" for="r-desc">0%</output></label>
-          <input type="range" id="r-desc" min="0" max="20" step="1" value="0">
-        </div>
-        <p class="lead" id="neg-text" style="margin-top:8px"></p>
-        <details class="tv"><summary>Ver dados em tabela</summary><div class="table-wrap"><table><thead><tr><th>Referência</th><th class="n">Mínimo</th><th class="n">Máximo</th><th>Composição</th></tr></thead><tbody id="tv-mercado"></tbody></table></div></details>
-      </div>
-
-      <div class="card c12">
-        <h3>Segmentos de mercado</h3>
-        <div class="tiers" id="tiers"></div>
-        <div class="table-wrap" style="margin-top:14px">
-          <table>
-            <thead><tr><th>Referência unitária (sem IVA)</th><th class="n">Económico</th><th class="n">Médio</th><th class="n">Premium</th></tr></thead>
-            <tbody id="unit-body"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card c12">
-        <h3>Propostas concorrentes</h3>
-        <form id="f-prop" novalidate>
-          <div class="form-grid">
-            <div class="field w2"><label for="f-nome">Empresa</label><input type="text" id="f-nome" maxlength="60" autocomplete="off" placeholder="Nome da empresa"></div>
-            <div class="field w2"><label for="f-valor">Valor sem IVA (€)</label><input type="text" id="f-valor" inputmode="decimal" autocomplete="off" placeholder="ex.: 42.500"></div>
-            <div class="field w2"><label for="f-pag">Pagamento</label><input type="text" id="f-pag" maxlength="40" autocomplete="off" placeholder="ex.: 30/40/30"></div>
-            <div class="field w1 w3"><label for="f-prazo">Prazo (semanas)</label><input type="number" id="f-prazo" min="1" max="104" step="1" placeholder="opcional"></div>
-            <div class="field w1 w3"><label for="f-gar">Garantia (anos)</label><input type="number" id="f-gar" min="0" max="20" step="1" placeholder="opcional"></div>
-            <div class="field w6"><span class="hint" style="color:var(--ink-2)">A proposta concorrente inclui…</span><div class="critboxes" id="f-crit"></div></div>
-          </div>
-          <div class="row-ctrls" style="margin-top:12px">
-            <button type="submit" class="btn">Adicionar proposta</button>
-            <button type="button" class="btn ghost" id="btn-csv">Copiar tabela</button>
-            <span class="hint" id="csv-msg" role="status"></span>
-            <span class="err" id="f-err" role="alert"></span>
-          </div>
-          <textarea id="csv-fallback" class="csv-fallback" rows="5" readonly hidden aria-label="Tabela em texto para copiar"></textarea>
-        </form>
-        <div class="table-wrap" style="margin-top:16px">
-          <table>
-            <thead><tr><th>Proposta</th><th class="n">Sem IVA</th><th class="n">Δ vs IMPERIOU'S</th><th>Pagamento</th><th class="n">Prazo</th><th class="n">Garantia</th><th class="n">Critérios-chave</th><th class="no-print"><span class="sr-only">Ações</span></th></tr></thead>
-            <tbody id="props-body"></tbody>
-          </table>
-        </div>
-        <p class="hint" style="margin-top:8px">Critérios-chave: os 7 elementos em falta na proposta IMPERIOU'S. As propostas ficam guardadas apenas neste navegador.</p>
-      </div>
-
-      <div class="card c12">
-        <h3>Benchmark documental · IMPERIOU'S vs proposta bem estruturada <span class="tag">7 / 14</span></h3>
-        <ul class="cl" id="cl-list"></ul>
+        <p class="big" id="val-out" style="margin-top:14px" aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -952,860 +638,70 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   </main>
 
   <footer>
-    <span>Fontes: «Proposta de Intervenção: Casa Principal» (9 páginas), da IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA, e um resumo dessa proposta (2 páginas).</span>
-    <span>Análise independente: esta página não foi preparada, revista nem aprovada pela IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA. As apreciações são opinião do analista, com base nos documentos indicados, e não constituem aconselhamento jurídico, fiscal ou técnico. Valores marcados como estimativa, simulação ou referência de mercado são do analista e não constam da proposta. Enquadramento de IVA indicativo (Código do IVA, Lista I, verbas 2.23 e 2.27): confirmar com o fornecedor ou contabilista.</span>
+    <span>Fontes: «Proposta de Intervenção: Casa Principal» (IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA) e o resumo do orçamento. Todos os dados apresentados constam destes documentos.</span>
   </footer>
 </div>
-
-<div class="tip" id="tip" role="tooltip" hidden></div>
 
 <script>
 (function(){
 'use strict';
-
-/* ---------- Dados da proposta ---------- */
-var BASE = 51100;
-var VALIDADE = 30;
-var DATA_DOC = '2026-10-16';
-var NIF = '519525825';
-
-/* Referências de mercado (estimativas do analista, sem IVA) */
-var BENCH = {
-  wc:         { economico:[5000,7000], medio:[7500,10500], premium:[11000,16000] },
-  escritorio: { economico:[2500,4000], medio:[4000,6500],  premium:[6500,10000] }
-};
-var TIERS = [
-  { id:'economico', nome:'Económico', cor:'var(--t1)', perfil:'Empreiteiro local ou pequena equipa',
-    txt:'Materiais de gama básica, por vezes fornecidos pelo cliente. Proposta pouco discriminada e garantia raramente formalizada.' },
-  { id:'medio', nome:'Médio', cor:'var(--t2)', perfil:'Empresa de remodelações estruturada',
-    txt:'Materiais de gama média com marcas indicadas, valores por espaço, prazo e garantia por escrito.' },
-  { id:'premium', nome:'Premium', cor:'var(--t3)', perfil:'Chave-na-mão de gama alta / design',
-    txt:'Materiais de gama alta, mapa de quantidades detalhado e acompanhamento técnico dedicado.' }
-];
-TIERS.forEach(function(t){
-  t.min = 3*BENCH.wc[t.id][0] + BENCH.escritorio[t.id][0];
-  t.max = 3*BENCH.wc[t.id][1] + BENCH.escritorio[t.id][1];
-});
-var MEDIO_MID = (TIERS[1].min + TIERS[1].max)/2;
-
-var CRIT = [
-  { id:'disc',  nome:'Valores discriminados por espaço/artigo' },
-  { id:'mat',   nome:'Materiais especificados (marca/gama)' },
-  { id:'prazo', nome:'Prazo de execução / cronograma' },
-  { id:'gar',   nome:'Garantia da obra por escrito' },
-  { id:'iva',   nome:'Taxa de IVA e total com IVA' },
-  { id:'alv',   nome:'Alvará IMPIC e seguros' },
-  { id:'extra', nome:'Regime de trabalhos a mais' }
-];
-var PRESENTES = [
-  'Identificação do cliente',
-  'Identificação legal do fornecedor (NIF, matrícula, sede)',
-  'Âmbito descrito por espaço (3 WC + escritório)',
-  'Valor global da obra',
-  'Condições de pagamento',
-  'Prazo de validade da proposta',
-  'Gestão de entulhos incluída'
-];
-
-var PERGUNTAS = [
-  { id:'q-iva',   t:'Qual a taxa de IVA aplicável e o valor final com IVA?', w:'A proposta indica apenas “+ IVA” e um preço global; pedir que a fatura discrimine mão de obra e materiais.' },
-  { id:'q-disc',  t:'Pode discriminar o valor por casa de banho e pelo escritório?', w:'Permite comparar com outras propostas e controlar trabalhos a menos.' },
-  { id:'q-mat',   t:'Que marcas e gamas de loiças, bases de duche e revestimentos estão incluídas?', w:'“Materiais de qualidade” não é verificável.' },
-  { id:'q-prazo', t:'Qual o prazo de execução e a data de arranque possível?', w:'Sem prazo não há base para penalizações por atraso.' },
-  { id:'q-gar',   t:'Que garantia é dada sobre a obra e os materiais?', w:'Pedir por escrito, com prazo e cobertura.' },
-  { id:'q-fases', t:'As casas de banho podem ser intervencionadas por fases?', w:'Manter uma casa de banho operacional durante a obra.' },
-  { id:'q-extra', t:'Como são tratados trabalhos a mais e imprevistos?', w:'Exigir orçamento escrito e aprovação prévia.' },
-  { id:'q-pag',   t:'É possível rever o plano de pagamentos (ex.: 30/40/30)?', w:'Reduz o valor adiantado sem obra executada.' }
-];
-var DUE = [
-  { id:'d-cert', t:'Certidão permanente do registo comercial', w:'Confirma sócio, gerência e objeto social. Pedir o código de acesso.' },
-  { id:'d-alv',  t:'Alvará de construção (IMPIC) válido', w:'Alvará de obras particulares ou de obras públicas, de classe compatível com o valor da obra.' },
-  { id:'d-sat',  t:'Seguro de acidentes de trabalho', w:'Apólice válida para os trabalhadores em obra.' },
-  { id:'d-rc',   t:'Seguro de responsabilidade civil', w:'Cobre danos no imóvel e a terceiros.' },
-  { id:'d-div',  t:'Declarações de não dívida (AT e Segurança Social)', w:'Situação contributiva e tributária regularizada.' },
-  { id:'d-ref',  t:'Referências de obras semelhantes', w:'Fotografias e contactos de clientes anteriores.' },
-  { id:'d-ctr',  t:'Contrato de empreitada escrito', w:'Com prazo, garantia, penalizações e plano de pagamentos.' }
-];
-
-var ESPACOS = {
-  wc1:{ nome:'Casa de banho 1', zona:'Zona húmida', acao:'Remodelação total' },
-  wc2:{ nome:'Casa de banho 2', zona:'Zona húmida', acao:'Remodelação total' },
-  wc3:{ nome:'Casa de banho 3', zona:'Zona húmida', acao:'Remodelação total' },
-  esc:{ nome:'Escritório de entrada', zona:'Zona seca', acao:'Recuperação de espaço' }
-};
-var TRAB_WC = [
-  'Demolição e remoção controlada das estruturas antigas',
-  'Remoção de entulhos, a cargo do fornecedor',
-  'Substituição e reabilitação de infraestruturas',
-  'Instalação de novas loiças sanitárias',
-  'Base de duche com cabine integrada (fechada)',
-  'Materiais de qualidade e mão de obra especializada'
-];
-var CLAR_WC = 'Revestimentos, impermeabilização, torneiras, móvel de lavatório, ventilação e iluminação.';
-var TRAB_ESC = [
-  'Demolição e remoção controlada das estruturas antigas',
-  'Recuperação total do espaço',
-  'Reabilitação focada na modernização e otimização da área de entrada',
-  'Materiais de qualidade e mão de obra especializada'
-];
-var CLAR_ESC = 'Pavimento, pintura, tetos, eletricidade, iluminação e carpintarias.';
-
-var FASES = [
-  'Remoção controlada das estruturas antigas nas casas de banho e no escritório, preparando o espaço em segurança. É o momento do pagamento da 1.ª prestação (50%).',
-  'Custo e logística de remoção de entulhos 100% assumidos pela equipa, garantindo uma obra limpa e sem transtornos para o cliente.',
-  'Aplicação de materiais de qualidade por mão de obra especializada, culminando na instalação de loiças e cabines de duche. Termina com a validação do espaço e o pagamento da 2.ª prestação (50%).'
-];
-
-var AMBITO = [
-  { i:'Demolição das estruturas antigas', o:'3 WC + escritório', s:'inc', n:'Remoção controlada, com preparação do espaço em segurança.' },
-  { i:'Remoção e gestão de entulhos', o:'Toda a obra', s:'inc', n:'Custo e logística 100% assumidos pelo fornecedor.' },
-  { i:'Mão de obra especializada', o:'Toda a obra', s:'inc', n:'Incluída no valor global.' },
-  { i:'Substituição de infraestruturas', o:'3 WC', s:'gen', n:'Sem indicação das redes abrangidas (água, esgotos, eletricidade) nem dos materiais.' },
-  { i:'Loiças sanitárias novas', o:'3 WC', s:'gen', n:'Incluídas, sem marca, modelo ou quantidades.' },
-  { i:'Base de duche com cabine', o:'3 WC', s:'gen', n:'Incluída, sem dimensões nem tipo de vidro e perfis.' },
-  { i:'Materiais “de qualidade”', o:'Toda a obra', s:'gen', n:'Qualificação genérica: pedir gamas e marcas.' },
-  { i:'Recuperação do escritório', o:'Escritório', s:'gen', n:'“Modernização e otimização” sem lista de trabalhos.' },
-  { i:'Revestimentos cerâmicos (paredes e pavimento)', o:'3 WC', s:'nao', n:'Não referidos: confirmar se estão incluídos e qual o preço/m² previsto.' },
-  { i:'Impermeabilização das zonas de duche', o:'3 WC', s:'nao', n:'Crítica para evitar infiltrações; deve constar por escrito.' },
-  { i:'Torneiras e misturadoras', o:'3 WC', s:'nao', n:'Não referidas.' },
-  { i:'Móvel de lavatório, espelho e acessórios', o:'3 WC', s:'nao', n:'Não referidos.' },
-  { i:'Ventilação e extração', o:'3 WC', s:'nao', n:'Não referidas.' },
-  { i:'Eletricidade e iluminação', o:'3 WC + escritório', s:'nao', n:'Não referidas.' },
-  { i:'Pavimento, pintura e tetos do escritório', o:'Escritório', s:'nao', n:'Não referidos.' }
-];
-var ST = {
-  inc:{ l:'Incluído', k:'good' },
-  gen:{ l:'Incluído sem especificação', k:'warn' },
-  nao:{ l:'Não referido na proposta', k:'crit' }
-};
-
-var MODELOS = {
-  proposto:{ nome:'Proposto · 50/50', est:'50% início · 50% fim',
-    desc:'Modelo da proposta: metade do valor no arranque, antes de qualquer trabalho executado.',
-    pays:function(){ return [{t:0,p:.5,m:'1.ª prestação · início da obra'},{t:1,p:.5,m:'2.ª prestação · fim da obra'}]; } },
-  tres:{ nome:'Alternativa · 30/40/30', est:'30% início · 40% meio · 30% receção',
-    desc:'Alternativa habitual: 30% na adjudicação, 40% a meio da obra após validação de uma etapa, 30% na receção.',
-    pays:function(){ return [{t:0,p:.3,m:'Adjudicação / arranque'},{t:.5,p:.4,m:'Meio da obra (etapa validada)'},{t:1,p:.3,m:'Receção da obra'}]; } },
-  autos:{ nome:'Autos de medição', est:'10% adiantamento · autos mensais · 5% retenção',
-    desc:'10% de adiantamento, pagamentos mensais pelo trabalho medido (com amortização do adiantamento) e retenção de 5% até à receção.',
-    pays:function(D){
-      var out=[{t:0,p:.10,m:'Adiantamento'}], prev=0, k=1;
-      for(var w=4; w<D; w+=4){ var e=w/D; out.push({t:e,p:(e-prev)*.85,m:'Auto n.º '+(k++)+' · semana '+w}); prev=e; }
-      out.push({t:1,p:(1-prev)*.85,m:'Auto final · semana '+D});
-      out.push({t:1,p:.05,m:'Libertação da retenção (receção)'});
-      return out;
-    } }
-};
-
-/* ---------- Estado (guardado no navegador) ---------- */
-var KEY = 'orc-casa-principal:v1';
-var DEF = { iva:'normal', mat:40, office:15, emissao:DATA_DOC, inicio:'', duracao:10, modelo:'proposto', desconto:0, propostas:[], checks:{}, room:'wc1', phase:0, scope:'all' };
-var S = load();
-function load(){
-  var s = {};
-  try { var raw = localStorage.getItem(KEY); if(raw) s = JSON.parse(raw) || {}; } catch(e){ s = {}; }
-  var o = {}; for(var k in DEF) o[k] = DEF[k];
-  if(['normal','mista','reduzida'].indexOf(s.iva) > -1) o.iva = s.iva;
-  if(isNum(s.mat) && s.mat>=10 && s.mat<=70) o.mat = s.mat;
-  if(isNum(s.office) && s.office>=5 && s.office<=35) o.office = s.office;
-  if(parseISO(s.emissao)) o.emissao = s.emissao;
-  if(s.inicio === '' || parseISO(s.inicio)) o.inicio = s.inicio || '';
-  if(isNum(s.duracao) && s.duracao>=4 && s.duracao<=20) o.duracao = s.duracao;
-  if(MODELOS[s.modelo]) o.modelo = s.modelo;
-  if(isNum(s.desconto) && s.desconto>=0 && s.desconto<=20) o.desconto = s.desconto;
-  if(ESPACOS[s.room]) o.room = s.room;
-  if(isNum(s.phase) && s.phase>=0 && s.phase<=2) o.phase = s.phase;
-  if(['all','inc','gen','nao'].indexOf(s.scope) > -1) o.scope = s.scope;
-  if(s.checks && typeof s.checks === 'object') o.checks = s.checks;
-  if(Array.isArray(s.propostas)) o.propostas = s.propostas.filter(function(p){
-    return p && typeof p.nome === 'string' && p.nome.length && p.nome.length <= 60 && isNum(p.valor) && p.valor >= 1000 && p.valor <= 1e7;
-  }).slice(0, 20);
-  return o;
-}
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
-function isNum(n){ return typeof n === 'number' && isFinite(n); }
-
-/* ---------- Utilitários ---------- */
-function $(s, r){ return (r||document).querySelector(s); }
-function $$(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
-function grp(i){ return String(i).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-function eur(n, dec){
-  var neg = n < 0; n = Math.abs(n);
-  if(dec === undefined) dec = (Math.abs(Math.round(n*100) - Math.round(n)*100) > 0) ? 2 : 0;
-  var parts = n.toFixed(dec).split('.');
-  return (neg ? '−' : '') + grp(parts[0]) + (parts[1] ? ',' + parts[1] : '') + ' €';
-}
-function eur0(n){ return eur(Math.round(n), 0); }
-function kEur(n){ var v = n/1000; return (Math.round(v*10)/10).toString().replace('.', ',') + ' k€'; }
-function pct(x, dec){ return (x*100).toFixed(dec||0).replace('.', ',') + '%'; }
-function signPct(x){ return (x >= 0 ? '+' : '−') + Math.abs(Math.round(x*100)) + '%'; }
-function parseISO(s){
-  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
-  if(!m) return null;
-  var d = new Date(+m[1], +m[2]-1, +m[3]);
-  return (d.getMonth() === +m[2]-1) ? d : null;
-}
-function toISO(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
-function addDays(d, n){ return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
-function diffDays(a, b){ return Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()) - Date.UTC(a.getFullYear(),a.getMonth(),a.getDate())) / 864e5); }
-var WD = ['dom','seg','ter','qua','qui','sex','sáb'];
-var WDL = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
-var MES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-function dmy(d){ return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear(); }
-function dm(d){ return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0'); }
-function longDate(d){ return d.getDate() + ' de ' + MES[d.getMonth()] + ' de ' + d.getFullYear(); }
-function today(){ var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
-function bind(name, value){ $$('[data-b="' + name + '"]').forEach(function(el){ el.textContent = value; }); }
+function $(s){ return document.querySelector(s); }
+function $$(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); }
 function mk(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text !== undefined) e.textContent = text; return e; }
 
-var ICON = {
-  good:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.7 8.3l2.2 2.2 4.4-4.7" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  warn:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l7.2 13H.8z" fill="currentColor"/><path d="M8 6v3.6" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.8" r=".95" fill="#1a1a1a"/></svg>',
-  crit:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>',
-  info:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M8 7.2v4.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="4.9" r=".95" fill="#fff"/></svg>'
+var ZONAS = {
+  humida: { t:'Zonas Húmidas', esp:'3 Casas de Banho', acao:'Remodelação Total',
+    foco:'Demolição, substituição de infraestruturas, e instalação de novas loiças sanitárias e bases de duche com cabine integrada.',
+    extra:'Áreas de Banhos: remodelação integral das 3 casas de banho.' },
+  seca: { t:'Zona Seca', esp:'Escritório de Entrada', acao:'Recuperação de Espaço',
+    foco:'Reabilitação focada na modernização e otimização da área de entrada da casa principal.',
+    extra:'Zona de Entrada: recuperação total do escritório localizado na entrada da casa.' }
 };
-function pill(kind, text){ var s = mk('span', 'pill ' + kind); s.innerHTML = ICON[kind]; s.appendChild(document.createTextNode(text)); return s; }
-
-/* ---------- Cálculos ---------- */
-function ivaCalc(id){
-  var lines;
-  if(id === 'normal') lines = [{ l:'Obra · mão de obra e materiais', b:BASE, r:.23 }];
-  else if(id === 'reduzida') lines = [{ l:'Obra · taxa reduzida (verbas 2.23 / 2.27)', b:BASE, r:.06 }];
-  else {
-    if(S.mat <= 20) lines = [{ l:'Obra · materiais ≤ 20% (verba 2.27)', b:BASE, r:.06 }];
-    else { var m = Math.round(BASE*S.mat/100); lines = [{ l:'Mão de obra e serviços', b:BASE-m, r:.06 }, { l:'Materiais incorporados', b:m, r:.23 }]; }
-  }
-  var iva = 0;
-  lines.forEach(function(x){ x.iva = Math.round(x.b*x.r*100)/100; iva += x.iva; });
-  iva = Math.round(iva*100)/100;
-  return { base:BASE, lines:lines, iva:iva, total:Math.round((BASE+iva)*100)/100 };
-}
-var REGIMES = [
-  { id:'normal',   label:function(){ return 'Taxa normal · 23%'; }, short:'23%' },
-  { id:'mista',    label:function(){ return 'Misto · 6% + 23% (materiais ' + S.mat + '%)'; }, short:'misto 6/23%' },
-  { id:'reduzida', label:function(){ return 'Taxa reduzida · 6%'; }, short:'6%' }
+var FASES = [
+  'Remoção controlada das estruturas antigas nas casas de banho e escritório, preparando o espaço em segurança.',
+  'Custo e logística de remoção de entulhos 100% assumidos pela equipa, garantindo uma obra limpa e sem transtornos para o cliente.',
+  'Aplicação de materiais de qualidade por mão de obra especializada, culminando na instalação de loiças e cabines de duche.'
 ];
-function regime(id){ for(var i=0;i<REGIMES.length;i++) if(REGIMES[i].id===id) return REGIMES[i]; return REGIMES[0]; }
-function custoEspacos(){ var esc = BASE*S.office/100; return { esc:esc, wc:(BASE-esc)/3 }; }
-function segmento(v){
-  if(v < TIERS[0].min) return { nome:'Abaixo do segmento económico', tier:null };
-  for(var i=0;i<TIERS.length;i++){
-    if(v >= TIERS[i].min && v <= TIERS[i].max) return { nome:'Segmento ' + TIERS[i].nome.toLowerCase(), tier:TIERS[i] };
-    if(i < TIERS.length-1 && v > TIERS[i].max && v < TIERS[i+1].min) return { nome:'Entre ' + TIERS[i].nome.toLowerCase() + ' e ' + TIERS[i+1].nome.toLowerCase(), tier:null };
-  }
-  return { nome:'Acima do segmento premium', tier:null };
-}
-function nifValido(n){
-  n = String(n).replace(/\D/g, '');
-  if(n.length !== 9) return false;
-  var s = 0; for(var i=0;i<8;i++) s += (+n[i])*(9-i);
-  var c = 11 - (s % 11); if(c >= 10) c = 0;
-  return c === +n[8];
-}
-function paidAt(pays, t){ var s = 0; pays.forEach(function(p){ if(p.t <= t + 1e-9) s += p.p; }); return s; }
-function maxExposure(pays){
-  var best = { e:0, t:0, p:0 };
-  pays.forEach(function(p){ var paid = paidAt(pays, p.t), e = paid - p.t; if(e > best.e + 1e-9) best = { e:e, t:p.t, p:paid }; });
-  return best;
-}
-function validade(){
-  var E = parseISO(S.emissao) || parseISO(DATA_DOC);
-  var X = addDays(E, VALIDADE), T = today();
-  var rem = diffDays(T, X), dec = diffDays(E, T);
-  var st = rem < 0 ? 'exp' : rem === 0 ? 'hoje' : rem <= 7 ? 'breve' : 'ok';
-  var uteis = 0; for(var i=1;i<=rem;i++){ var wd = addDays(T, i).getDay(); if(wd>0 && wd<6) uteis++; }
-  var lastBiz = X; while(lastBiz.getDay() === 0 || lastBiz.getDay() === 6) lastBiz = addDays(lastBiz, -1);
-  return { E:E, X:X, T:T, rem:rem, dec:dec, st:st, uteis:uteis, lastBiz:lastBiz };
-}
 
-/* ---------- SVG helpers ---------- */
-var NS = 'http://www.w3.org/2000/svg';
-function sv(tag, attrs, parent){ var n = document.createElementNS(NS, tag); if(attrs) for(var k in attrs) n.setAttribute(k, attrs[k]); if(parent) parent.appendChild(n); return n; }
-function st(parent, x, y, str, attrs){ var t = sv('text', attrs || {}, parent); t.setAttribute('x', x); t.setAttribute('y', y); t.textContent = str; return t; }
-function root(host, W, H, label){ var s = sv('svg', { viewBox:'0 0 ' + W + ' ' + H, width:W, height:H, role:'img', 'aria-label':label }); host.appendChild(s); return s; }
-function hbar(x0, x1, y, h, r){ var w = x1 - x0; if(w <= 0.5) return ''; r = Math.min(r, w, h/2); return 'M'+x0+','+y+'H'+(x1-r)+'Q'+x1+','+y+' '+x1+','+(y+r)+'V'+(y+h-r)+'Q'+x1+','+(y+h)+' '+(x1-r)+','+(y+h)+'H'+x0+'Z'; }
-function vbar(x, w, y0, y1, r){ var h = y0 - y1; if(h <= 0.5) return ''; r = Math.min(r, h, w/2); return 'M'+x+','+y0+'V'+(y1+r)+'Q'+x+','+y1+' '+(x+r)+','+y1+'H'+(x+w-r)+'Q'+(x+w)+','+y1+' '+(x+w)+','+(y1+r)+'V'+y0+'Z'; }
-function niceStep(range, target){ var raw = range/target, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw/mag; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag; }
+function zona(id){
+  $$('.zone').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.zone === id)); });
+  var z = ZONAS[id], box = $('#zone-body'); box.textContent = '';
+  var dl = mk('dl', 'dl');
+  [['Espaço', z.esp], ['Ação', z.acao], ['Foco técnico', z.foco]].forEach(function(r){ dl.appendChild(mk('dt', '', r[0])); dl.appendChild(mk('dd', '', r[1])); });
+  box.appendChild(mk('h4', '', z.t)); box.appendChild(dl); box.appendChild(mk('p', 'hint', z.extra));
+}
+function fase(i){
+  $$('.phase').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.phase === i)); });
+  $('#phase-body').textContent = FASES[i];
+}
+function pay(i){
+  $$('.paybar button').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.pay === i)); });
+  [0,1].forEach(function(k){ $('#pay-' + k).classList.toggle('sel', k === i); });
+}
+$$('.zone').forEach(function(b){ b.addEventListener('click', function(){ zona(b.dataset.zone); }); });
+$$('.phase').forEach(function(b){ b.addEventListener('click', function(){ fase(+b.dataset.phase); }); });
+$$('.paybar button').forEach(function(b){ b.addEventListener('click', function(){ pay(+b.dataset.pay); }); });
 
-/* ---------- Tooltip ---------- */
-var tip = $('#tip');
-function showTip(x, y, title, rows){
-  tip.textContent = '';
-  if(title) tip.appendChild(mk('div', 't', title));
-  rows.forEach(function(r){
-    var row = mk('div', 'r');
-    var k = mk('span', 'k' + (r.c ? '' : ' none')); if(r.c) k.style.background = r.c;
-    row.appendChild(k); row.appendChild(mk('span', 'v', r.v)); row.appendChild(mk('span', 'l', r.l));
-    tip.appendChild(row);
-  });
-  tip.hidden = false;
-  var w = tip.offsetWidth, h = tip.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
-  var left = x + 14, top = y + 14;
-  if(left + w > vw - 8) left = x - w - 14;
-  if(top + h > vh - 8) top = y - h - 14;
-  tip.style.left = Math.max(8, left) + 'px'; tip.style.top = Math.max(8, top) + 'px';
+/* Validade: data limite a partir da data introduzida pelo utilizador */
+var MES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var KEY = 'orc-casa-principal:emissao';
+function calc(){
+  var v = $('#i-emissao').value, out = $('#val-out');
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+  if(!m){ out.textContent = ''; return; }
+  var d = new Date(+m[1], +m[2]-1, +m[3] + 30);
+  out.textContent = 'Válida até ' + d.getDate() + ' de ' + MES[d.getMonth()] + ' de ' + d.getFullYear() + '.';
 }
-function hideTip(){ tip.hidden = true; }
-function tipFor(el, fn){
-  el.addEventListener('pointermove', function(e){ var d = fn(); showTip(e.clientX, e.clientY, d.t, d.r); });
-  el.addEventListener('pointerleave', hideTip);
-  el.addEventListener('focus', function(){ var b = el.getBoundingClientRect(), d = fn(); showTip(b.left + b.width/2, b.top + b.height/2, d.t, d.r); });
-  el.addEventListener('blur', hideTip);
-}
-function activate(el, fn){
-  el.addEventListener('click', fn);
-  el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fn(); } });
-}
+try { var sv = localStorage.getItem(KEY); if(sv) $('#i-emissao').value = sv; } catch(e){}
+$('#i-emissao').addEventListener('change', function(){ try { localStorage.setItem(KEY, this.value); } catch(e){} calc(); });
+calc();
 
-/* ---------- Gráfico: cenários de IVA ---------- */
-function drawRegimes(){
-  var host = $('#ch-regimes'); if(!host) return; host.textContent = '';
-  var W = host.clientWidth; if(W < 40) return;
-  var narrow = W < 600;
-  var rows = REGIMES.map(function(r){ var c = ivaCalc(r.id); return { id:r.id, label:r.label(), base:c.base, iva:c.iva, total:c.total }; });
-  var padL = narrow ? 0 : 230, padR = 96, rowH = narrow ? 60 : 48, barH = 20, top = 4, axisH = 22;
-  var H = top + rows.length*rowH + axisH;
-  var svg = root(host, W, H, 'Total com IVA por cenário de IVA');
-  var max = Math.max.apply(null, rows.map(function(r){ return r.total; }));
-  var step = niceStep(max, narrow ? 3 : 6), dom = Math.ceil(max/step)*step;
-  var x0 = padL, x1 = W - padR;
-  function sx(v){ return x0 + v/dom*(x1 - x0); }
-  for(var v=0; v<=dom+1; v+=step){
-    var x = sx(v);
-    sv('line', { x1:x, x2:x, y1:top, y2:H-axisH+2, 'class':'gl' }, svg);
-    st(svg, x, H-6, v === 0 ? '0' : kEur(v), { 'text-anchor':'middle', 'class':'tick' });
-  }
-  sv('line', { x1:x0, x2:x0, y1:top, y2:H-axisH+2, 'class':'base-ax' }, svg);
-  rows.forEach(function(r, i){
-    var y = top + i*rowH + (narrow ? 26 : (rowH-barH)/2);
-    var sel = r.id === S.iva;
-    var g = sv('g', { 'class':'hit', tabindex:0, role:'button', 'aria-pressed':String(sel), 'aria-label':r.label + ': total ' + eur(r.total) }, svg);
-    sv('rect', { x:0, y:top + i*rowH, width:W, height:rowH, fill:'transparent' }, g);
-    sv('rect', { x:x0-4, y:y-4, width:Math.max(0, sx(r.total)-x0+8), height:barH+8, rx:6, fill:'none', 'class':'focus-ring' }, g);
-    st(g, 0, narrow ? y-8 : y+barH/2+4.5, (sel ? '● ' : '') + r.label, { 'class':'lbl-ink' + (sel ? ' lbl-strong' : '') });
-    var op = sel ? 1 : .4;
-    sv('path', { d:hbar(sx(0), sx(r.base)-1, y, barH, 0), style:'fill:var(--s1);opacity:' + op }, g);
-    sv('path', { d:hbar(sx(r.base)+1, sx(r.total), y, barH, 4), style:'fill:var(--s2);opacity:' + op }, g);
-    st(g, sx(r.total) + 8, y+barH/2+4.5, eur0(r.total), { 'class':'val' });
-    tipFor(g, function(){ return { t:r.label, r:[ { c:'var(--s1)', v:eur(r.base), l:'sem IVA' }, { c:'var(--s2)', v:eur(r.iva), l:'IVA' }, { c:null, v:eur(r.total), l:'total' } ] }; });
-    activate(g, function(){ setIVA(r.id); });
-  });
-  var tb = $('#tv-regimes'); tb.textContent = '';
-  rows.forEach(function(r){
-    var tr = mk('tr'); if(r.id === S.iva) tr.className = 'mine';
-    tr.appendChild(mk('td', '', r.label)); tr.appendChild(mk('td', 'n', eur(r.base))); tr.appendChild(mk('td', 'n', eur(r.iva))); tr.appendChild(mk('td', 'n', eur(r.total)));
-    tb.appendChild(tr);
-  });
-  var tots = rows.map(function(r){ return r.total; });
-  bind('iva-gap', eur(Math.max.apply(null, tots) - Math.min.apply(null, tots)));
-}
-
-/* ---------- Gráfico: repartição por espaço ---------- */
-function drawEspacos(){
-  var host = $('#ch-espacos'); if(!host) return; host.textContent = '';
-  var W = host.clientWidth; if(W < 40) return;
-  var c = custoEspacos();
-  var items = [
-    { n:'WC 1', v:c.wc, ref:BENCH.wc.medio }, { n:'WC 2', v:c.wc, ref:BENCH.wc.medio },
-    { n:'WC 3', v:c.wc, ref:BENCH.wc.medio }, { n:'Escritório', v:c.esc, ref:BENCH.escritorio.medio }
-  ];
-  var padL = 50, padR = 8, top = 24, plotH = 210, axisH = 28, H = top + plotH + axisH;
-  var svg = root(host, W, H, 'Custo implícito por espaço face à referência do segmento médio');
-  var max = Math.max.apply(null, items.map(function(i){ return Math.max(i.v, i.ref[1]); }));
-  var step = niceStep(max, 4), dom = Math.ceil(max*1.08/step)*step;
-  function sy(v){ return top + plotH - v/dom*plotH; }
-  for(var v=0; v<=dom+1; v+=step){
-    sv('line', { x1:padL, x2:W-padR, y1:sy(v), y2:sy(v), 'class':'gl' }, svg);
-    st(svg, padL-8, sy(v)+4, v === 0 ? '0' : kEur(v), { 'text-anchor':'end', 'class':'tick' });
-  }
-  sv('line', { x1:padL, x2:W-padR, y1:sy(0), y2:sy(0), 'class':'base-ax' }, svg);
-  var slot = (W - padL - padR)/items.length, bw = Math.min(24, slot*.35), bandW = Math.min(slot*.7, 110);
-  var tb = $('#tv-espacos'); tb.textContent = '';
-  items.forEach(function(it, i){
-    var cx = padL + slot*i + slot/2;
-    sv('rect', { x:cx-bandW/2, y:sy(it.ref[1]), width:bandW, height:sy(it.ref[0])-sy(it.ref[1]), rx:3, style:'fill:var(--band)' }, svg);
-    var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':it.n + ': ' + eur0(it.v) }, svg);
-    sv('rect', { x:cx-slot/2, y:top, width:slot, height:plotH, fill:'transparent' }, g);
-    sv('rect', { x:cx-slot/2+2, y:top, width:slot-4, height:plotH, rx:6, fill:'none', 'class':'focus-ring' }, g);
-    sv('path', { d:vbar(cx-bw/2, bw, sy(0), sy(it.v), 4), style:'fill:var(--s1)' }, g);
-    st(g, cx, sy(it.v)-8, eur0(it.v), { 'text-anchor':'middle', 'class':'val' });
-    st(svg, cx, H-8, it.n, { 'text-anchor':'middle', 'class':'lbl-2' });
-    var d = it.v - it.ref[1];
-    tipFor(g, function(){ return { t:it.n + ' · estimativa', r:[ { c:'var(--s1)', v:eur0(it.v), l:'custo implícito' }, { c:null, v:eur0(it.ref[0]) + ' – ' + eur0(it.ref[1]), l:'referência média' }, { c:null, v:(d>0?'+':'') + eur0(d), l:'vs topo da referência' } ] }; });
-    var tr = mk('tr');
-    tr.appendChild(mk('td', '', it.n)); tr.appendChild(mk('td', 'n', eur0(it.v))); tr.appendChild(mk('td', 'n', eur0(it.ref[0]) + ' – ' + eur0(it.ref[1]))); tr.appendChild(mk('td', 'n', (d>0?'+':'') + eur0(d)));
-    tb.appendChild(tr);
-  });
-}
-
-/* ---------- Gráfico: exposição financeira ---------- */
-var expoWeek = null;
-function drawExposicao(){
-  var host = $('#ch-exposicao'); if(!host) return; host.textContent = '';
-  var W = host.clientWidth; if(W < 40) return;
-  var D = S.duracao, pays = MODELOS[S.modelo].pays(D);
-  var padL = 46, padR = 18, top = 14, plotH = 230, axisH = 30, H = top + plotH + axisH;
-  var pw = W - padL - padR;
-  var svg = root(host, W, H, 'Valor pago versus trabalho executado ao longo da obra');
-  function sx(w){ return padL + w/D*pw; }
-  function sy(p){ return top + (1-p)*plotH; }
-  [0,.25,.5,.75,1].forEach(function(p){
-    sv('line', { x1:padL, x2:W-padR, y1:sy(p), y2:sy(p), 'class':'gl' }, svg);
-    st(svg, padL-8, sy(p)+4, Math.round(p*100) + '%', { 'text-anchor':'end', 'class':'tick' });
-  });
-  sv('line', { x1:padL, x2:W-padR, y1:sy(0), y2:sy(0), 'class':'base-ax' }, svg);
-  var xstep = D <= 8 ? 1 : D <= 16 ? 2 : 4; if(W < 480 && xstep < 2) xstep = 2;
-  for(var w=0; w<=D; w+=xstep) st(svg, sx(w), H-axisH+18, String(w), { 'text-anchor':'middle', 'class':'tick' });
-  st(svg, W-padR, H-2, 'semanas', { 'text-anchor':'end', 'class':'tick' });
-
-  // pontos de pagamento agregados
-  var times = []; pays.forEach(function(p){ if(times.indexOf(p.t) < 0) times.push(p.t); }); times.sort(function(a,b){ return a-b; });
-  var cum = times.map(function(t){ return paidAt(pays, t); });
-  // área de exposição
-  for(var i=0;i<times.length;i++){
-    var ta = times[i], tb = i+1 < times.length ? times[i+1] : 1, P = cum[i];
-    if(P <= ta + 1e-9) continue;
-    var te = Math.min(tb, P);
-    var pts = [[ta,P],[te,P],[te,te],[ta,ta]].map(function(q){ return sx(q[0]*D) + ',' + sy(q[1]); }).join(' ');
-    sv('polygon', { points:pts, style:'fill:var(--s1);opacity:.14' }, svg);
-  }
-  // linha executada
-  sv('line', { x1:sx(0), y1:sy(0), x2:sx(D), y2:sy(1), style:'stroke:var(--s2);stroke-width:2;stroke-linecap:round' }, svg);
-  // linha paga (escada)
-  var d = 'M' + sx(0) + ',' + sy(0);
-  times.forEach(function(t, k){ d += 'H' + sx(t*D) + 'V' + sy(cum[k]); });
-  d += 'H' + sx(D);
-  sv('path', { d:d, style:'fill:none;stroke:var(--s1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round' }, svg);
-  // anotação da exposição máxima
-  var mx = maxExposure(pays);
-  if(mx.e > 0){
-    var ax = sx(mx.t*D), ay1 = sy(mx.p), ay2 = sy(mx.t);
-    sv('line', { x1:ax+10, x2:ax+10, y1:ay1, y2:ay2, style:'stroke:var(--ink-2);stroke-width:1' }, svg);
-    sv('line', { x1:ax+6, x2:ax+14, y1:ay1, y2:ay1, style:'stroke:var(--ink-2);stroke-width:1' }, svg);
-    sv('line', { x1:ax+6, x2:ax+14, y1:ay2, y2:ay2, style:'stroke:var(--ink-2);stroke-width:1' }, svg);
-    var lbl = 'Exposição máx. ' + pct(mx.e) + (pw > 520 ? ' · ' + eur0(mx.e*BASE) + ' + IVA' : '');
-    st(svg, ax+18, ay1 - (pw > 520 ? 9 : 26), lbl, { 'class':'lbl-ink lbl-strong' });
-  }
-  // camada de interação (crosshair)
-  var cross = sv('line', { y1:top, y2:top+plotH, style:'stroke:var(--ink-2);stroke-width:1;opacity:0' }, svg);
-  var dp = sv('circle', { r:5, style:'fill:var(--s1);stroke:var(--surface);stroke-width:2;opacity:0' }, svg);
-  var de = sv('circle', { r:5, style:'fill:var(--s2);stroke:var(--surface);stroke-width:2;opacity:0' }, svg);
-  var ov = sv('rect', { x:padL, y:top, width:pw, height:plotH, fill:'transparent', tabindex:0, 'class':'hit', 'aria-label':'Explorar semanas com as setas do teclado' }, svg);
-  var ini = parseISO(S.inicio);
-  function at(w, cx, cy){
-    w = Math.max(0, Math.min(D, w)); expoWeek = w;
-    var t = w/D, p = paidAt(pays, t), x = sx(w);
-    cross.setAttribute('x1', x); cross.setAttribute('x2', x); cross.style.opacity = 1;
-    dp.setAttribute('cx', x); dp.setAttribute('cy', sy(p)); dp.style.opacity = 1;
-    de.setAttribute('cx', x); de.setAttribute('cy', sy(t)); de.style.opacity = 1;
-    var title = 'Semana ' + w + (ini ? ' · ' + dmy(addDays(ini, w*7)) : '');
-    var b = svg.getBoundingClientRect();
-    showTip(cx !== undefined ? cx : b.left + x, cy !== undefined ? cy : b.top + sy(p), title, [
-      { c:'var(--s1)', v:pct(p) + ' · ' + eur0(p*BASE), l:'pago' },
-      { c:'var(--s2)', v:pct(t) + ' · ' + eur0(t*BASE), l:'executado' },
-      { c:null, v:eur0(Math.max(0, p-t)*BASE), l:'exposição (s/ IVA)' }
-    ]);
-  }
-  function off(){ cross.style.opacity = 0; dp.style.opacity = 0; de.style.opacity = 0; hideTip(); }
-  ov.addEventListener('pointermove', function(e){ var b = svg.getBoundingClientRect(); at(Math.round((e.clientX - b.left - padL)/pw*D), e.clientX, e.clientY); });
-  ov.addEventListener('pointerleave', off);
-  ov.addEventListener('focus', function(){ at(expoWeek === null ? 0 : Math.min(expoWeek, D)); });
-  ov.addEventListener('blur', off);
-  ov.addEventListener('keydown', function(e){
-    if(e.key === 'ArrowRight'){ e.preventDefault(); at((expoWeek||0) + 1); }
-    else if(e.key === 'ArrowLeft'){ e.preventDefault(); at((expoWeek||0) - 1); }
-  });
-}
-
-/* ---------- Gráfico: posição no mercado ---------- */
-function drawMercado(){
-  var host = $('#ch-mercado'); if(!host) return; host.textContent = '';
-  var W = host.clientWidth; if(W < 40) return;
-  var narrow = W < 600, props = S.propostas, neg = BASE*(1 - S.desconto/100);
-  var vals = [BASE, neg]; TIERS.forEach(function(t){ vals.push(t.min, t.max); }); props.forEach(function(p){ vals.push(p.valor); });
-  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
-  var step = niceStep(hi - lo, narrow ? 4 : 8);
-  lo = Math.max(0, Math.floor((lo - step*.5)/step)*step); hi = Math.ceil((hi + step*.3)/step)*step;
-  var padL = narrow ? 8 : 120, padR = 16, top = 34, rowH = narrow ? 50 : 44, barH = 18, axisH = 24;
-  var propsH = props.length ? rowH + (narrow ? 26 : 18) : 0;
-  var bottomLbl = S.desconto > 0 ? 24 : 0;
-  var plotB = top + TIERS.length*rowH + propsH;
-  var H = plotB + bottomLbl + axisH;
-  var svg = root(host, W, H, 'Posição do valor da proposta face aos segmentos de mercado');
-  function sx(v){ return padL + (v - lo)/(hi - lo)*(W - padL - padR); }
-  for(var v=lo; v<=hi+1; v+=step){
-    sv('line', { x1:sx(v), x2:sx(v), y1:top-6, y2:plotB, 'class':'gl' }, svg);
-    st(svg, sx(v), H-6, kEur(v), { 'text-anchor':'middle', 'class':'tick' });
-  }
-  TIERS.forEach(function(t, i){
-    var y = top + i*rowH + (narrow ? 22 : (rowH-barH)/2);
-    st(svg, narrow ? sx(t.min) : 0, narrow ? y-6 : y+barH/2+4.5, t.nome, { 'class':'lbl-ink' });
-    var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':'Segmento ' + t.nome + ': ' + eur0(t.min) + ' a ' + eur0(t.max) }, svg);
-    sv('rect', { x:sx(t.min), y:y-6, width:sx(t.max)-sx(t.min), height:barH+12, fill:'transparent' }, g);
-    sv('rect', { x:sx(t.min), y:y, width:sx(t.max)-sx(t.min), height:barH, rx:4, style:'fill:' + t.cor }, g);
-    sv('rect', { x:sx(t.min)-3, y:y-3, width:sx(t.max)-sx(t.min)+6, height:barH+6, rx:6, fill:'none', 'class':'focus-ring' }, g);
-    tipFor(g, function(){ return { t:'Segmento ' + t.nome.toLowerCase(), r:[
-      { c:null, v:eur0(t.min) + ' – ' + eur0(t.max), l:'sem IVA' },
-      { c:null, v:'3 × ' + kEur(BENCH.wc[t.id][0]) + '–' + kEur(BENCH.wc[t.id][1]), l:'casas de banho' },
-      { c:null, v:kEur(BENCH.escritorio[t.id][0]) + '–' + kEur(BENCH.escritorio[t.id][1]), l:'escritório' } ] }; });
-  });
-  if(props.length){
-    var yp = top + TIERS.length*rowH + rowH/2 + (narrow ? 6 : 0);
-    if(!narrow) st(svg, 0, yp+4.5, 'Propostas', { 'class':'lbl-ink' });
-    else st(svg, padL, yp-14, 'Propostas recebidas', { 'class':'lbl-ink' });
-    var sorted = props.slice().sort(function(a,b){ return a.valor - b.valor; }), lastX = -1e9;
-    sorted.forEach(function(p){
-      var x = sx(p.valor);
-      var g = sv('g', { 'class':'hit', tabindex:0, 'aria-label':p.nome + ': ' + eur0(p.valor) }, svg);
-      sv('circle', { cx:x, cy:yp, r:13, fill:'transparent' }, g);
-      sv('circle', { cx:x, cy:yp, r:6, style:'fill:var(--s3);stroke:var(--surface);stroke-width:2' }, g);
-      sv('circle', { cx:x, cy:yp, r:10, fill:'none', 'class':'focus-ring' }, g);
-      if(props.length <= 4 && x - lastX > 90){ st(svg, x, yp+20, p.nome.length > 16 ? p.nome.slice(0,15) + '…' : p.nome, { 'text-anchor':'middle', 'class':'lbl-2' }); lastX = x; }
-      var dd = p.valor - BASE;
-      tipFor(g, function(){ return { t:p.nome, r:[ { c:'var(--s3)', v:eur0(p.valor), l:'sem IVA' }, { c:null, v:(dd>0?'+':'') + eur0(dd) + ' (' + signPct(dd/BASE) + ')', l:'vs IMPERIOU\'S' } ] }; });
-    });
-  }
-  // marcador IMPERIOU'S
-  var xi = sx(BASE), anchor = xi > W - 150 ? 'end' : xi < 150 ? 'start' : 'middle';
-  sv('line', { x1:xi, x2:xi, y1:top-10, y2:plotB, style:'stroke:var(--s2);stroke-width:2;stroke-linecap:round' }, svg);
-  sv('circle', { cx:xi, cy:top-10, r:5, style:'fill:var(--s2);stroke:var(--surface);stroke-width:2' }, svg);
-  st(svg, xi + (anchor === 'end' ? -10 : anchor === 'start' ? 10 : 0), top-20, 'IMPERIOU\'S · ' + eur0(BASE), { 'text-anchor':anchor, 'class':'lbl-ink lbl-strong' });
-  if(S.desconto > 0){
-    var xn = sx(neg), an = xn > W - 170 ? 'end' : xn < 170 ? 'start' : 'middle';
-    sv('line', { x1:xn, x2:xn, y1:top-4, y2:plotB+4, style:'stroke:var(--s2);stroke-width:1.5;stroke-dasharray:4 3' }, svg);
-    sv('circle', { cx:xn, cy:plotB+4, r:5, style:'fill:var(--surface);stroke:var(--s2);stroke-width:2' }, svg);
-    st(svg, xn + (an === 'end' ? -10 : an === 'start' ? 10 : 0), plotB+19, 'Negociado −' + S.desconto + '% · ' + eur0(neg), { 'text-anchor':an, 'class':'lbl-2' });
-  }
-}
-
-function drawAll(){ hideTip(); drawRegimes(); drawEspacos(); drawExposicao(); drawMercado(); }
-
-/* ---------- Render: IVA, KPIs, binds ---------- */
-function setIVA(id){ S.iva = id; save(); update(); }
-function renderIVA(){
-  var c = ivaCalc(S.iva), r = regime(S.iva);
-  $$('#seg-iva button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.iva === S.iva)); });
-  $('#ctrl-mat').hidden = S.iva !== 'mista';
-  $('#r-mat').value = S.mat; $('#o-mat').textContent = S.mat + '%';
-  var tb = $('#iva-body'); tb.textContent = '';
-  c.lines.forEach(function(x){
-    var tr = mk('tr');
-    tr.appendChild(mk('td', '', x.l)); tr.appendChild(mk('td', 'n', eur(x.b))); tr.appendChild(mk('td', 'n', Math.round(x.r*100) + '%')); tr.appendChild(mk('td', 'n', eur(x.iva))); tr.appendChild(mk('td', 'n', eur(x.b + x.iva)));
-    tb.appendChild(tr);
-  });
-  var t1 = mk('tr', 'total'); t1.appendChild(mk('td', '', 'Total')); t1.appendChild(mk('td', 'n', eur(BASE))); t1.appendChild(mk('td', 'n', '')); t1.appendChild(mk('td', 'n', eur(c.iva))); t1.appendChild(mk('td', 'n', eur(c.total)));
-  tb.appendChild(t1);
-  var note = {
-    normal:'Cenário conservador: toda a obra à taxa normal de 23%. É o que se aplica se a fatura apresentar um preço global, sem discriminar mão de obra e materiais.',
-    mista:'Verba 2.27 da Lista I do CIVA: nas empreitadas de remodelação de imóveis afetos à habitação, a mão de obra paga 6%; se os materiais incorporados excederem 20% do valor global, os materiais pagam 23%. Segundo a Autoridade Tributária, isto exige que a fatura discrimine o valor da mão de obra e o dos materiais. É o enquadramento mais provável se o fornecedor faturar de forma discriminada.',
-    reduzida:'Taxa de 6% sobre todo o valor: aplica-se se os materiais não excederem 20% do valor global (verba 2.27, com fatura discriminada) ou numa empreitada de reabilitação de edifício localizado em Área de Reabilitação Urbana (verba 2.23).'
-  }[S.iva];
-  $('#iva-note').textContent = note + ' Confirmar com o fornecedor ou contabilista.';
-  bind('total-r', eur0(c.total));
-  bind('iva-r', eur0(c.iva));
-  bind('regime-short', r.short);
-  bind('prest-r', eur(c.total/2));
-  bind('prest-base', eur(BASE/2));
-}
-function renderKVal(){
-  var v = validade();
-  var kv = $('#k-val'), km = $('#k-val-meta'); km.textContent = '';
-  if(v.st === 'exp'){ kv.textContent = 'Expirada'; km.appendChild(pill('crit', 'há ' + (-v.rem) + ' dia' + (v.rem === -1 ? '' : 's'))); }
-  else if(v.st === 'hoje'){ kv.textContent = 'Expira hoje'; km.appendChild(pill('warn', 'último dia')); }
-  else {
-    kv.textContent = v.rem + (v.rem === 1 ? ' dia' : ' dias');
-    km.appendChild(pill(v.st === 'breve' ? 'warn' : 'good', v.st === 'breve' ? 'expira em breve' : 'válida'));
-  }
-  km.appendChild(document.createTextNode((v.st === 'exp' ? ' · terminou a ' : ' até ') + dmy(v.X)));
-  bind('emissao', dmy(v.E)); bind('fim', dmy(v.X)); bind('fim-long', longDate(v.X));
-}
-function renderBinds(){
-  var c = custoEspacos(), sg = segmento(BASE);
-  bind('wc', eur0(c.wc));
-  bind('segmento', sg.nome);
-  bind('seg-range', sg.tier ? eur0(sg.tier.min) + ' – ' + eur0(sg.tier.max) : '—');
-  bind('delta-medio', signPct((BASE - MEDIO_MID)/MEDIO_MID));
-}
-
-/* ---------- Render: Cliente / Fornecedor checklists ---------- */
-function checklist(listEl, items, meterEl, countEl){
-  function upd(){
-    var n = items.filter(function(it){ return S.checks[it.id]; }).length;
-    meterEl.style.width = (n/items.length*100) + '%';
-    countEl.textContent = n + '/' + items.length;
-  }
-  listEl.textContent = '';
-  items.forEach(function(it){
-    var row = mk('div', 'check'), id = 'chk-' + it.id;
-    var inp = document.createElement('input'); inp.type = 'checkbox'; inp.id = id; inp.checked = !!S.checks[it.id];
-    inp.addEventListener('change', function(){ S.checks[it.id] = inp.checked; save(); upd(); });
-    var lab = document.createElement('label'); lab.htmlFor = id;
-    lab.appendChild(mk('span', '', it.t)); lab.appendChild(mk('span', 'why', it.w));
-    row.appendChild(inp); row.appendChild(lab); listEl.appendChild(row);
-  });
-  upd();
-}
-
-/* ---------- Render: Casa ---------- */
-function renderRoom(){
-  var id = S.room, e = ESPACOS[id], wet = id !== 'esc';
-  $$('.room').forEach(function(g){ g.setAttribute('aria-pressed', String(g.dataset.room === id)); });
-  $$('.roombtns button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.room === id)); });
-  var box = $('#room-detail'); box.textContent = '';
-  var c = custoEspacos();
-  var zc = mk('span', 'pill'), zs = mk('i');
-  zs.style.cssText = 'width:10px;height:10px;border-radius:3px;display:inline-block;background:var(' + (wet ? '--s1' : '--s2') + ')';
-  zc.appendChild(zs); zc.appendChild(document.createTextNode(e.zona));
-  box.appendChild(zc);
-  box.appendChild(mk('h4', '', e.nome));
-  box.appendChild(mk('div', 'sub', 'Ação: ' + e.acao));
-  var ul = mk('ul');
-  (wet ? TRAB_WC : TRAB_ESC).forEach(function(t){ ul.appendChild(mk('li', '', t)); });
-  box.appendChild(ul);
-  var cl = mk('p', 'hint'); cl.style.marginTop = '12px';
-  cl.appendChild(mk('b', '', 'A clarificar: ')); cl.appendChild(document.createTextNode(wet ? CLAR_WC : CLAR_ESC));
-  box.appendChild(cl);
-  var est = mk('p', 'hint'); est.style.marginTop = '8px';
-  est.textContent = 'Custo implícito estimado: ' + eur0(wet ? c.wc : c.esc) + ' sem IVA (escritório = ' + S.office + '% do total; ajustável em Valor Total).';
-  box.appendChild(est);
-}
-function renderPhase(){
-  $$('.phase').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.phase === S.phase)); });
-  $('#phase-body').textContent = FASES[S.phase];
-}
-function renderScope(){
-  var chips = $('#scope-chips'); chips.textContent = '';
-  var counts = { all:AMBITO.length, inc:0, gen:0, nao:0 };
-  AMBITO.forEach(function(a){ counts[a.s]++; });
-  [['all','Todos'],['inc','Incluído'],['gen','Incluído sem especificação'],['nao','Não referido']].forEach(function(f){
-    var b = mk('button'); b.type = 'button'; b.setAttribute('aria-pressed', String(S.scope === f[0]));
-    b.appendChild(document.createTextNode(f[1] + ' ')); b.appendChild(mk('b', '', String(counts[f[0]])));
-    b.addEventListener('click', function(){ S.scope = f[0]; save(); renderScope(); });
-    chips.appendChild(b);
-  });
-  var tb = $('#scope-body'); tb.textContent = '';
-  AMBITO.filter(function(a){ return S.scope === 'all' || a.s === S.scope; }).forEach(function(a){
-    var tr = mk('tr');
-    tr.appendChild(mk('td', '', a.i)); tr.appendChild(mk('td', '', a.o));
-    var td = mk('td'); td.appendChild(pill(ST[a.s].k, ST[a.s].l)); tr.appendChild(td);
-    tr.appendChild(mk('td', '', a.n));
-    tb.appendChild(tr);
-  });
-}
-
-/* ---------- Render: Valor ---------- */
-function renderOffice(){ $('#r-office').value = S.office; $('#o-office').textContent = S.office + '%'; }
-
-/* ---------- Render: Pagamento ---------- */
-function renderPagamento(){
-  $('#r-dur').value = S.duracao; $('#o-dur').textContent = S.duracao + ' semanas';
-  $('#i-inicio').value = S.inicio || '';
-  $$('#seg-modelo button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.modelo === S.modelo)); });
-  $('#modelo-desc').textContent = MODELOS[S.modelo].desc;
-  var c = ivaCalc(S.iva), ini = parseISO(S.inicio);
-  var tb = $('#cal-body'); tb.textContent = '';
-  [{ m:'1.ª prestação · início', w:0 }, { m:'2.ª prestação · fim', w:S.duracao }].forEach(function(r){
-    var tr = mk('tr');
-    tr.appendChild(mk('td', '', r.m));
-    tr.appendChild(mk('td', 'num', ini ? dmy(addDays(ini, r.w*7)) : (r.w ? 'semana ' + r.w : 'a definir')));
-    tr.appendChild(mk('td', 'n', eur(c.total/2)));
-    tb.appendChild(tr);
-  });
-  var mb = $('#modelos-body'); mb.textContent = '';
-  Object.keys(MODELOS).forEach(function(k){
-    var m = MODELOS[k], mx = maxExposure(m.pays(S.duracao));
-    var tr = mk('tr'); if(k === S.modelo) tr.className = 'mine';
-    tr.appendChild(mk('td', '', m.nome)); tr.appendChild(mk('td', '', m.est));
-    tr.appendChild(mk('td', 'n', pct(mx.e))); tr.appendChild(mk('td', 'n', eur0(mx.e*BASE)));
-    mb.appendChild(tr);
-  });
-}
-
-/* ---------- Render: Validade ---------- */
-function renderValidade(){
-  var v = validade();
-  $('#i-emissao').value = toISO(v.E);
-  var pillBox = $('#val-pill'); pillBox.textContent = '';
-  var hero = $('#val-hero'), sub = $('#val-sub');
-  hero.textContent = '';
-  if(v.st === 'exp'){
-    pillBox.appendChild(pill('crit', 'Expirada'));
-    hero.appendChild(document.createTextNode(String(-v.rem))); hero.appendChild(mk('small', '', (v.rem === -1 ? 'dia' : 'dias') + ' após o fim'));
-    sub.textContent = 'A validade terminou a ' + longDate(v.X) + '. Peça confirmação ou atualização de preços ao fornecedor.';
-  } else if(v.st === 'hoje'){
-    pillBox.appendChild(pill('warn', 'Último dia'));
-    hero.appendChild(document.createTextNode('Hoje')); hero.appendChild(mk('small', '', 'termina a validade'));
-    sub.textContent = 'A proposta é válida até ao fim do dia de hoje, ' + longDate(v.X) + '.';
-  } else {
-    pillBox.appendChild(pill(v.st === 'breve' ? 'warn' : 'good', v.st === 'breve' ? 'Expira em breve' : 'Válida'));
-    hero.appendChild(document.createTextNode(String(v.rem))); hero.appendChild(mk('small', '', v.rem === 1 ? 'dia restante' : 'dias restantes'));
-    sub.textContent = 'Válida até ' + WDL[v.X.getDay()] + ', ' + longDate(v.X) + ' · ' + v.uteis + ' dias úteis (seg–sex) a partir de amanhã.';
-  }
-  var frac = Math.max(0, Math.min(1, v.dec/VALIDADE));
-  $('#val-meter').style.width = (frac*100) + '%';
-  $('#val-pct').textContent = Math.max(0, Math.min(VALIDADE, v.dec)) + ' de ' + VALIDADE + ' dias';
-  var util = $('#val-util'); util.textContent = WDL[v.lastBiz.getDay()] + ', ' + dmy(v.lastBiz);
-  if(diffDays(v.lastBiz, v.X) > 0){ var h = mk('span', 'hint', 'O último dia de validade calha a um ' + WDL[v.X.getDay()] + '.'); util.appendChild(h); }
-
-  var MS = [
-    { d:7,  t:'Esclarecimentos pedidos', s:'Enviar ao fornecedor as perguntas do separador Cliente.' },
-    { d:14, t:'Propostas concorrentes recebidas', s:'Pelo menos duas propostas comparáveis (separador Concorrência).' },
-    { d:21, t:'Negociação concluída', s:'Preço, plano de pagamentos, prazo e garantia acordados.' },
-    { d:Math.min(25, diffDays(v.E, v.lastBiz)), t:'Adjudicação por escrito', s:'Assinar o contrato de empreitada antes do fim da validade.' },
-    { d:VALIDADE, t:'Fim da validade', s:'Depois desta data o fornecedor pode rever preços.' }
-  ];
-  var days = $('#days'); days.textContent = '';
-  for(var i=0;i<=VALIDADE;i++){
-    var d = addDays(v.E, i), cls = 'day';
-    var rel = diffDays(v.T, d);
-    if(rel < 0) cls += ' past'; else if(rel === 0) cls += ' today';
-    if(i === VALIDADE) cls += ' last';
-    if(d.getDay() === 0 || d.getDay() === 6) cls += ' wknd';
-    var cell = mk('div', cls); cell.setAttribute('role', 'listitem');
-    var ms = MS.filter(function(m){ return m.d === i && i !== VALIDADE; })[0];
-    cell.setAttribute('aria-label', 'Dia ' + i + ', ' + WDL[d.getDay()] + ' ' + dmy(d) + (rel === 0 ? ', hoje' : '') + (ms ? ', ' + ms.t : '') + (i === VALIDADE ? ', último dia de validade' : ''));
-    cell.appendChild(mk('b', '', dm(d))); cell.appendChild(document.createTextNode(i === 0 ? 'emissão' : WD[d.getDay()] + ' · D' + i));
-    if(ms){ var dot = mk('i', 'ms'); dot.title = ms.t; cell.appendChild(dot); }
-    days.appendChild(cell);
-  }
-  var list = $('#ms-list'); list.textContent = '';
-  MS.forEach(function(m){
-    var d = addDays(v.E, m.d), rel = diffDays(v.T, d);
-    var row = mk('div', 'ms-item');
-    row.appendChild(mk('span', 'd', dmy(d) + ' · D' + m.d));
-    var t = mk('span', 't'); t.appendChild(mk('b', '', m.t)); t.appendChild(mk('span', '', m.s)); row.appendChild(t);
-    row.appendChild(rel < 0 ? pill('info', 'passou') : rel === 0 ? pill('warn', 'hoje') : pill('good', 'em ' + rel + (rel === 1 ? ' dia' : ' dias')));
-    list.appendChild(row);
-  });
-}
-
-/* ---------- Render: Concorrência ---------- */
-function renderTiers(){
-  var box = $('#tiers'); box.textContent = '';
-  var sg = segmento(BASE);
-  TIERS.forEach(function(t){
-    var c = mk('div', 'tier' + (sg.tier && sg.tier.id === t.id ? ' here' : ''));
-    var sw = mk('div', 'sw'); sw.style.background = t.cor; c.appendChild(sw);
-    if(sg.tier && sg.tier.id === t.id){ var tg = mk('span', 'tag here-tag', 'IMPERIOU\'S'); c.appendChild(tg); }
-    c.appendChild(mk('h4', '', t.nome));
-    c.appendChild(mk('div', 'rng', eur0(t.min) + ' – ' + eur0(t.max)));
-    c.appendChild(mk('p', '', t.perfil + '. ' + t.txt));
-    box.appendChild(c);
-  });
-  var ub = $('#unit-body'); ub.textContent = '';
-  [['Casa de banho completa (por unidade)', 'wc'], ['Recuperação do escritório', 'escritorio']].forEach(function(r){
-    var tr = mk('tr'); tr.appendChild(mk('td', '', r[0]));
-    TIERS.forEach(function(t){ tr.appendChild(mk('td', 'n', eur0(BENCH[r[1]][t.id][0]) + ' – ' + eur0(BENCH[r[1]][t.id][1]))); });
-    ub.appendChild(tr);
-  });
-  var tr2 = mk('tr', 'total'); tr2.appendChild(mk('td', '', 'Âmbito completo (3 WC + escritório)'));
-  TIERS.forEach(function(t){ tr2.appendChild(mk('td', 'n', eur0(t.min) + ' – ' + eur0(t.max))); });
-  ub.appendChild(tr2);
-  var tv = $('#tv-mercado'); tv.textContent = '';
-  TIERS.forEach(function(t){
-    var tr = mk('tr'); tr.appendChild(mk('td', '', 'Segmento ' + t.nome.toLowerCase())); tr.appendChild(mk('td', 'n', eur0(t.min))); tr.appendChild(mk('td', 'n', eur0(t.max)));
-    tr.appendChild(mk('td', '', '3 WC × ' + eur0(BENCH.wc[t.id][0]) + '–' + eur0(BENCH.wc[t.id][1]) + ' + escritório ' + eur0(BENCH.escritorio[t.id][0]) + '–' + eur0(BENCH.escritorio[t.id][1])));
-    tv.appendChild(tr);
-  });
-  var tri = mk('tr', 'mine'); tri.appendChild(mk('td', '', 'IMPERIOU\'S (proposta)')); tri.appendChild(mk('td', 'n', eur0(BASE))); tri.appendChild(mk('td', 'n', eur0(BASE))); tri.appendChild(mk('td', '', 'Valor global, sem discriminação')); tv.appendChild(tri);
-  S.propostas.forEach(function(p){ var tr = mk('tr'); tr.appendChild(mk('td', '', p.nome)); tr.appendChild(mk('td', 'n', eur0(p.valor))); tr.appendChild(mk('td', 'n', eur0(p.valor))); tr.appendChild(mk('td', '', 'Proposta concorrente')); tv.appendChild(tr); });
-}
-function renderNeg(){
-  $('#r-desc').value = S.desconto; $('#o-desc').textContent = S.desconto + '%';
-  var neg = BASE*(1 - S.desconto/100), sg = segmento(neg), c = ivaCalc(S.iva), fator = c.total/BASE;
-  var p = $('#neg-text'); p.textContent = '';
-  if(S.desconto === 0){
-    p.appendChild(document.createTextNode('Mova o cursor para simular um desconto. Em propostas globais sem discriminação há normalmente margem negocial; 5% a 10%, ou melhores condições de pagamento, são objetivos razoáveis.'));
-  } else {
-    p.appendChild(document.createTextNode('Com −' + S.desconto + '%: '));
-    p.appendChild(mk('b', '', eur0(neg) + ' sem IVA'));
-    p.appendChild(document.createTextNode(' (' + eur0(neg*fator) + ' com IVA ' + regime(S.iva).short + '), uma poupança de ' + eur0(BASE - neg) + ' + IVA. Posição: ' + sg.nome.toLowerCase() + '.'));
-  }
-}
-function critScore(p){ return CRIT.filter(function(c){ return p.crit && p.crit[c.id]; }).length; }
-function renderProps(){
-  $('#lg-props').hidden = !S.propostas.length;
-  var tb = $('#props-body'); tb.textContent = '';
-  var me = mk('tr', 'mine');
-  me.appendChild(mk('td', '', 'IMPERIOU\'S Remodelações')); me.appendChild(mk('td', 'n', eur0(BASE))); me.appendChild(mk('td', 'n', '—'));
-  me.appendChild(mk('td', '', '50/50')); me.appendChild(mk('td', 'n', 'não indicado')); me.appendChild(mk('td', 'n', 'não indicada')); me.appendChild(mk('td', 'n', '0/7')); me.appendChild(mk('td', 'no-print', ''));
-  tb.appendChild(me);
-  if(!S.propostas.length){
-    var tr = mk('tr'), td = mk('td', 'hint', 'Ainda não registou propostas concorrentes. Use o formulário acima: o gráfico e este quadro atualizam-se automaticamente.');
-    td.colSpan = 8; tr.appendChild(td); tb.appendChild(tr);
-    return;
-  }
-  S.propostas.slice().sort(function(a,b){ return a.valor - b.valor; }).forEach(function(p){
-    var d = p.valor - BASE, tr = mk('tr');
-    tr.appendChild(mk('td', '', p.nome)); tr.appendChild(mk('td', 'n', eur0(p.valor)));
-    tr.appendChild(mk('td', 'n', (d>0?'+':'') + eur0(d) + ' (' + signPct(d/BASE) + ')'));
-    tr.appendChild(mk('td', '', p.pagamento || '—'));
-    tr.appendChild(mk('td', 'n', isNum(p.prazo) ? p.prazo + ' sem.' : '—'));
-    tr.appendChild(mk('td', 'n', isNum(p.garantia) ? p.garantia + (p.garantia === 1 ? ' ano' : ' anos') : '—'));
-    tr.appendChild(mk('td', 'n', critScore(p) + '/7'));
-    var tdb = mk('td', 'no-print'), b = mk('button', 'btn ghost sm', 'Remover'); b.type = 'button'; b.setAttribute('aria-label', 'Remover proposta ' + p.nome);
-    b.addEventListener('click', function(){ S.propostas = S.propostas.filter(function(x){ return x.id !== p.id; }); save(); updateConc(); });
-    tdb.appendChild(b); tr.appendChild(tdb); tb.appendChild(tr);
-  });
-}
-function renderCL(){
-  var ul = $('#cl-list'); ul.textContent = '';
-  PRESENTES.forEach(function(t){ var li = mk('li', 'ok'); li.innerHTML = ICON.good; li.appendChild(mk('span', '', t)); ul.appendChild(li); });
-  CRIT.forEach(function(c){ var li = mk('li', 'no'); li.innerHTML = ICON.crit; li.appendChild(mk('span', '', c.nome)); ul.appendChild(li); });
-}
-function parseValor(s){
-  s = String(s || '').replace(/[€\s ]/g, '');
-  if(!s) return NaN;
-  if(s.indexOf(',') > -1) s = s.replace(/\./g, '').replace(',', '.');
-  else if(/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
-  var n = Number(s); return isFinite(n) ? n : NaN;
-}
-function initForm(){
-  var box = $('#f-crit');
-  CRIT.forEach(function(c){
-    var l = document.createElement('label'), i = document.createElement('input');
-    i.type = 'checkbox'; i.value = c.id; i.id = 'f-crit-' + c.id; l.appendChild(i); l.appendChild(document.createTextNode(c.nome)); box.appendChild(l);
-  });
-  $('#f-prop').addEventListener('submit', function(e){
-    e.preventDefault();
-    var err = $('#f-err'); err.textContent = '';
-    var nome = $('#f-nome').value.trim(), valor = parseValor($('#f-valor').value);
-    if(!nome){ err.textContent = 'Indique o nome da empresa.'; $('#f-nome').focus(); return; }
-    if(!(valor >= 1000 && valor <= 1e7)){ err.textContent = 'Indique um valor sem IVA válido (ex.: 42.500).'; $('#f-valor').focus(); return; }
-    if(S.propostas.length >= 20){ err.textContent = 'Limite de 20 propostas atingido.'; return; }
-    var prazo = parseInt($('#f-prazo').value, 10), gar = parseInt($('#f-gar').value, 10), crit = {};
-    $$('#f-crit input').forEach(function(i){ if(i.checked) crit[i.value] = true; });
-    S.propostas.push({ id:Date.now().toString(36) + Math.random().toString(36).slice(2,6), nome:nome.slice(0,60), valor:Math.round(valor*100)/100,
-      pagamento:$('#f-pag').value.trim().slice(0,40), prazo:(prazo >= 1 && prazo <= 104) ? prazo : null, garantia:(gar >= 0 && gar <= 20) ? gar : null, crit:crit });
-    save(); this.reset(); updateConc(); $('#f-nome').focus();
-  });
-  $('#btn-csv').addEventListener('click', function(){
-    var rows = [['Proposta','Valor sem IVA (€)','Diferença vs IMPERIOU\'S (€)','Pagamento','Prazo (semanas)','Garantia (anos)','Critérios-chave (de 7)']];
-    rows.push(['IMPERIOU\'S Remodelações', BASE, 0, '50/50', '', '', 0]);
-    S.propostas.forEach(function(p){ rows.push([p.nome, p.valor, Math.round((p.valor-BASE)*100)/100, p.pagamento || '', isNum(p.prazo) ? p.prazo : '', isNum(p.garantia) ? p.garantia : '', critScore(p)]); });
-    var tsv = rows.map(function(r){ return r.map(function(c){ return typeof c === 'number' ? String(c).replace('.', ',') : String(c).replace(/[\t\r\n]+/g, ' '); }).join('\t'); }).join('\n');
-    var msg = $('#csv-msg'), ta = $('#csv-fallback');
-    function fallback(){ ta.value = tsv; ta.hidden = false; ta.focus(); ta.select(); msg.textContent = 'Selecione o texto e copie (Ctrl+C / Cmd+C).'; }
-    try {
-      navigator.clipboard.writeText(tsv).then(function(){ ta.hidden = true; msg.textContent = 'Tabela copiada. Cole no Excel ou no Google Sheets.'; }, fallback);
-    } catch(e){ fallback(); }
-  });
-}
-function updateConc(){ renderTiers(); renderProps(); renderNeg(); drawMercado(); }
-
-/* ---------- Atualização global ---------- */
-function update(){
-  renderIVA(); renderKVal(); renderBinds(); renderPagamento(); renderNeg(); renderRoom();
-  drawAll();
-}
-
-/* ---------- Separadores ---------- */
+/* Separadores */
 var TABS = $$('.tab'), IDS = TABS.map(function(t){ return t.dataset.tab; });
 function showTab(id, scroll){
   if(IDS.indexOf(id) < 0) id = 'resumo';
   TABS.forEach(function(t){ var on = t.dataset.tab === id; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
   $$('.panel').forEach(function(p){ p.hidden = p.id !== 'p-' + id; });
-  drawAll();
   if(scroll){
     var nav = $('#tabs'), sticky = getComputedStyle(nav).position === 'sticky';
     var off = sticky ? nav.offsetHeight + 16 : 8, r = $('#p-' + id).getBoundingClientRect();
@@ -1813,12 +709,6 @@ function showTab(id, scroll){
   }
 }
 function go(id, scroll){ try { if(location.hash !== '#' + id) history.replaceState(null, '', '#' + id); } catch(e){} showTab(id, scroll); }
-document.addEventListener('click', function(e){
-  var a = e.target.closest && e.target.closest('a[href^="#"]');
-  if(!a) return;
-  var id = a.getAttribute('href').slice(1);
-  if(IDS.indexOf(id) > -1){ e.preventDefault(); go(id, true); }
-});
 TABS.forEach(function(b, i){
   b.addEventListener('click', function(){ go(b.dataset.tab); });
   b.addEventListener('keydown', function(e){
@@ -1827,32 +717,13 @@ TABS.forEach(function(b, i){
     if(j !== null){ e.preventDefault(); TABS[j].focus(); go(TABS[j].dataset.tab); }
   });
 });
-window.addEventListener('hashchange', function(){ showTab(location.hash.slice(1), true); });
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href^="#"]'); if(!a) return;
+  var id = a.getAttribute('href').slice(1);
+  if(IDS.indexOf(id) > -1){ e.preventDefault(); go(id, true); }
+});
 
-/* ---------- Eventos ---------- */
-$$('#seg-iva button').forEach(function(b){ b.addEventListener('click', function(){ setIVA(b.dataset.iva); }); });
-$('#r-mat').addEventListener('input', function(){ S.mat = +this.value; save(); update(); });
-$('#r-office').addEventListener('input', function(){ S.office = +this.value; save(); renderOffice(); renderBinds(); renderRoom(); drawEspacos(); });
-$('#r-dur').addEventListener('input', function(){ S.duracao = +this.value; save(); renderPagamento(); drawExposicao(); });
-$('#i-inicio').addEventListener('change', function(){ S.inicio = parseISO(this.value) ? this.value : ''; save(); renderPagamento(); drawExposicao(); });
-$$('#seg-modelo button').forEach(function(b){ b.addEventListener('click', function(){ S.modelo = b.dataset.modelo; save(); renderPagamento(); drawExposicao(); }); });
-$('#i-emissao').addEventListener('change', function(){ if(parseISO(this.value)){ S.emissao = this.value; save(); renderValidade(); renderKVal(); } });
-$('#r-desc').addEventListener('input', function(){ S.desconto = +this.value; save(); renderNeg(); drawMercado(); });
-$$('.room').forEach(function(g){ activate(g, function(){ S.room = g.dataset.room; save(); renderRoom(); }); });
-$$('.roombtns button').forEach(function(b){ b.addEventListener('click', function(){ S.room = b.dataset.room; save(); renderRoom(); }); });
-$$('.phase').forEach(function(b){ b.addEventListener('click', function(){ S.phase = +b.dataset.phase; save(); renderPhase(); }); });
-
-var rz = null;
-window.addEventListener('resize', function(){ if(rz) cancelAnimationFrame(rz); rz = requestAnimationFrame(drawAll); });
-window.addEventListener('beforeprint', function(){ $$('.panel').forEach(function(p){ p.dataset.wasHidden = p.hidden ? '1' : ''; p.hidden = false; }); drawAll(); });
-window.addEventListener('afterprint', function(){ $$('.panel').forEach(function(p){ p.hidden = p.dataset.wasHidden === '1'; }); drawAll(); });
-
-/* ---------- Arranque ---------- */
-var nc = $('#nif-check'); nc.appendChild(nifValido(NIF) ? pill('good', 'dígito de controlo válido') : pill('crit', 'dígito de controlo inválido'));
-checklist($('#q-list'), PERGUNTAS, $('#q-meter'), $('#q-count'));
-checklist($('#d-list'), DUE, $('#d-meter'), $('#d-count'));
-renderPhase(); renderScope(); renderOffice(); renderValidade(); renderTiers(); renderProps(); renderCL(); initForm();
-renderIVA(); renderKVal(); renderBinds(); renderPagamento(); renderNeg(); renderRoom();
+zona('humida'); fase(0); pay(0);
 var h0 = ''; try { h0 = location.hash.slice(1); } catch(e){}
 showTab(h0 || 'resumo');
 })();
