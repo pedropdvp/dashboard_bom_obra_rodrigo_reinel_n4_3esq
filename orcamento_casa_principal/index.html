@@ -450,8 +450,8 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   <section class="kpis" aria-label="Dados principais">
     <a class="kpi" href="#cliente"><span class="label">Cliente</span><span class="value v-sm">João Carvalho</span><span class="meta">Orçamento apenas para a casa principal</span></a>
     <a class="kpi" href="#valor"><span class="label">Valor total do orçamento</span><span class="value">51.100 €</span><span class="meta">+ IVA</span></a>
-    <a class="kpi" href="#pagamento"><span class="label">Forma de pagamento</span><span class="value">50% + 50%</span><span class="meta">Início da obra · fim da obra</span></a>
-    <a class="kpi" href="#validade"><span class="label">Validade do orçamento</span><span class="value">30 dias</span><span class="meta">Após emissão</span></a>
+    <a class="kpi" href="#pagamento"><span class="label">Forma de pagamento</span><span class="value">50% + 50%</span><span class="meta">Com início da obra · com fim da obra</span></a>
+    <a class="kpi" href="#validade"><span class="label">Validade do orçamento</span><span class="value">30 dias</span><span class="meta">Orçamento válido por 30 dias</span></a>
   </section>
 
   <nav class="tabs" role="tablist" aria-label="Secções do dashboard" id="tabs">
@@ -508,13 +508,14 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
         </dl>
       </div>
       <div class="card c6">
-        <h3>O que a proposta inclui para o cliente</h3>
+        <h3>Casa principal</h3>
         <ul class="plain">
           <li>Remodelação das 3 casas de banho</li>
           <li>Recuperação do escritório que fica na entrada da casa</li>
           <li>Mão de obra</li>
           <li>Demolição, remoção de entulhos, reabilitação e instalação de loiças e base de duche com cabine</li>
-          <li>Materiais de qualidade</li>
+          <li>Materiais</li>
+          <li>Utilizando materiais de qualidade</li>
         </ul>
       </div>
     </div>
@@ -530,7 +531,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
           <dt>Morada</dt><dd>Praceta João Azevedo N 5 1 Dt<br>2825-432 Costa da Caparica<br>Portugal</dd>
           <dt>N.º Contribuinte (NIF)</dt><dd class="num">519 525 825</dd>
           <dt>Capital Social</dt><dd>1</dd>
-          <dt>Cons. Reg. Com.</dt><dd>Lisboa (Conservatória de Lisboa)</dd>
+          <dt>Cons. Reg. Com.</dt><dd>Lisboa</dd>
           <dt>Matrícula</dt><dd class="num">519525825</dd>
         </dl>
       </div>
@@ -602,15 +603,14 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
     <div class="grid">
       <div class="card c12">
         <h3>Cronograma financeiro</h3>
-        <div class="paybar" role="group" aria-label="Prestações">
-          <button type="button" class="p1" data-pay="0" aria-pressed="true" style="flex:1">50% · Início da obra</button>
-          <button type="button" class="p2" data-pay="1" aria-pressed="false" style="flex:1">50% · Fim da obra</button>
+        <div class="paybar" aria-label="Pagamento 50% / 50%">
+          <div class="p1" style="flex:1">50% · Com início da obra</div>
+          <div class="p2" style="flex:1">50% · Com fim da obra</div>
         </div>
         <div class="inst">
-          <div id="pay-0"><span class="k"><i style="background:var(--pay1)"></i>Arranque do projeto · 50%</span><div class="v">25.550 € <small>+ IVA</small></div><span class="s">Pagamento de 50% com o início oficial da obra. Permite a mobilização da equipa e aquisição dos materiais de qualidade: alocação de equipa, aquisição de materiais e arranque das demolições.</span></div>
-          <div id="pay-1"><span class="k"><i style="background:var(--t3)"></i>Entrega da obra · 50%</span><div class="v">25.550 € <small>+ IVA</small></div><span class="s">Pagamento dos restantes 50% com o fim da obra e validação do espaço intervencionado: instalação final validada, limpeza de entulhos concluída e entrega do espaço pronto a habitar.</span></div>
+          <div id="pay-0"><span class="k"><i style="background:var(--pay1)"></i>Arranque do projeto · 50%</span><div class="v">50%</div><span class="s">Pagamento de 50% com o início oficial da obra. Permite a mobilização da equipa e aquisição dos materiais de qualidade: alocação de equipa, aquisição de materiais e arranque das demolições.</span></div>
+          <div id="pay-1"><span class="k"><i style="background:var(--t3)"></i>Entrega da obra · 50%</span><div class="v">50%</div><span class="s">Pagamento dos restantes 50% com o fim da obra e validação do espaço intervencionado: instalação final validada, limpeza de entulhos concluída e entrega do espaço pronto a habitar.</span></div>
         </div>
-        <p class="hint" style="margin-top:10px">25.550 € corresponde a 50% de 51.100 €.</p>
       </div>
     </div>
   </section>
@@ -618,19 +618,10 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   <section class="panel" id="p-validade" role="tabpanel" aria-labelledby="t-validade" tabindex="0" hidden>
     <div class="panel-head"><div><h2>Validade do Orçamento</h2><p>Esta proposta comercial mantém a sua validade por um período máximo de 30 dias.</p></div></div>
     <div class="grid">
-      <div class="card c6">
+      <div class="card c12">
         <h3>Validade da proposta</h3>
         <div class="hero">30<small>dias</small></div>
         <p class="lead" style="margin-top:8px">Para garantir a alocação da equipa e os valores dos materiais apresentados, este orçamento mantém-se em vigor por um período de 30 dias após emissão.</p>
-      </div>
-      <div class="card c6">
-        <h3>Calcular a data limite</h3>
-        <p class="lead">A proposta não indica a data de emissão. Introduza-a para ver até quando é válida.</p>
-        <div class="field" style="margin-top:12px">
-          <label for="i-emissao">Data de emissão da proposta</label>
-          <input type="date" id="i-emissao">
-        </div>
-        <p class="big" id="val-out" style="margin-top:14px" aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -638,7 +629,7 @@ footer{margin-top:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;
   </main>
 
   <footer>
-    <span>Fontes: «Proposta de Intervenção: Casa Principal» (IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA) e o resumo do orçamento. Todos os dados apresentados constam destes documentos.</span>
+    <span>Fontes: «Proposta de Intervenção: Casa Principal» (IMPERIOU'S REMODELAÇÕES UNIPESSOAL LDA) e o resumo do orçamento. Todos os dados apresentados constam destes documentos; não foram acrescentados valores, estimativas nem comparações.</span>
   </footer>
 </div>
 
@@ -674,27 +665,9 @@ function fase(i){
   $$('.phase').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.phase === i)); });
   $('#phase-body').textContent = FASES[i];
 }
-function pay(i){
-  $$('.paybar button').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.pay === i)); });
-  [0,1].forEach(function(k){ $('#pay-' + k).classList.toggle('sel', k === i); });
-}
 $$('.zone').forEach(function(b){ b.addEventListener('click', function(){ zona(b.dataset.zone); }); });
 $$('.phase').forEach(function(b){ b.addEventListener('click', function(){ fase(+b.dataset.phase); }); });
-$$('.paybar button').forEach(function(b){ b.addEventListener('click', function(){ pay(+b.dataset.pay); }); });
 
-/* Validade: data limite a partir da data introduzida pelo utilizador */
-var MES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-var KEY = 'orc-casa-principal:emissao';
-function calc(){
-  var v = $('#i-emissao').value, out = $('#val-out');
-  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
-  if(!m){ out.textContent = ''; return; }
-  var d = new Date(+m[1], +m[2]-1, +m[3] + 30);
-  out.textContent = 'Válida até ' + d.getDate() + ' de ' + MES[d.getMonth()] + ' de ' + d.getFullYear() + '.';
-}
-try { var sv = localStorage.getItem(KEY); if(sv) $('#i-emissao').value = sv; } catch(e){}
-$('#i-emissao').addEventListener('change', function(){ try { localStorage.setItem(KEY, this.value); } catch(e){} calc(); });
-calc();
 
 /* Separadores */
 var TABS = $$('.tab'), IDS = TABS.map(function(t){ return t.dataset.tab; });
@@ -723,7 +696,7 @@ document.addEventListener('click', function(e){
   if(IDS.indexOf(id) > -1){ e.preventDefault(); go(id, true); }
 });
 
-zona('humida'); fase(0); pay(0);
+zona('humida'); fase(0);
 var h0 = ''; try { h0 = location.hash.slice(1); } catch(e){}
 showTab(h0 || 'resumo');
 })();
