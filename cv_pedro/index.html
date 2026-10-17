@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedro Varela Pinto — Interactive CV</title>
+<meta name="description" content="Interactive curriculum dashboard of Pedro Varela Pinto: experience, education, AI, blockchain, energy, training, portfolio and contacts.">
+<link rel="icon" href="assets/agent_icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="topbar" id="topbar">
+  <button class="brand" data-go="home" aria-label="Back to dashboard home">
+    <img src="assets/photo_pedro.jpg" alt="">
+    <span>Pedro Varela Pinto</span>
+  </button>
+  <label class="search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" placeholder="Search courses, skills, projects…" autocomplete="off">
+    <kbd>/</kbd>
+  </label>
+  <button class="icon-btn" id="themeBtn" aria-label="Toggle light / dark theme">
+    <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+</header>
+
+<main id="app">
+  <!-- HOME -->
+  <section id="home" class="view active" aria-label="Dashboard home">
+    <div class="hero">
+      <div class="hero-photo">
+        <div class="ring"></div>
+        <img src="assets/photo_pedro.jpg" alt="Portrait of Pedro Varela Pinto">
+        <span class="status"><i></i>Open to projects</span>
+      </div>
+      <div class="hero-text">
+        <p class="eyebrow">Interactive Curriculum · Lisbon, Portugal</p>
+        <h1><span class="split">Pedro Varela Pinto</span></h1>
+        <p class="typed"><span id="typed"></span><b class="caret">|</b></p>
+        <div class="hero-cta">
+          <button class="btn primary" data-go="summary">Summary presentation <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn ghost" data-go="contacts">Contacts</button>
+        </div>
+      </div>
+      <img class="hero-agent" src="assets/agent_icon.png" alt="" aria-hidden="true">
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid-head">
+      <h2>Explore the curriculum</h2>
+      <p>Each tile opens a topic from the CV — with certificates, documents, images and videos.</p>
+    </div>
+    <nav class="tiles" id="tiles" aria-label="Curriculum topics"></nav>
+  </section>
+
+  <!-- SECTION VIEW -->
+  <section id="section" class="view" aria-live="polite"></section>
+</main>
+
+<nav class="dock" id="dock" aria-label="Quick navigation"></nav>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Document viewer">
+  <div class="modal-box">
+    <div class="modal-bar">
+      <span id="modalTitle"></span>
+      <div>
+        <a id="modalOpen" class="icon-btn" target="_blank" rel="noopener" aria-label="Open in new tab"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></a>
+        <button class="icon-btn" id="modalPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+        <button class="icon-btn" id="modalNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+        <button class="icon-btn" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
