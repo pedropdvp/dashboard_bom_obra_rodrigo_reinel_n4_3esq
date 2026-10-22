@@ -269,6 +269,16 @@ table.matrix { width: 100%; border-collapse: collapse; }
 .global p { font-size: 16px; color: #2b2f35; }
 .incl { list-style: none; margin-top: 18px; display: grid; gap: 8px; }
 .incl li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+.terms { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px; }
+.terms .card { padding: 24px 26px; }
+.terms h4 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin-bottom: 14px; }
+.pay { display: grid; gap: 10px; }
+.pay div { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px; }
+.pay strong { font-family: 'Inter Tight'; font-size: 30px; font-weight: 800; color: var(--navy); }
+.pay span { font-size: 15.5px; color: var(--slate-dark); }
+.validity { display: flex; align-items: center; gap: 18px; }
+.validity strong { font-family: 'Inter Tight'; font-size: 54px; font-weight: 800; color: var(--navy); line-height: 1; }
+.validity p { font-size: 15.5px; color: var(--slate-dark); }
 .incl li::before { content: '✓'; color: #fff; background: var(--ok); width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; flex: none; margin-top: 1px; }
 
 /* ---------- empresa ---------- */
@@ -362,7 +372,7 @@ body.present .pres-hint { display: block; }
   .loica:nth-child(2n) { border-right: 0; }
   .loica:nth-child(n+4) { border-bottom: 1px solid var(--line); }
   .loica:nth-child(n+5) { border-bottom: 0; }
-  .cols-3, .steps, .facts, .sim .rows { grid-template-columns: 1fr; }
+  .cols-3, .steps, .facts, .sim .rows, .terms { grid-template-columns: 1fr; }
   .cols-3 > div { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 8px; }
   .facts > div:nth-child(odd) { border-right: 0; padding-right: 0; }
   .facts > div:nth-child(even) { padding-left: 0; }
@@ -682,6 +692,19 @@ body.present .pres-hint { display: block; }
         </ul>
       </div>
     </div>
+    <div class="terms">
+      <div class="card">
+        <h4>Condições de Pagamento</h4>
+        <div class="pay">
+          <div><strong>50%</strong><span>Com início da obra</span></div>
+          <div><strong>50%</strong><span>Com fim da obra</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Validade do Orçamento</h4>
+        <div class="validity"><strong>30</strong><p>O orçamento é válido por 30 dias.</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -748,6 +771,14 @@ body.present .pres-hint { display: block; }
 </div>
 
 <script>
+// always open on the cover, even when the browser would restore a previous scroll position or a #section link
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+const toTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+toTop();
+addEventListener('load', toTop);
+addEventListener('pageshow', e => { if (e.persisted) toTop(); });
+
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const eur = n => n.toLocaleString('pt-PT', { maximumFractionDigits: 0 }).replace(/\s/g, '.') + '€';
