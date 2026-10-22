@@ -77,7 +77,7 @@ def slide10(im):
     f = font_for_width(RC, 'Entrada', 683 - 589)
     swap(im, (784, 182, 802, 211), '4', f, (96, 102, 105), 178, False)
     b = font_for_width(RC, 'Um projeto transversal que engloba 5 divisões distintas, desde a infraestrutura pesada', 1205 - 173)
-    swap(im, (603, 664, 621, 694), '6', b, (245, 250, 253), 660, True)
+    swap(im, (603, 664, 621, 694), '7', b, (245, 250, 253), 660, True)
 
 
 def slide11(im):
@@ -85,7 +85,7 @@ def slide11(im):
     f = font_for_width(RC_BOLD, '45.000€', 948 - 423)
     text(im, (686, 431), '49.990€', f, (16, 45, 72), anchor='ms')
     b = font_for_width(RC, 'acabamento nas 5 divisões', 1249 - 1048)
-    swap(im, (1174, 514, 1189, 533), '6', b, (16, 16, 15), 535, False)
+    swap(im, (1174, 514, 1189, 533), '7', b, (16, 16, 15), 535, False)
 
 
 def slide12(im):
