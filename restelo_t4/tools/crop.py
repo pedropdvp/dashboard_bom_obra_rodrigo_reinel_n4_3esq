@@ -1,5 +1,7 @@
 import sys, os
 from PIL import Image, ImageDraw
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import patch_slides
 M, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT+'/slides', exist_ok=True)
 slide_img = {1:'image1',2:'image3',3:'image4',4:'image5',5:'image6',6:'image7',7:'image8',8:'image9',9:'image10',10:'image11',11:'image12',12:'image13',13:'image14'}
@@ -7,7 +9,7 @@ def load(n):
     im = Image.open(f'{M}/{slide_img[n]}.png').convert('RGB')
     # cover the generator watermark (bottom-right), as the original deck does
     im.paste(im.crop((1138, 740, 1256, 766)), (1258, 740))
-    return im
+    return patch_slides.apply(n, im)
 def save(im, name, q=84): im.save(f'{OUT}/{name}.jpg', quality=q, optimize=True, progressive=True)
 for n in range(1, 14): save(load(n), f'slides/slide{n:02d}', 80)
 save(load(1).crop((600, 0, 1376, 738)), 'hero_torneira')
