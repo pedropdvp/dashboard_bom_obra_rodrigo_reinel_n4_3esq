@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projeto Restelo T4</title>
+<meta name="description" content="Proposta de Remodelação Restelo T4 — Imperiou's Remodelações. Dashboard interativo: Entrada, Cozinha, Lavandaria e 3 Casas de Banho.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="vendor/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy: #13294b;
+  --navy-2: #1f3a63;
+  --slate: #5d6c7b;
+  --slate-dark: #414c58;
+  --cream: #f4f1ea;
+  --paper: #fbfaf6;
+  --line: #d9d4c8;
+  --ink: #1b2430;
+  --muted: #66707c;
+  --wood: #b08a5e;
+  --ok: #2f6b4f;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(19,41,75,.06), 0 8px 24px rgba(19,41,75,.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, .kpi-value, .big-money { font-family: 'Inter Tight', 'Inter', sans-serif; letter-spacing: -.01em; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; cursor: pointer; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(244,241,234,.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  max-width: 1400px; margin: 0 auto; padding: 10px 24px;
+  display: flex; align-items: center; gap: 18px;
+}
+.brand { display: flex; flex-direction: column; line-height: 1.15; white-space: nowrap; }
+.brand b { font-family: 'Inter Tight'; font-size: 15px; color: var(--navy); }
+.brand span { font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.nav { display: flex; gap: 4px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  font-size: 13px; color: var(--slate-dark); text-decoration: none;
+  padding: 7px 12px; border-radius: 999px; white-space: nowrap; transition: .2s;
+}
+.nav a:hover { background: #e8e3d7; }
+.nav a.active { background: var(--navy); color: #fff; }
+.btn {
+  border: 1px solid var(--navy); background: var(--navy); color: #fff;
+  padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; transition: .2s;
+}
+.btn:hover { background: var(--navy-2); }
+.btn.ghost { background: transparent; color: var(--navy); }
+.btn.ghost:hover { background: #e8e3d7; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 2px; background: var(--navy); width: 0; transition: width .15s; }
+
+/* ---------- layout ---------- */
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+section.block { padding: 56px 0; border-bottom: 1px solid var(--line); }
+.eyebrow {
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.eyebrow .num { font-family: 'Inter Tight'; font-weight: 700; color: var(--navy); }
+h2 { font-size: clamp(28px, 3.4vw, 44px); font-weight: 400; color: var(--navy); line-height: 1.1; margin-bottom: 14px; }
+.lead { font-size: 17px; color: var(--slate-dark); max-width: 760px; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.pill {
+  display: inline-block; background: var(--navy); color: #fff; font-size: 13px;
+  padding: 7px 16px; border-radius: 999px; margin: 6px 0 18px;
+}
+.grid-2 { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: start; }
+.banner {
+  background: var(--slate); color: #fff; text-align: center; font-size: 17px;
+  padding: 18px 24px; border-radius: var(--radius); margin-top: 24px;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative; overflow: hidden; min-height: 560px;
+  background: linear-gradient(90deg, #5a6d7f 0%, #62778a 45%, rgba(98,119,138,.0) 70%), url('assets/hero_torneira.jpg') right center / cover no-repeat;
+  color: #fff; display: flex; align-items: center;
+}
+.hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #586b7d 0%, rgba(88,107,125,.85) 38%, rgba(88,107,125,0) 62%); }
+.hero .wrap { position: relative; z-index: 1; width: 100%; padding-top: 56px; padding-bottom: 56px; }
+.hero .company { font-size: 18px; opacity: .95; margin-bottom: 64px; }
+.hero h1 { font-size: clamp(36px, 5vw, 64px); font-weight: 400; line-height: 1.05; max-width: 640px; }
+.hero .sub { font-size: clamp(17px, 1.7vw, 22px); margin-top: 18px; max-width: 560px; opacity: .95; }
+.hero .prep { font-size: 13px; margin-top: 54px; opacity: .9; }
+
+/* ---------- KPIs ---------- */
+.kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: -42px; position: relative; z-index: 2; }
+.kpi { padding: 18px 18px 16px; border-top: 3px solid var(--navy); cursor: pointer; transition: transform .2s, box-shadow .2s; text-align: left; }
+.kpi:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(19,41,75,.12); }
+.kpi .kpi-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.kpi .kpi-value { font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1.15; margin-top: 4px; }
+.kpi .kpi-extra { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.kpi.money { border-top-color: var(--wood); }
+
+/* ---------- hotspots ---------- */
+.stage { position: relative; }
+.stage img { width: 100%; height: auto; border-radius: var(--radius); }
+.hs {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(19,41,75,.0); border: 2px solid transparent;
+  display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px;
+  transition: .2s; z-index: 3;
+}
+.hs::before {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  border: 2px solid rgba(19,41,75,.55); animation: pulse 2.2s infinite;
+}
+.hs:hover, .hs.on { background: rgba(176,138,94,.35); border-color: var(--wood); }
+.hs.on::before { border-color: var(--wood); }
+.hs.dot { width: 22px; height: 22px; background: var(--navy); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.hs.dot.on { background: var(--wood); }
+@keyframes pulse { 0% { transform: scale(.8); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
+.tip {
+  position: absolute; z-index: 4; max-width: 280px; background: var(--navy); color: #fff;
+  font-size: 13.5px; padding: 12px 14px; border-radius: 10px; box-shadow: 0 10px 28px rgba(0,0,0,.25);
+  pointer-events: none; opacity: 0; transform: translateY(6px); transition: .18s;
+}
+.tip.show { opacity: 1; transform: none; }
+.tip b { display: block; font-family: 'Inter Tight'; font-size: 14.5px; margin-bottom: 3px; }
+
+/* list linked to hotspots */
+.linked { display: flex; flex-direction: column; gap: 10px; }
+.linked .item {
+  text-align: left; background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--line);
+  border-radius: 10px; padding: 14px 16px; transition: .2s; color: var(--ink);
+}
+.linked .item b { font-family: 'Inter Tight'; color: var(--navy); font-size: 16px; display: flex; align-items: center; gap: 10px; }
+.linked .item p { font-size: 14.5px; color: var(--slate-dark); margin-top: 3px; }
+.linked .item:hover, .linked .item.on { border-left-color: var(--wood); background: #fff; box-shadow: var(--shadow); }
+.badge-n {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 12px;
+  display: inline-grid; place-items: center; flex: none;
+}
+
+/* ---------- overview ---------- */
+.zone-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 20px; }
+.chip {
+  border: 1px solid var(--line); background: var(--paper); color: var(--slate-dark);
+  padding: 7px 14px; border-radius: 999px; font-size: 13.5px; transition: .2s;
+}
+.chip:hover { border-color: var(--navy); }
+.chip.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+.overview { display: grid; grid-template-columns: 1.7fr 1fr; gap: 24px; align-items: stretch; }
+.overview .stage { background: #f6f2ea; border-radius: var(--radius); }
+.zone-panel { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.zone-panel h3 { font-size: 26px; font-weight: 500; color: var(--navy); }
+.zone-panel .tag { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--wood); font-weight: 600; }
+.zone-panel ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.zone-panel li { font-size: 14.5px; padding-left: 20px; position: relative; color: var(--slate-dark); }
+.zone-panel li::before { content: ''; position: absolute; left: 0; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy); }
+.zone-panel .work { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.zone-panel .work span { font-size: 12px; background: #e9e4d8; color: var(--slate-dark); padding: 4px 10px; border-radius: 999px; }
+.zone-panel a.go { margin-top: auto; align-self: flex-start; }
+
+/* ---------- entrada ---------- */
+.entrada { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; overflow: hidden; }
+.entrada .img { background: url('assets/entrada_parede.jpg') center / cover; min-height: 520px; position: relative; }
+.entrada .txt { padding: 44px 40px; }
+.feature-row { display: grid; grid-template-columns: 80px 1fr; border-top: 1px solid var(--slate); }
+.feature-row:last-child { border-bottom: 0; }
+.feature-row .ico { display: grid; place-items: center; border-right: 1px solid var(--slate); padding: 22px 0; }
+.feature-row .body { padding: 22px 0 22px 24px; }
+.feature-row h4 { font-size: 22px; font-weight: 400; color: var(--navy); }
+.feature-row p { color: var(--slate-dark); font-size: 15.5px; }
+
+/* ---------- WC ---------- */
+.wc-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin: 26px 0; position: relative; }
+.wc-photos figure { background: #fff; padding: 14px; border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); cursor: zoom-in; transition: transform .25s; }
+.wc-photos figure:hover { transform: translateY(-4px) rotate(-.4deg); }
+.wc-photos img { aspect-ratio: 1; object-fit: cover; width: 100%; }
+.wc-photos figcaption { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.wc-big3 { position: absolute; font-family: 'Inter Tight'; font-size: 520px; font-weight: 600; color: #e7e3da; line-height: .8; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: -1; pointer-events: none; }
+.wc-wrap { position: relative; z-index: 0; text-align: center; }
+.wc-wrap .lead { margin: 0 auto; text-align: center; }
+.tabs { display: inline-flex; background: #e8e3d7; border-radius: 999px; padding: 4px; gap: 4px; margin: 34px 0 22px; }
+.tabs button { border: 0; background: transparent; padding: 9px 18px; border-radius: 999px; font-size: 14px; color: var(--slate-dark); }
+.tabs button.on { background: var(--navy); color: #fff; }
+.tabpane { display: none; }
+.tabpane.on { display: block; animation: fade .35s; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.corte { display: grid; grid-template-columns: 1fr 420px 1fr; gap: 24px; align-items: center; }
+.corte .stage { background: #f6f4ee; border-radius: var(--radius); }
+.loicas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
+.loica { padding: 26px 22px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; transition: background .2s; }
+.loica:nth-child(3n) { border-right: 0; }
+.loica:nth-child(n+4) { border-bottom: 0; }
+.loica:hover { background: #fff; }
+.loica img { height: 110px; width: auto; margin: 0 auto 14px; mix-blend-mode: multiply; transition: transform .3s; }
+.loica:hover img { transform: scale(1.06); }
+.loica b { color: var(--navy); font-family: 'Inter Tight'; font-size: 16px; display: block; }
+.loica p { font-size: 14.5px; color: var(--slate-dark); }
+
+/* ---------- cozinha ---------- */
+.kitchen { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+.equip { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; margin-top: 40px; }
+.equip .stage { background: #f6f4ee; border-radius: var(--radius); padding: 10px; }
+.sub-h { font-size: 24px; font-weight: 500; color: var(--navy); margin-bottom: 6px; }
+
+/* ---------- lavandaria ---------- */
+.laundry-img { width: 100%; max-width: 520px; margin: 18px auto 30px; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+.cols-3 > div { padding: 6px 28px; text-align: center; border-right: 1px solid var(--slate); }
+.cols-3 > div:last-child { border-right: 0; }
+.cols-3 h4 { font-size: 22px; font-weight: 400; color: var(--navy); margin-bottom: 8px; }
+.cols-3 p { color: var(--slate-dark); font-size: 15px; }
+
+/* ---------- matriz ---------- */
+.matrix-wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start; }
+table.matrix { width: 100%; border-collapse: collapse; }
+.matrix th, .matrix td { padding: 13px 10px; border-bottom: 1px solid var(--line); }
+.matrix thead th { font-weight: 500; color: var(--slate); font-size: 15px; text-align: center; cursor: pointer; transition: color .2s; }
+.matrix thead th:first-child { text-align: left; cursor: default; }
+.matrix thead th:hover, .matrix thead th.on { color: var(--navy); }
+.matrix tbody th { text-align: left; font-weight: 500; font-size: 15.5px; cursor: pointer; }
+.matrix td { text-align: center; }
+.mdot { width: 24px; height: 24px; border-radius: 50%; background: var(--navy); display: inline-block; transition: transform .2s, background .2s, opacity .2s; }
+.matrix td.empty .mdot { background: transparent; border: 1px dashed #cfc9bb; width: 10px; height: 10px; }
+.matrix.dim td .mdot, .matrix.dim tbody th { opacity: .22; }
+.matrix.dim td.hl .mdot, .matrix.dim tbody th.hl { opacity: 1; }
+.matrix td.hl .mdot { background: var(--wood); transform: scale(1.12); }
+.matrix td.hl.empty .mdot { background: transparent; }
+.matrix tbody tr:hover th { color: var(--navy); }
+.chart-card { padding: 20px; }
+.chart-card h4 { font-size: 15px; color: var(--navy); margin-bottom: 2px; }
+.chart-card .note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.chart-box { position: relative; height: 220px; }
+
+/* ---------- investimento ---------- */
+.invest { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: center; }
+.money-card { padding: 40px 36px; text-align: center; }
+.big-money { font-size: clamp(64px, 9vw, 128px); font-weight: 800; color: var(--navy); line-height: 1; }
+.money-card .iva { font-size: 18px; color: var(--slate-dark); margin-top: 8px; }
+.sim { margin-top: 28px; padding-top: 22px; border-top: 1px dashed var(--line); }
+.sim .seg { display: inline-flex; gap: 4px; background: #e8e3d7; padding: 4px; border-radius: 999px; }
+.sim .seg button { border: 0; background: transparent; padding: 7px 14px; border-radius: 999px; font-size: 13.5px; color: var(--slate-dark); }
+.sim .seg button.on { background: var(--navy); color: #fff; }
+.sim .rows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+.sim .rows div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+.sim .rows small { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.sim .rows strong { font-family: 'Inter Tight'; font-size: 20px; color: var(--navy); }
+.sim .disclaimer { font-size: 12px; color: var(--muted); margin-top: 10px; }
+.global {
+  background: #e3e1dc; border: 1px solid #b9b8b2; padding: 30px 28px; position: relative;
+  box-shadow: 8px 8px 0 #c9c7c1;
+}
+.global h3 { font-size: 30px; font-weight: 800; color: var(--ink); line-height: 1.1; margin-bottom: 14px; }
+.global p { font-size: 16px; color: #2b2f35; }
+.incl { list-style: none; margin-top: 18px; display: grid; gap: 8px; }
+.incl li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+.incl li::before { content: '✓'; color: #fff; background: var(--ok); width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; flex: none; margin-top: 1px; }
+
+/* ---------- empresa ---------- */
+.company-block { background: #434d58; color: #fff; padding: 44px 40px; border-radius: var(--radius); }
+.company-block .kick { font-size: 20px; opacity: .9; }
+.company-block h3 { font-size: clamp(28px, 3.6vw, 48px); font-weight: 400; margin: 6px 0; }
+.company-block .resp { font-size: 22px; opacity: .92; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; margin-top: 34px; }
+.facts > div { padding: 22px 0; border-top: 1px solid rgba(255,255,255,.25); }
+.facts > div:nth-child(odd) { padding-right: 32px; border-right: 1px solid rgba(255,255,255,.25); }
+.facts > div:nth-child(even) { padding-left: 32px; }
+.facts b { display: block; font-size: 17px; }
+.facts span { font-size: 19px; opacity: .92; }
+.copy { background: transparent; border: 1px solid rgba(255,255,255,.4); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 999px; margin-left: 8px; vertical-align: middle; }
+.copy:hover { background: rgba(255,255,255,.15); }
+.company-block .foot { margin-top: 26px; text-align: center; font-size: 15px; opacity: .9; }
+
+/* ---------- próximos passos ---------- */
+.steps-bg { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--radius); padding: 44px 36px 36px; }
+/* the photo carries the original slide's text, so it is blurred into a soft backdrop */
+.steps-bg::before { content: ''; position: absolute; inset: -40px; z-index: -2; background: url('assets/sala_fundo.jpg') center / cover; filter: blur(22px) saturate(1.1); }
+.steps-bg::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(244,241,234,.45), rgba(244,241,234,.6)); }
+.steps-bg h2 { font-weight: 800; font-size: clamp(36px, 5vw, 64px); }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 18px; }
+.step { background: rgba(250,248,243,.96); border-radius: 14px; padding: 28px 28px 30px; box-shadow: 0 10px 30px rgba(0,0,0,.12); text-align: left; border: 2px solid transparent; transition: .25s; color: var(--ink); }
+.step .n { font-family: 'Inter Tight'; font-weight: 800; font-size: 84px; color: var(--navy); line-height: 1; }
+.step h4 { font-size: 19px; font-weight: 700; margin: 14px 0 10px; }
+.step p { font-size: 15.5px; color: var(--slate-dark); }
+.step .state { margin-top: 16px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.step .state::before { content: ''; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--muted); }
+.step.done { border-color: var(--ok); }
+.step.done .state { color: var(--ok); }
+.step.done .state::before { background: var(--ok); border-color: var(--ok); }
+.step:hover { transform: translateY(-4px); }
+.cta { background: var(--navy); color: #fff; text-align: center; font-weight: 600; font-size: 17px; padding: 16px 28px; border-radius: 999px; max-width: 720px; margin: 30px auto 0; }
+
+/* ---------- slides gallery ---------- */
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 22px; }
+.thumbs button { border: 1px solid var(--line); background: #fff; padding: 0; border-radius: 10px; overflow: hidden; text-align: left; transition: .2s; }
+.thumbs button:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.thumbs img { width: 100%; aspect-ratio: 1376 / 768; object-fit: cover; background: #e8e3d7; }
+.thumbs span { display: block; font-size: 12.5px; padding: 8px 10px; color: var(--slate-dark); }
+.lightbox { position: fixed; inset: 0; background: rgba(10,18,32,.92); z-index: 100; display: none; align-items: center; justify-content: center; padding: 50px 70px; }
+.lightbox.on { display: flex; }
+.lightbox img { max-height: 86vh; max-width: 100%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.lightbox .cap { position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; color: #cfd6df; font-size: 13px; }
+.lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); color: #fff; border: 0; width: 48px; height: 48px; border-radius: 50%; font-size: 22px; }
+.lb-btn:hover { background: rgba(255,255,255,.25); }
+.lb-prev { left: 14px; } .lb-next { right: 14px; }
+.lb-close { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,.12); color: #fff; border: 0; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; }
+
+footer { padding: 30px 0 40px; color: var(--muted); font-size: 13px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+footer .sig { font-family: 'Inter Tight'; color: var(--navy); font-weight: 600; }
+
+/* ---------- presentation mode ---------- */
+body.present .topbar .nav { visibility: hidden; }
+body.present section.block, body.present .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+body.present .kpis { margin-top: 24px; }
+body.present .kpis-sec { min-height: auto; }
+html.present-html { scroll-snap-type: y mandatory; }
+body.present section.block, body.present .hero { scroll-snap-align: start; }
+.pres-hint { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 12.5px; padding: 8px 16px; border-radius: 999px; z-index: 60; display: none; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+body.present .pres-hint { display: block; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s, transform .6s; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .kpis { grid-template-columns: repeat(3, 1fr); }
+  .overview, .grid-2, .kitchen, .equip, .matrix-wrap, .invest { grid-template-columns: 1fr; }
+  .corte { grid-template-columns: 1fr; }
+  .corte .stage { max-width: 420px; margin: 0 auto; }
+}
+@media (max-width: 760px) {
+  .topbar-inner { padding: 8px 16px; flex-wrap: wrap; }
+  .nav { order: 3; flex-basis: 100%; }
+  .wrap { padding: 0 16px; }
+  .hero { min-height: 480px; background-position: 70% center; }
+  .hero::after { background: linear-gradient(90deg, rgba(88,107,125,.95), rgba(88,107,125,.7)); }
+  .hero .company { margin-bottom: 36px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); margin-top: 18px; }
+  .entrada { grid-template-columns: 1fr; }
+  .entrada .img { min-height: 300px; }
+  .entrada .txt { padding: 28px 20px; }
+  .wc-photos { grid-template-columns: 1fr; max-width: 340px; margin-left: auto; margin-right: auto; }
+  .wc-big3 { font-size: 300px; }
+  .loicas { grid-template-columns: 1fr 1fr; }
+  .loica:nth-child(3n) { border-right: 1px solid var(--line); }
+  .loica:nth-child(2n) { border-right: 0; }
+  .loica:nth-child(n+4) { border-bottom: 1px solid var(--line); }
+  .loica:nth-child(n+5) { border-bottom: 0; }
+  .cols-3, .steps, .facts, .sim .rows { grid-template-columns: 1fr; }
+  .cols-3 > div { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 8px; }
+  .facts > div:nth-child(odd) { border-right: 0; padding-right: 0; }
+  .facts > div:nth-child(even) { padding-left: 0; }
+  .company-block, .steps-bg { padding: 28px 20px; }
+  .matrix-wrap .card { padding: 6px 8px !important; overflow-x: auto; }
+  .matrix th, .matrix td { padding: 10px 3px; }
+  .mdot { width: 18px; height: 18px; }
+  .matrix tbody th { font-size: 12.5px; }
+  .matrix thead th { font-size: 11.5px; }
+  .hs { width: 28px; height: 28px; }
+  .lightbox { padding: 50px 10px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><b>Imperiou’s Remodelações</b><span>Projeto Restelo T4</span></div>
+    <nav class="nav" id="nav">
+      <a href="#visao">Visão Geral</a>
+      <a href="#entrada">Entrada</a>
+      <a href="#wc">3 Casas de Banho</a>
+      <a href="#cozinha">Cozinha</a>
+      <a href="#lavandaria">Lavandaria</a>
+      <a href="#matriz">Matriz</a>
+      <a href="#investimento">Investimento</a>
+      <a href="#empresa">Empresa</a>
+      <a href="#passos">Próximos Passos</a>
+      <a href="#diapositivos">Diapositivos</a>
+    </nav>
+    <button class="btn" id="presBtn" title="Modo apresentação (setas ← → para navegar, Esc para sair)">▶ Apresentação</button>
+    <div class="progress" id="progress"></div>
+  </div>
+</header>
+
+<!-- 01 · Capa -->
+<section class="hero" id="capa">
+  <div class="wrap">
+    <div class="company">Imperiou’s Remodelações</div>
+    <h1>Projeto Restelo T4: Proposta de Remodelação</h1>
+    <p class="sub">Reinvenção do Espaço: Entrada, Cozinha, Lavandaria e 3 Casas de Banho.</p>
+    <p class="prep">Preparado em exclusivo para si por Anderson | Imperiou’s Remodelações.</p>
+  </div>
+</section>
+
+<section class="block kpis-sec" style="padding-top:0;border-bottom:0">
+  <div class="wrap">
+    <div class="kpis">
+      <button class="card kpi money" data-go="investimento">
+        <div class="kpi-label">Valor Global</div>
+        <div class="kpi-value" data-count="45000" data-suffix="€">0€</div>
+        <div class="kpi-extra">+ IVA à taxa legal em vigor</div>
+      </button>
+      <button class="card kpi" data-go="matriz">
+        <div class="kpi-label">Divisões</div>
+        <div class="kpi-value" data-count="5">0</div>
+        <div class="kpi-extra">intervencionadas</div>
+      </button>
+      <button class="card kpi" data-go="wc">
+        <div class="kpi-label">Casas de Banho</div>
+        <div class="kpi-value" data-count="3">0</div>
+        <div class="kpi-extra">renovação integral e simultânea</div>
+      </button>
+      <button class="card kpi" data-go="cozinha">
+        <div class="kpi-label">Eletrodomésticos</div>
+        <div class="kpi-value" data-count="8">0</div>
+        <div class="kpi-extra">instalados e a funcionar</div>
+      </button>
+      <button class="card kpi" data-go="matriz">
+        <div class="kpi-label">Frentes de Trabalho</div>
+        <div class="kpi-value" data-count="6">0</div>
+        <div class="kpi-extra">da estrutura à pintura</div>
+      </button>
+      <button class="card kpi" data-go="investimento">
+        <div class="kpi-label">Modelo</div>
+        <div class="kpi-value" style="font-size:22px;padding:5px 0">Chave-na-Mão</div>
+        <div class="kpi-extra">100% equipada</div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · Visão Geral -->
+<section class="block" id="visao">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">02</span> Planta da intervenção</div>
+    <h2>Visão Geral da Intervenção</h2>
+    <p class="lead">Clique numa zona da planta (ou num dos filtros) para ver o que está previsto em cada divisão.</p>
+    <div class="zone-chips" id="zoneChips">
+      <button class="chip on" data-zone="todas">Todas</button>
+      <button class="chip" data-zone="entrada">Entrada</button>
+      <button class="chip" data-zone="cozinha">Cozinha</button>
+      <button class="chip" data-zone="lavandaria">Lavandaria</button>
+      <button class="chip" data-zone="wc">3 Casas de Banho</button>
+    </div>
+    <div class="overview">
+      <div class="stage card" id="planStage">
+        <img src="assets/planta_iso.jpg" alt="Planta isométrica do apartamento T4 no Restelo com as zonas intervencionadas a azul" width="1260" height="612">
+        <button class="hs dot" data-zone="entrada" style="left:32.1%;top:62.6%" aria-label="Entrada"></button>
+        <button class="hs dot" data-zone="cozinha" style="left:49.8%;top:70.7%" aria-label="Cozinha"></button>
+        <button class="hs dot" data-zone="lavandaria" style="left:58.9%;top:55.2%" aria-label="Lavandaria"></button>
+        <button class="hs dot" data-zone="wc" style="left:60.6%;top:22.5%" aria-label="Casa de banho 1"></button>
+        <button class="hs dot" data-zone="wc" style="left:70.3%;top:35%" aria-label="Casa de banho 2"></button>
+        <button class="hs dot" data-zone="wc" style="left:57.3%;top:42.8%" aria-label="Casa de banho 3"></button>
+      </div>
+      <div class="card zone-panel" id="zonePanel"></div>
+    </div>
+    <div class="banner">Uma intervenção cirúrgica e profunda nas áreas técnicas e sociais do seu apartamento no Restelo, desenhada para maximizar conforto e valorização patrimonial.</div>
+  </div>
+</section>
+
+<!-- 03 · Entrada -->
+<section class="block" id="entrada">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">03</span> Zona de Entrada</div>
+    <div class="card entrada">
+      <div class="img" role="img" aria-label="Nova parede em pladur na zona de entrada"></div>
+      <div class="txt">
+        <h2>A Primeira Impressão: Zona de Entrada</h2>
+        <span class="pill">Criação de Nova Volumetria</span>
+        <div style="margin-top:40px">
+          <div class="feature-row">
+            <div class="ico">
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#13294b" stroke-width="1.6"><rect x="3" y="3" width="21" height="21"/><rect x="30" y="3" width="21" height="21"/><rect x="3" y="30" width="21" height="21"/><path d="M3 30l21 21M24 30L3 51"/><rect x="30" y="30" width="21" height="21"/></svg>
+            </div>
+            <div class="body"><h4>Estrutura</h4><p>Construção de uma nova parede em pladur (gesso cartonado) para redefinir o fluxo de entrada.</p></div>
+          </div>
+          <div class="feature-row" style="border-bottom:1px solid var(--slate)">
+            <div class="ico">
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#13294b" stroke-width="1.6"><path d="M3 8h20M3 15h14v8H3M30 4v20M38 4v14h10M3 34h14v16M23 34v16H10M30 34h20M38 34v16h12"/></svg>
+            </div>
+            <div class="body"><h4>Integração</h4><p>Retoques de pintura rigorosos em toda a zona envolvente, garantindo uma transição imaculada entre a estrutura nova e a arquitetura existente do apartamento.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04-06 · Casas de Banho -->
+<section class="block" id="wc">
+  <div class="wrap wc-wrap">
+    <div class="eyebrow" style="justify-content:center"><span class="num">04</span> Instalações sanitárias</div>
+    <h2>3 Casas de Banho: O Desafio da Harmonia</h2>
+    <div class="wc-photos">
+      <div class="wc-big3" aria-hidden="true">3</div>
+      <figure data-lb="assets/wc_foto1.jpg"><img src="assets/wc_foto1.jpg" alt="Revestimento em pedra natural bege"><figcaption>Revestimento</figcaption></figure>
+      <figure data-lb="assets/wc_foto2.jpg"><img src="assets/wc_foto2.jpg" alt="Espelho com iluminação embutida e torneira de parede"><figcaption>Espelho &amp; Metais</figcaption></figure>
+      <figure data-lb="assets/wc_foto3.jpg"><img src="assets/wc_foto3.jpg" alt="Chuveiro de teto em preto mate"><figcaption>Zona de Banho</figcaption></figure>
+    </div>
+    <p class="lead">Uma intervenção integral nas três instalações sanitárias do apartamento. Da demolição inicial ao detalhe do acabamento final, o nosso processo garante uma linguagem estética coerente, aliada à mais alta eficiência técnica em toda a casa.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="on" data-tab="infra">Infraestrutura e Revestimentos</button>
+      <button data-tab="loicas">Loiças e Acabamentos de Superfície</button>
+    </div>
+
+    <div class="tabpane on" id="tab-infra" style="text-align:left">
+      <div class="corte">
+        <div class="linked" id="corteLeft">
+          <button class="item" data-k="atm"><b>Atmosfera</b><p>Instalação de sistema de extração e ventilação (Ventax).</p></button>
+          <button class="item" data-k="pav"><b>Pavimento (Chão)</b><p>Instalação de novo piso, focado na durabilidade e isolamento.</p></button>
+        </div>
+        <div class="stage" id="corteStage">
+          <img src="assets/wc_corte.jpg" alt="Corte técnico de uma casa de banho" width="427" height="472">
+          <button class="hs dot" data-k="atm" style="left:28.8%;top:18.4%" aria-label="Atmosfera"></button>
+          <button class="hs dot" data-k="aca" style="left:85%;top:23.1%" aria-label="Acabamento"></button>
+          <button class="hs dot" data-k="par" style="left:85.5%;top:57%" aria-label="Paredes"></button>
+          <button class="hs dot" data-k="pav" style="left:24.6%;top:86.4%" aria-label="Pavimento"></button>
+        </div>
+        <div class="linked" id="corteRight">
+          <button class="item" data-k="aca"><b>Acabamento</b><p>Retoques de pintura especializados para zonas húmidas, selando o ambiente.</p></button>
+          <button class="item" data-k="par"><b>Paredes</b><p>Aplicação de azulejos premium e betumes de alta resistência mecânica e à humidade.</p></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpane" id="tab-loicas">
+      <div class="loicas">
+        <div class="loica"><img src="assets/icone1.jpg" alt=""><b>Loiças Sanitárias</b><p>Lavatório de design contemporâneo.</p></div>
+        <div class="loica"><img src="assets/icone2.jpg" alt=""><b>Sanitários</b><p>Sanita com linhas otimizadas para fácil higienização.</p></div>
+        <div class="loica"><img src="assets/icone3.jpg" alt=""><b>Zona de Banho</b><p>Base de duche com escoamento eficiente.</p></div>
+        <div class="loica"><img src="assets/icone4.jpg" alt=""><b>Proteção</b><p>Resguardo em vidro temperado, combinando elegância e segurança.</p></div>
+        <div class="loica"><img src="assets/icone5.jpg" alt=""><b>Reflexo</b><p>Espelho perfeitamente integrado na volumetria da parede.</p></div>
+        <div class="loica"><img src="assets/icone6.jpg" alt=""><b>Metais</b><p>Torneiras modernas com controlo de fluxo de alta precisão.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07-08 · Cozinha -->
+<section class="block" id="cozinha">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">05</span> Cozinha</div>
+    <div class="kitchen">
+      <div>
+        <h2>A Cozinha: Mobiliário e Superfícies</h2>
+        <p class="lead" style="font-size:15px;margin-bottom:18px">Passe o rato (ou toque) nos pontos da fotografia.</p>
+        <div class="linked" id="kitList">
+          <button class="item" data-k="sup"><b>Armazenamento Superior</b><p>Fornecimento e montagem de móveis aéreos com ferragens de alta durabilidade.</p></button>
+          <button class="item" data-k="inf"><b>Armazenamento Inferior</b><p>Móveis abaixo da bancada desenhados para otimização de espaço.</p></button>
+          <button class="item" data-k="pla"><b>Plano de Trabalho</b><p>Bancada de cozinha altamente resistente ao uso intensivo diário.</p></button>
+          <button class="item" data-k="agu"><b>Zona de Águas</b><p>Lavatório de cozinha integrado, acompanhado por torneira de precisão e respetivas conexões embutidas. Retoques finais de pintura na envolvente.</p></button>
+        </div>
+      </div>
+      <div class="stage" id="kitStage">
+        <img src="assets/cozinha_foto.jpg" alt="Cozinha contemporânea com móveis em taupe, bancada em mármore e ilha" width="878" height="648">
+        <button class="hs" data-k="sup" style="left:31%;top:31.9%" aria-label="Armazenamento Superior"></button>
+        <button class="hs" data-k="pla" style="left:19.9%;top:57.3%" aria-label="Plano de Trabalho"></button>
+        <button class="hs" data-k="agu" style="left:35.2%;top:55.4%" aria-label="Zona de Águas"></button>
+        <button class="hs" data-k="inf" style="left:27.8%;top:68.7%" aria-label="Armazenamento Inferior"></button>
+      </div>
+    </div>
+
+    <div class="equip">
+      <div>
+        <h3 class="sub-h">Ecossistema de Equipamentos (Chave-na-Mão)</h3>
+        <p class="lead" style="margin-bottom:16px">O plano inclui um conjunto abrangente de eletrodomésticos essenciais instalados e a funcionar.</p>
+        <div class="stage" id="eqStage">
+          <img src="assets/cozinha_equip.jpg" alt="Alçado da cozinha com a localização dos eletrodomésticos numerados" width="797" height="403">
+          <button class="hs" data-k="1" style="left:33.9%;top:57.6%" aria-label="Placa a gás"></button>
+          <button class="hs" data-k="2" style="left:33.6%;top:82.4%" aria-label="Forno elétrico"></button>
+          <button class="hs" data-k="3" style="left:33.9%;top:32%" aria-label="Exaustor"></button>
+          <button class="hs" data-k="4" style="left:64.2%;top:38.7%" aria-label="Micro-ondas"></button>
+          <button class="hs" data-k="5" style="left:64.5%;top:82.6%" aria-label="Máquina de lavar loiça"></button>
+          <button class="hs" data-k="6" style="left:93%;top:20.8%" aria-label="Esquentador"></button>
+        </div>
+      </div>
+      <div class="linked" id="eqList" style="margin-top:6px">
+        <button class="item" data-k="1"><b><span class="badge-n">1</span>Placa a gás</b></button>
+        <button class="item" data-k="2"><b><span class="badge-n">2</span>Forno elétrico</b></button>
+        <button class="item" data-k="3"><b><span class="badge-n">3</span>Exaustor</b></button>
+        <button class="item" data-k="4"><b><span class="badge-n">4</span>Micro-ondas</b></button>
+        <button class="item" data-k="5"><b><span class="badge-n">5</span>Máquina de lavar loiça</b></button>
+        <button class="item" data-k="6"><b><span class="badge-n">6</span>Esquentador</b></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · Lavandaria -->
+<section class="block" id="lavandaria">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow" style="justify-content:center"><span class="num">06</span> Lavandaria</div>
+    <h2>Lavandaria: Utilidade e Eficiência</h2>
+    <img class="laundry-img" src="assets/lavandaria.jpg" alt="Máquina de lavar e máquina de secar roupa ligadas à água e eletricidade" width="518" height="320">
+    <div class="cols-3">
+      <div><h4>Equipamentos</h4><p>Fornecimento e instalação de Máquina de Lavar Roupa e Máquina de Secar Roupa.</p></div>
+      <div><h4>Integração Técnica</h4><p>Execução de todas as conexões necessárias (águas e eletricidade) para funcionamento imediato.</p></div>
+      <div><h4>Acabamento</h4><p>Retoques de pintura garantindo que a zona técnica partilha do mesmo rigor estético das áreas sociais.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · Matriz -->
+<section class="block" id="matriz">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">07</span> Âmbito</div>
+    <h2>Matriz de Intervenção</h2>
+    <p class="lead">Clique numa divisão (coluna) ou numa frente de trabalho (linha) para a destacar.</p>
+    <div class="matrix-wrap" style="margin-top:22px">
+      <div class="card" style="padding:12px 18px">
+        <table class="matrix" id="matrix">
+          <thead><tr><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="display:grid;gap:18px">
+        <div class="card chart-card">
+          <h4>Frentes de trabalho por divisão</h4>
+          <div class="note">Contagem dos pontos assinalados na matriz.</div>
+          <div class="chart-box"><canvas id="chartZones"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <h4>Eletrodomésticos incluídos (Total: 8)</h4>
+          <div class="note">Cozinha: placa, forno, exaustor, micro-ondas, máquina de lavar loiça, esquentador. Lavandaria: máquina de lavar e de secar roupa.</div>
+          <div class="chart-box" style="height:200px"><canvas id="chartEquip"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="banner">Um projeto transversal que engloba 5 divisões distintas, desde a infraestrutura pesada ao fornecimento completo de mobiliário e tecnologia.</div>
+  </div>
+</section>
+
+<!-- 11 · Investimento -->
+<section class="block" id="investimento">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">08</span> Proposta comercial</div>
+    <h2>O Investimento</h2>
+    <div class="invest" style="margin-top:18px">
+      <div class="card money-card">
+        <div class="big-money" id="bigMoney">45.000€</div>
+        <div class="iva">+ IVA à taxa legal em vigor.</div>
+        <div class="sim">
+          <div class="seg" id="ivaSeg">
+            <button data-iva="0" class="on">Sem IVA</button>
+            <button data-iva="6">IVA 6%</button>
+            <button data-iva="23">IVA 23%</button>
+          </div>
+          <div class="rows">
+            <div><small>Base</small><strong>45.000€</strong></div>
+            <div><small>IVA</small><strong id="ivaVal">—</strong></div>
+            <div><small>Total</small><strong id="ivaTot">45.000€</strong></div>
+          </div>
+          <p class="disclaimer">Simulação indicativa. A proposta indica “+ IVA à taxa legal em vigor”; a taxa aplicável é confirmada na faturação.</p>
+        </div>
+      </div>
+      <div class="global">
+        <h3>Valor Global Chave-na-Mão</h3>
+        <p>Este valor reflete o compromisso total delineado na matriz anterior: desde a aquisição de todos os revestimentos, mobiliário sob medida e 8 eletrodomésticos, até à mão-de-obra especializada para montagem, instalação e acabamento nas 5 divisões intervencionadas.</p>
+        <ul class="incl">
+          <li>Todos os revestimentos (pavimento e azulejo)</li>
+          <li>Mobiliário sob medida da cozinha</li>
+          <li>8 eletrodomésticos instalados e a funcionar</li>
+          <li>Mão-de-obra especializada: montagem, instalação e acabamento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · Empresa -->
+<section class="block" id="empresa">
+  <div class="wrap">
+    <div class="company-block">
+      <div class="kick">O Seu Parceiro de Confiança</div>
+      <h3>Imperiou’s Remodelações Unipessoal Lda.</h3>
+      <div class="resp">Responsável de Projeto: Anderson</div>
+      <div class="facts">
+        <div><b>Morada Sede:</b><span>Praceta João Azevedo N 5 1 Dt, 2825-432 Costa da Caparica, Portugal</span></div>
+        <div><b>N.º Contribuinte: <button class="copy" data-copy="519525825">copiar</button></b><span>519 525 825</span></div>
+        <div><b>Registos Oficiais:</b><span>Conservatória do Reg. Com. de Lisboa | Matrícula: 519525825</span></div>
+        <div><b>Capital Social:</b><span>1€</span></div>
+      </div>
+      <p class="foot">Uma entidade registada, certificada e estruturada para proteger o seu património e garantir a execução rigorosa da obra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · Próximos Passos -->
+<section class="block" id="passos">
+  <div class="wrap">
+    <div class="steps-bg">
+      <h2>Próximos Passos</h2>
+      <p class="lead" style="color:var(--ink);font-size:14px;margin-bottom:6px">Clique num passo para o marcar como concluído.</p>
+      <div class="steps" id="steps">
+        <button class="step"><div class="n">01</div><h4>Passo 1: Aprovação.</h4><p>Validação desta proposta comercial e adjudicação do projeto.</p><div class="state">Pendente</div></button>
+        <button class="step"><div class="n">02</div><h4>Passo 2: Seleção Fina.</h4><p>Reunião técnica para escolha exata de materiais, tons e acabamentos (loiças, azulejos, bancadas).</p><div class="state">Pendente</div></button>
+        <button class="step"><div class="n">03</div><h4>Passo 3: Execução.</h4><p>Fecho de cronograma, início das demolições e arranque oficial da transformação do seu T4.</p><div class="state">Pendente</div></button>
+      </div>
+      <div class="cta">Fale diretamente com o Anderson para darmos início a este projeto.<br>A sua casa no Restelo aguarda a sua melhor versão.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Diapositivos originais -->
+<section class="block" id="diapositivos" style="border-bottom:0">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">13</span> Documento original</div>
+    <h2>Diapositivos da Proposta</h2>
+    <p class="lead">Os 13 diapositivos da proposta original. Clique para ampliar e use as setas para navegar.</p>
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Proposta de Remodelação · Projeto Restelo T4 · Imperiou’s Remodelações Unipessoal Lda.</span>
+    <span class="sig">Pedro V.P</span>
+  </div>
+</footer>
+
+<div class="tip" id="tip"></div>
+<div class="pres-hint">Modo apresentação · ← → para navegar · Esc para sair</div>
+
+<div class="lightbox" id="lb" role="dialog" aria-modal="true">
+  <button class="lb-close" aria-label="Fechar">×</button>
+  <button class="lb-btn lb-prev" aria-label="Anterior">‹</button>
+  <img id="lbImg" alt="">
+  <button class="lb-btn lb-next" aria-label="Seguinte">›</button>
+  <div class="cap" id="lbCap"></div>
+</div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const eur = n => n.toLocaleString('pt-PT', { maximumFractionDigits: 0 }).replace(/\s/g, '.') + '€';
+
+/* ---------- data (texto da proposta) ---------- */
+const ZONES = {
+  todas: {
+    tag: 'Âmbito global', title: 'Restelo T4',
+    text: ['Uma intervenção cirúrgica e profunda nas áreas técnicas e sociais do seu apartamento no Restelo, desenhada para maximizar conforto e valorização patrimonial.',
+           'Reinvenção do Espaço: Entrada, Cozinha, Lavandaria e 3 Casas de Banho.'],
+    go: 'matriz', goLabel: 'Ver matriz de intervenção'
+  },
+  entrada: {
+    tag: 'Entrada', title: 'Redefinição volumétrica.',
+    text: ['Construção de uma nova parede em pladur (gesso cartonado) para redefinir o fluxo de entrada.',
+           'Retoques de pintura rigorosos em toda a zona envolvente.'],
+    go: 'entrada', goLabel: 'Ver Zona de Entrada'
+  },
+  cozinha: {
+    tag: 'Cozinha & Lavandaria', title: 'Solução chave-na-mão 100% equipada.',
+    text: ['Móveis aéreos e abaixo da bancada, plano de trabalho e zona de águas.',
+           '6 eletrodomésticos: placa a gás, forno elétrico, exaustor, micro-ondas, máquina de lavar loiça e esquentador.'],
+    go: 'cozinha', goLabel: 'Ver Cozinha'
+  },
+  lavandaria: {
+    tag: 'Cozinha & Lavandaria', title: 'Utilidade e Eficiência.',
+    text: ['Fornecimento e instalação de Máquina de Lavar Roupa e Máquina de Secar Roupa.',
+           'Todas as conexões necessárias (águas e eletricidade) para funcionamento imediato.'],
+    go: 'lavandaria', goLabel: 'Ver Lavandaria'
+  },
+  wc: {
+    tag: '3 Casas de Banho', title: 'Renovação integral e simultânea.',
+    text: ['Da demolição inicial ao detalhe do acabamento final.',
+           'Ventilação (Ventax), novo pavimento, azulejos premium, loiças, resguardo, espelho e torneiras.'],
+    go: 'wc', goLabel: 'Ver Casas de Banho'
+  }
+};
+const COLS = ['Entrada', '3 WCs', 'Cozinha', 'Lavandaria'];
+const ZONE_OF_COL = ['entrada', 'wc', 'cozinha', 'lavandaria'];
+const ROWS = [
+  ['Estrutura & Construção',            [1, 1, 0, 0]],
+  ['Revestimentos (Pavimento/Azulejo)', [0, 1, 0, 0]],
+  ['Carpintaria & Mobiliário',          [0, 0, 1, 0]],
+  ['Canalização, Loiças & Torneiras',   [0, 1, 1, 0]],
+  ['Eletrodomésticos (Total: 8)',       [0, 0, 1, 1]],
+  ['Pintura',                           [1, 1, 1, 1]]
+];
+const KITCHEN = {
+  sup: ['Armazenamento Superior', 'Fornecimento e montagem de móveis aéreos com ferragens de alta durabilidade.'],
+  inf: ['Armazenamento Inferior', 'Móveis abaixo da bancada desenhados para otimização de espaço.'],
+  pla: ['Plano de Trabalho', 'Bancada de cozinha altamente resistente ao uso intensivo diário.'],
+  agu: ['Zona de Águas', 'Lavatório de cozinha integrado, acompanhado por torneira de precisão e respetivas conexões embutidas. Retoques finais de pintura na envolvente.']
+};
+const EQUIP = { 1: 'Placa a gás', 2: 'Forno elétrico', 3: 'Exaustor', 4: 'Micro-ondas', 5: 'Máquina de lavar loiça', 6: 'Esquentador' };
+const CORTE = {
+  atm: ['Atmosfera', 'Instalação de sistema de extração e ventilação (Ventax).'],
+  aca: ['Acabamento', 'Retoques de pintura especializados para zonas húmidas, selando o ambiente.'],
+  par: ['Paredes', 'Aplicação de azulejos premium e betumes de alta resistência mecânica e à humidade.'],
+  pav: ['Pavimento (Chão)', 'Instalação de novo piso, focado na durabilidade e isolamento.']
+};
+const SLIDES = ['Capa — Projeto Restelo T4', 'Visão Geral da Intervenção', 'A Primeira Impressão: Zona de Entrada',
+  '3 Casas de Banho: O Desafio da Harmonia', 'Infraestrutura e Revestimentos', 'Loiças e Acabamentos de Superfície',
+  'A Cozinha: Mobiliário e Superfícies', 'Ecossistema de Equipamentos (Chave-na-Mão)', 'Lavandaria: Utilidade e Eficiência',
+  'Matriz de Intervenção', 'O Investimento', 'O Seu Parceiro de Confiança', 'Próximos Passos'];
+
+/* ---------- tooltip ---------- */
+const tip = $('#tip');
+function showTip(anchor, title, body) {
+  tip.innerHTML = `<b>${title}</b>${body || ''}`;
+  const r = anchor.getBoundingClientRect();
+  tip.classList.add('show');
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let x = r.left + r.width / 2 - tw / 2 + scrollX, y = r.top + scrollY - th - 12;
+  x = Math.max(8 + scrollX, Math.min(x, scrollX + innerWidth - tw - 8));
+  if (r.top - th - 12 < 70) y = r.bottom + scrollY + 12;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const hideTip = () => tip.classList.remove('show');
+
+/* hotspot <-> list linking */
+function link(stageSel, listSel, data) {
+  const stage = $(stageSel), list = $(listSel);
+  const set = (k, src) => {
+    $$('[data-k]', stage).forEach(h => h.classList.toggle('on', h.dataset.k === k));
+    $$('[data-k]', list).forEach(i => i.classList.toggle('on', i.dataset.k === k));
+    const h = $(`.hs[data-k="${k}"]`, stage);
+    if (h && src !== 'list') { const d = data[k]; showTip(h, Array.isArray(d) ? d[0] : d, Array.isArray(d) ? d[1] : ''); }
+  };
+  const clear = () => { $$('.on', stage).forEach(e => e.classList.remove('on')); $$('.on', list).forEach(e => e.classList.remove('on')); hideTip(); };
+  $$('.hs', stage).forEach(h => {
+    h.addEventListener('mouseenter', () => set(h.dataset.k));
+    h.addEventListener('focus', () => set(h.dataset.k));
+    h.addEventListener('click', () => set(h.dataset.k));
+    h.addEventListener('mouseleave', clear);
+    h.addEventListener('blur', clear);
+  });
+  $$('.item', list).forEach(i => {
+    i.addEventListener('mouseenter', () => set(i.dataset.k, 'list'));
+    i.addEventListener('mouseleave', clear);
+    i.addEventListener('click', () => set(i.dataset.k));
+  });
+}
+link('#kitStage', '#kitList', KITCHEN);
+link('#eqStage', '#eqList', EQUIP);
+link('#corteStage', '.corte', CORTE);
+
+/* ---------- overview zones ---------- */
+function setZone(z) {
+  const d = ZONES[z];
+  $$('#zoneChips .chip').forEach(c => c.classList.toggle('on', c.dataset.zone === z));
+  $$('#planStage .hs').forEach(h => h.classList.toggle('on', z !== 'todas' && h.dataset.zone === z));
+  const col = ZONE_OF_COL.indexOf(z);
+  const works = col < 0 ? ROWS.map(r => r[0]) : ROWS.filter(r => r[1][col]).map(r => r[0]);
+  $('#zonePanel').innerHTML = `
+    <span class="tag">${d.tag}</span>
+    <h3>${d.title}</h3>
+    <ul>${d.text.map(t => `<li>${t}</li>`).join('')}</ul>
+    <div><span class="tag" style="color:var(--muted)">Frentes de trabalho</span>
+      <div class="work">${works.map(w => `<span>${w}</span>`).join('')}</div></div>
+    <a class="btn go" href="#${d.go}">${d.goLabel} →</a>`;
+}
+$$('#zoneChips .chip').forEach(c => c.addEventListener('click', () => setZone(c.dataset.zone)));
+$$('#planStage .hs').forEach(h => {
+  h.addEventListener('click', () => setZone(h.dataset.zone));
+  h.addEventListener('mouseenter', () => showTip(h, ZONES[h.dataset.zone].tag, ZONES[h.dataset.zone].title));
+  h.addEventListener('mouseleave', hideTip);
+});
+setZone('todas');
+
+/* ---------- matrix ---------- */
+const mt = $('#matrix');
+$('thead tr', mt).insertAdjacentHTML('beforeend', COLS.map((c, i) => `<th data-c="${i}">${c}</th>`).join(''));
+$('tbody', mt).innerHTML = ROWS.map(([name, v], r) =>
+  `<tr><th data-r="${r}">${name}</th>${v.map((x, c) => `<td class="${x ? '' : 'empty'}" data-r="${r}" data-c="${c}"><span class="mdot"></span></td>`).join('')}</tr>`).join('');
+let sel = null;
+function hl(kind, idx) {
+  const key = kind + idx;
+  sel = sel === key ? null : key;
+  mt.classList.toggle('dim', !!sel);
+  $$('td, th', mt).forEach(e => e.classList.remove('hl', 'on'));
+  if (!sel) return;
+  $$(`td[data-${kind}="${idx}"]`, mt).forEach(e => e.classList.add('hl'));
+  if (kind === 'r') $(`tbody th[data-r="${idx}"]`, mt).classList.add('hl');
+  else {
+    $(`thead th[data-c="${idx}"]`, mt).classList.add('on');
+    ROWS.forEach((row, r) => row[1][idx] && $(`tbody th[data-r="${r}"]`, mt).classList.add('hl'));
+  }
+}
+$$('thead th[data-c]', mt).forEach(th => th.addEventListener('click', () => hl('c', th.dataset.c)));
+$$('tbody th[data-r]', mt).forEach(th => th.addEventListener('click', () => hl('r', th.dataset.r)));
+
+/* ---------- charts ---------- */
+if (window.Chart) {
+  Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+  Chart.defaults.color = '#66707c';
+  const perZone = COLS.map((_, c) => ROWS.reduce((s, r) => s + r[1][c], 0));
+  new Chart($('#chartZones'), {
+    type: 'bar',
+    data: { labels: COLS, datasets: [{ data: perZone, backgroundColor: ['#5d6c7b', '#13294b', '#13294b', '#5d6c7b'], borderRadius: 6, maxBarThickness: 46 }] },
+    options: {
+      maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.raw} frentes de trabalho` } } },
+      scales: { y: { beginAtZero: true, max: 6, ticks: { stepSize: 1 }, grid: { color: '#ece7dc' } }, x: { grid: { display: false } } },
+      onClick: (e, els) => els.length && hl('c', els[0].index)
+    }
+  });
+  new Chart($('#chartEquip'), {
+    type: 'doughnut',
+    data: { labels: ['Cozinha', 'Lavandaria'], datasets: [{ data: [6, 2], backgroundColor: ['#13294b', '#b08a5e'], borderColor: '#fbfaf6', borderWidth: 3 }] },
+    options: { maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'right' } } }
+  });
+}
+
+/* ---------- IVA simulator ---------- */
+const BASE = 45000;
+$$('#ivaSeg button').forEach(b => b.addEventListener('click', () => {
+  $$('#ivaSeg button').forEach(x => x.classList.toggle('on', x === b));
+  const r = +b.dataset.iva, iva = BASE * r / 100;
+  $('#ivaVal').textContent = r ? eur(iva) : '—';
+  $('#ivaTot').textContent = eur(BASE + iva);
+}));
+
+/* ---------- tabs ---------- */
+$$('.tabs button').forEach(b => b.addEventListener('click', () => {
+  $$('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  $$('.tabpane').forEach(p => p.classList.toggle('on', p.id === 'tab-' + b.dataset.tab));
+}));
+
+/* ---------- steps ---------- */
+$$('#steps .step').forEach(s => s.addEventListener('click', () => {
+  s.classList.toggle('done');
+  $('.state', s).textContent = s.classList.contains('done') ? 'Concluído' : 'Pendente';
+}));
+
+/* ---------- copy NIF ---------- */
+$$('.copy').forEach(b => b.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'copiado ✓'; }
+  catch { b.textContent = b.dataset.copy; }
+  setTimeout(() => b.textContent = 'copiar', 1800);
+}));
+
+/* ---------- KPI counters / navigation ---------- */
+$$('.kpi').forEach(k => k.addEventListener('click', () => $('#' + k.dataset.go).scrollIntoView()));
+function countUp(el) {
+  const to = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now();
+  const step = t => {
+    const p = Math.min(1, (t - t0) / 1400), v = Math.round(to * (1 - Math.pow(1 - p, 3)));
+    el.textContent = (to >= 1000 ? v.toLocaleString('pt-PT').replace(/\s/g, '.') : v) + suf;
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  if (e.target.dataset.count) countUp(e.target);
+  io.unobserve(e.target);
+}), { threshold: .2 });
+$$('[data-count]').forEach(el => io.observe(el));
+$$('section.block .wrap > *:not(.kpis)').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+
+/* ---------- scroll spy + progress ---------- */
+const navLinks = $$('#nav a');
+const secs = navLinks.map(a => $(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const y = scrollY + 120;
+  let cur = 0;
+  secs.forEach((s, i) => { if (s.offsetTop <= y) cur = i; });
+  navLinks.forEach((a, i) => a.classList.toggle('active', i === cur && scrollY > 300));
+  const h = document.documentElement.scrollHeight - innerHeight;
+  $('#progress').style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+}, { passive: true });
+
+/* ---------- slides gallery + lightbox ---------- */
+const LB = [];
+$('#thumbs').innerHTML = SLIDES.map((t, i) => {
+  const src = `assets/slides/slide${String(i + 1).padStart(2, '0')}.jpg`;
+  LB.push([src, `${i + 1} / ${SLIDES.length} · ${t}`]);
+  return `<button data-i="${i}"><img src="${src}" alt="${t}" loading="lazy" width="1376" height="768"><span>${i + 1}. ${t}</span></button>`;
+}).join('');
+let lbList = LB, lbIdx = 0;
+const lb = $('#lb');
+function openLb(list, i) { lbList = list; lbIdx = i; renderLb(); lb.classList.add('on'); }
+function renderLb() {
+  const [src, cap] = lbList[lbIdx];
+  $('#lbImg').src = src; $('#lbImg').alt = cap; $('#lbCap').textContent = cap;
+  $$('.lb-btn', lb).forEach(b => b.style.display = lbList.length > 1 ? '' : 'none');
+}
+const lbMove = d => { lbIdx = (lbIdx + d + lbList.length) % lbList.length; renderLb(); };
+$$('#thumbs button').forEach(b => b.addEventListener('click', () => openLb(LB, +b.dataset.i)));
+const WC = $$('.wc-photos figure').map(f => [f.dataset.lb, $('figcaption', f).textContent]);
+$$('.wc-photos figure').forEach((f, i) => f.addEventListener('click', () => openLb(WC, i)));
+$('.lb-prev').addEventListener('click', () => lbMove(-1));
+$('.lb-next').addEventListener('click', () => lbMove(1));
+$('.lb-close').addEventListener('click', () => lb.classList.remove('on'));
+lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('on'); });
+
+/* ---------- presentation mode ---------- */
+const presSecs = ['#capa', '#visao', '#entrada', '#wc', '#cozinha', '#lavandaria', '#matriz', '#investimento', '#empresa', '#passos'].map(s => $(s));
+function togglePresent(on) {
+  document.body.classList.toggle('present', on);
+  document.documentElement.classList.toggle('present-html', on);
+  $('#presBtn').textContent = on ? '■ Sair' : '▶ Apresentação';
+  if (on) {
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    presSecs[0].scrollIntoView();
+  } else if (document.fullscreenElement) document.exitFullscreen();
+}
+$('#presBtn').addEventListener('click', () => togglePresent(!document.body.classList.contains('present')));
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.body.classList.contains('present')) togglePresent(false); });
+function presMove(d) {
+  const y = scrollY + 80;
+  let i = presSecs.findIndex((s, k) => k === presSecs.length - 1 || presSecs[k + 1].offsetTop > y);
+  i = Math.max(0, Math.min(presSecs.length - 1, i + d));
+  presSecs[i].scrollIntoView();
+}
+addEventListener('keydown', e => {
+  if (lb.classList.contains('on')) {
+    if (e.key === 'ArrowRight') lbMove(1);
+    else if (e.key === 'ArrowLeft') lbMove(-1);
+    else if (e.key === 'Escape') lb.classList.remove('on');
+    return;
+  }
+  if (!document.body.classList.contains('present')) return;
+  if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); presMove(1); }
+  else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); presMove(-1); }
+  else if (e.key === 'Escape') togglePresent(false);
+});
+</script>
+</body>
+</html>
