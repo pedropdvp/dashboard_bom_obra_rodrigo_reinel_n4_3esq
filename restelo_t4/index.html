@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="vendor/chart.umd.min.js"></script>
+<script src="plan3d.js"></script>
 <style>
 :root {
   --navy: #13294b;
@@ -162,8 +163,17 @@ h2 { font-size: clamp(28px, 3.4vw, 44px); font-weight: 400; color: var(--navy); 
 }
 .chip:hover { border-color: var(--navy); }
 .chip.on { background: var(--navy); border-color: var(--navy); color: #fff; }
-.overview { display: grid; grid-template-columns: 1.7fr 1fr; gap: 24px; align-items: stretch; }
-.overview .stage { background: #f6f2ea; border-radius: var(--radius); }
+.overview { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.overview .stage { background: #f6f2ea; border-radius: var(--radius); padding: 8px; overflow: hidden; }
+.plan-scroll { overflow-x: auto; }
+.plan-scroll svg { display: block; width: 100%; height: auto; min-width: 860px; }
+.plan3d .p3-hi, .plan3d .p3-callout { cursor: pointer; }
+.plan3d .p3-hi { transition: fill .2s; }
+.plan3d .p3-floor.on { fill: #b08a5e; }
+.plan3d .p3-wall.on { fill: #9c7748; }
+.plan3d .p3-callout .p3-card { transition: stroke .2s, stroke-width .2s; }
+.plan3d .p3-callout.on .p3-card, .plan3d .p3-callout:hover .p3-card, .plan3d .p3-callout:focus .p3-card { stroke: #b08a5e; stroke-width: 2.5; }
+.plan3d .p3-callout:focus { outline: none; }
 .zone-panel { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
 .zone-panel h3 { font-size: 26px; font-weight: 500; color: var(--navy); }
 .zone-panel .tag { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--wood); font-weight: 600; }
@@ -383,6 +393,7 @@ body.present .pres-hint { display: block; }
   .matrix tbody th { font-size: 12.5px; }
   .matrix thead th { font-size: 11.5px; }
   .hs { width: 28px; height: 28px; }
+  .plan-scroll svg { min-width: 720px; }
   .lightbox { padding: 50px 10px; }
 }
 </style>
@@ -470,15 +481,8 @@ body.present .pres-hint { display: block; }
       <button class="chip" data-zone="wc">4 Casas de Banho</button>
     </div>
     <div class="overview">
-      <div class="stage card" id="planStage">
-        <img src="assets/planta_iso.jpg" alt="Planta isométrica do apartamento T4 no Restelo com as zonas intervencionadas a azul" width="1260" height="612">
-        <button class="hs dot" data-zone="entrada" style="left:32.1%;top:62.6%" aria-label="Entrada"></button>
-        <button class="hs dot" data-zone="cozinha" style="left:49.8%;top:70.7%" aria-label="Cozinha"></button>
-        <button class="hs dot" data-zone="lavandaria" style="left:58.9%;top:55.2%" aria-label="Lavandaria"></button>
-        <button class="hs dot" data-zone="wc" style="left:60.6%;top:22.5%" aria-label="Casa de banho 1"></button>
-        <button class="hs dot" data-zone="wc" style="left:66.3%;top:33.5%" aria-label="Casa de banho 2"></button>
-        <button class="hs dot" data-zone="wc" style="left:57.3%;top:42.8%" aria-label="Casa de banho 3"></button>
-        <button class="hs dot" data-zone="wc" style="left:73.8%;top:39.2%" aria-label="Casa de banho 4"></button>
+      <div class="stage card plan3d" id="planStage">
+        <div class="plan-scroll"><svg id="plan3d" role="img" aria-label="Planta 3D do apartamento T4 no Restelo com as 7 divisões intervencionadas a azul"></svg></div>
       </div>
       <div class="card zone-panel" id="zonePanel"></div>
     </div>
@@ -797,25 +801,29 @@ const ZONES = {
   },
   entrada: {
     tag: 'Entrada', title: 'Redefinição volumétrica.',
-    text: ['Construção de uma nova parede em pladur (gesso cartonado) para redefinir o fluxo de entrada.',
+    text: ['Hall · 12,07 m².',
+           'Construção de uma nova parede em pladur (gesso cartonado) para redefinir o fluxo de entrada.',
            'Retoques de pintura rigorosos em toda a zona envolvente.'],
     go: 'entrada', goLabel: 'Ver Zona de Entrada'
   },
   cozinha: {
     tag: 'Cozinha & Lavandaria', title: 'Solução chave-na-mão 100% equipada.',
-    text: ['Móveis aéreos e abaixo da bancada, plano de trabalho e zona de águas.',
+    text: ['Cozinha · 13,35 m².',
+           'Móveis aéreos e abaixo da bancada, plano de trabalho e zona de águas.',
            '6 eletrodomésticos: placa a gás, forno elétrico, exaustor, micro-ondas, máquina de lavar loiça e esquentador.'],
     go: 'cozinha', goLabel: 'Ver Cozinha'
   },
   lavandaria: {
     tag: 'Cozinha & Lavandaria', title: 'Utilidade e Eficiência.',
-    text: ['Fornecimento e instalação de Máquina de Lavar Roupa e Máquina de Secar Roupa.',
+    text: ['Lavandaria · 2,98 m².',
+           'Fornecimento e instalação de Máquina de Lavar Roupa e Máquina de Secar Roupa.',
            'Todas as conexões necessárias (águas e eletricidade) para funcionamento imediato.'],
     go: 'lavandaria', goLabel: 'Ver Lavandaria'
   },
   wc: {
     tag: '4 Casas de Banho', title: 'Renovação integral e simultânea.',
-    text: ['Da demolição inicial ao detalhe do acabamento final.',
+    text: ['IS social (1,96 m²), IS 1 (3,40 m²), IS Suite (3,90 m²) e IS da Sala-Quarto (2,60 m²).',
+           'Da demolição inicial ao detalhe do acabamento final.',
            'Ventilação (Ventax), novo pavimento, azulejos premium, loiças, resguardo, espelho e torneiras.'],
     go: 'wc', goLabel: 'Ver Casas de Banho'
   }
@@ -893,7 +901,7 @@ link('#corteStage', '.corte', CORTE);
 function setZone(z) {
   const d = ZONES[z];
   $$('#zoneChips .chip').forEach(c => c.classList.toggle('on', c.dataset.zone === z));
-  $$('#planStage .hs').forEach(h => h.classList.toggle('on', z !== 'todas' && h.dataset.zone === z));
+  $$('#plan3d [data-zone]').forEach(h => h.classList.toggle('on', z !== 'todas' && h.dataset.zone === z));
   const col = ZONE_OF_COL.indexOf(z);
   const works = col < 0 ? ROWS.map(r => r[0]) : ROWS.filter(r => r[1][col]).map(r => r[0]);
   $('#zonePanel').innerHTML = `
@@ -905,9 +913,13 @@ function setZone(z) {
     <a class="btn go" href="#${d.go}">${d.goLabel} →</a>`;
 }
 $$('#zoneChips .chip').forEach(c => c.addEventListener('click', () => setZone(c.dataset.zone)));
-$$('#planStage .hs').forEach(h => {
+Plan3D.render($('#plan3d'));
+{ const sc = $('.plan-scroll'); sc.scrollLeft = (sc.scrollWidth - sc.clientWidth) / 2; }
+$$('#plan3d .p3-hi, #plan3d .p3-callout').forEach(h => {
+  const room = Plan3D.ROOMS.find(r => r.id === h.dataset.room);
   h.addEventListener('click', () => setZone(h.dataset.zone));
-  h.addEventListener('mouseenter', () => showTip(h, ZONES[h.dataset.zone].tag, ZONES[h.dataset.zone].title));
+  h.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZone(h.dataset.zone); } });
+  h.addEventListener('mouseenter', () => showTip(h, `${room.name} · ${room.area} m²`, ZONES[h.dataset.zone].tag));
   h.addEventListener('mouseleave', hideTip);
 });
 setZone('todas');

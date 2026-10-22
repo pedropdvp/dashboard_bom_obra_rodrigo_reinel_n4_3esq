@@ -6,7 +6,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 FONTS = os.path.join(os.path.dirname(__file__), 'fonts')
 INTER = os.path.join(FONTS, 'Inter-Regular.otf')
-RALEWAY = os.path.join(FONTS, 'raleway-latin-600-normal.woff')
 RC = os.path.join(FONTS, 'roboto-condensed-latin-400-normal.woff')
 RC_BOLD = os.path.join(FONTS, 'roboto-condensed-latin-800-normal.woff')
 
@@ -49,8 +48,16 @@ def slide1(im):
 
 
 def slide2(im):
-    f = font_for_width(RALEWAY, '3 Casas de Banho:', 1291 - 1093)
-    swap(im, (1090, 406, 1104, 429), '4', f, (21, 28, 43), 404, False)
+    """Replace the old floor plan with the 3D plan of the current layout (tools/plan3d.png)."""
+    plan = Image.open(os.path.join(os.path.dirname(__file__), 'plan3d.png')).convert('RGBA')
+    src = im.copy()
+    strip = src.crop((0, 0, 60, 645))
+    for i, x in enumerate(range(0, 1376, 60)):
+        im.paste(strip if i % 2 == 0 else strip.transpose(Image.FLIP_LEFT_RIGHT), (x, 0))
+    im.paste(src.crop((60, 50, 410, 175)), (60, 50))  # title
+    h = 472
+    plan = plan.resize((round(plan.width * h / plan.height), h), Image.LANCZOS)
+    im.paste(plan, ((1376 - plan.width) // 2, 170), plan)
 
 
 def slide4(im):

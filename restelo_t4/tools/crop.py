@@ -13,8 +13,6 @@ def load(n):
 def save(im, name, q=84): im.save(f'{OUT}/{name}.jpg', quality=q, optimize=True, progressive=True)
 for n in range(1, 14): save(load(n), f'slides/slide{n:02d}', 80)
 save(load(1).crop((600, 0, 1376, 738)), 'hero_torneira')
-p = load(2); ImageDraw.Draw(p).rectangle([70, 55, 395, 170], fill=p.getpixel((60, 200)))
-save(p.crop((60, 20, 1320, 632)), 'planta_iso')
 save(load(3).crop((0, 0, 688, 768)), 'entrada_parede')
 s4 = load(4)
 for i, x in enumerate((260, 567, 873)): save(s4.crop((x, 262, x + 243, 505)), f'wc_foto{i+1}')
