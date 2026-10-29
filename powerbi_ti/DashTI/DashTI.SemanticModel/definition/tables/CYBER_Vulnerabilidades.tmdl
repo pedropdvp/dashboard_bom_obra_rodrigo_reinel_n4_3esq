@@ -4,34 +4,34 @@ table CYBER_Vulnerabilidades
 	measure 'Total Vulnerabilidades' = COUNTROWS ( CYBER_Vulnerabilidades )
 		formatString: #,0
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: db0c9871-388b-436c-9618-3ae2418bf2f5
+		lineageTag: 31a21454-cd3f-4ef7-95ba-fe7f2d6f21fa
 
 	measure 'Vulnerabilidades Abertas' = CALCULATE ( [Total Vulnerabilidades], CYBER_Vulnerabilidades[Estado] = "Aberta" ) + 0
 		formatString: #,0
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: e4ac7b14-6542-4bf3-9a1d-bfdcbf4e518c
+		lineageTag: 7103b7ea-3475-4bf7-9e5f-efcc9ed6354d
 
 	measure 'Vulnerabilidades Críticas Abertas' = CALCULATE ( [Total Vulnerabilidades], CYBER_Vulnerabilidades[Estado] = "Aberta", CYBER_Vulnerabilidades[Criticidade] = "Crítico" ) + 0
 		formatString: #,0
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: cd90cccc-5df4-4340-a189-2ab4c13bb960
+		lineageTag: 54f5a97c-f30d-4cb7-967c-da27c0bc7a04
 
 	measure 'CVSS Médio' = AVERAGE ( CYBER_Vulnerabilidades[CVSS_Score] )
 		formatString: #,0.00
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: 35c6b519-f4a4-457e-9539-a0e1a35794e4
+		lineageTag: 71dd9101-e52e-4477-b22f-2e10418df7f6
 
 	measure 'Dias em Aberto Médio' = CALCULATE ( AVERAGE ( CYBER_Vulnerabilidades[Dias_Aberto] ), CYBER_Vulnerabilidades[Estado] = "Aberta" )
 		formatString: #,0.00
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: b9f99e83-894c-495c-a51a-69f450a9a54c
+		lineageTag: 6d118c97-3222-4280-93d3-ba4ec605a258
 
 	measure 'Cor CVSS' =
 			VAR _s = MAX ( CYBER_Vulnerabilidades[CVSS_Score] )
 			RETURN
 			    SWITCH ( TRUE (), _s >= 9, "#F1948A", _s >= 7, "#F5B041", _s >= 4, "#F9E79F", "#82E0AA" )
 		displayFolder: Cibersegurança\Vulnerabilidades
-		lineageTag: 7cc1a02c-a753-44ec-a79b-15eac76b7c98
+		lineageTag: 993a9ed7-617d-4e46-9c80-0d2c6d8f2ffb
 
 	column ID_Vuln
 		dataType: string

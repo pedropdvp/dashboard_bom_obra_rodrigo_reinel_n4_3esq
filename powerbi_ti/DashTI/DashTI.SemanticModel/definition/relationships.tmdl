@@ -18,21 +18,21 @@ relationship AutoDetected_ea71a62c-3d2e-44f6-a613-a8634847e4d1
 	fromColumn: ATIVOS_Renovações.Departamento
 	toColumn: Departamentos.Departamento
 
-relationship ac0f89b0-4b7b-4231-a316-06c989361d6c
+relationship e37185d0-7b9a-4567-9150-7038a45b2f15
 	fromColumn: HELPDESK_Tickets.Data_Abertura
 	toColumn: Calendário.Date
 
-relationship dff07a81-bb57-4b12-934f-878d5c8d8b56
+relationship 1e5bc0ae-c2e3-4f10-9484-0eacaba85301
 	isActive: false
 	fromColumn: CYBER_Vulnerabilidades.Data_Descoberta
 	toColumn: Calendário.Date
 
-relationship 321fe1de-bd79-4653-bd58-b72afd9afab1
+relationship 5caf0266-4f91-44ea-a382-8a11cfa7cc3c
 	isActive: false
 	fromColumn: ATIVOS_Renovações.Data_Renovação
 	toColumn: Calendário.Date
 
-relationship e6c4aedb-42ff-48af-a9ac-c5a9eefe3324
+relationship fd830617-c95d-4ec3-b965-3c8493ae8229
 	fromColumn: CYBER_Incidentes.Investigador
 	toColumn: HELPDESK_Técnicos.Técnico
 

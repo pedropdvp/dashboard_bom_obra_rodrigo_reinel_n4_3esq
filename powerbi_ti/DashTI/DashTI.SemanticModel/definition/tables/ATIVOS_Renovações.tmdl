@@ -1,34 +1,34 @@
 table ATIVOS_Renovações
 	lineageTag: 919931fe-2b55-470a-963e-26f5372f6132
 
-	measure 'Total Renovações' = COUNTROWS ( ATIVOS_Renovações )
+	measure 'Total Renovações' = COUNTROWS ( 'ATIVOS_Renovações' )
 		formatString: #,0
 		displayFolder: Ativos TI\Renovações
-		lineageTag: b986f6fe-d579-4800-ac2c-e858d027cda4
+		lineageTag: 2858b218-cf4a-4bbc-aa47-c6229e39ef85
 
-	measure 'Renovações Urgentes' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Urgente" ) + 0
+	measure 'Renovações Urgentes' = CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Urgente" ) + 0
 		formatString: #,0
 		displayFolder: Ativos TI\Renovações
-		lineageTag: b08b97ed-4692-413b-b7d1-9475b4587141
+		lineageTag: 3c78126d-35bc-47d4-818e-591f701660b7
 
-	measure 'Renovações Em Breve' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Em Breve" ) + 0
+	measure 'Renovações Em Breve' = CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Em Breve" ) + 0
 		formatString: #,0
 		displayFolder: Ativos TI\Renovações
-		lineageTag: 004c2500-85cc-4c59-ae3d-042a9e3f6a18
+		lineageTag: ffe49bfb-46e0-4f9a-bc67-c7194a6243fd
 
-	measure 'Renovações Expiradas' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Expirado" ) + 0
+	measure 'Renovações Expiradas' = CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Expirado" ) + 0
 		formatString: #,0
 		displayFolder: Ativos TI\Renovações
-		lineageTag: 41ce9303-7a37-4abc-9d46-19ef1c364b2f
+		lineageTag: 372eaf9e-9674-4268-a386-026e2f7a0b3f
 
-	measure 'Custo Renovações' = SUM ( ATIVOS_Renovações[Custo_€] )
+	measure 'Custo Renovações' = SUM ( 'ATIVOS_Renovações'[Custo_€] )
 		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
 		displayFolder: Ativos TI\Renovações
-		lineageTag: cd0f8b13-7257-429c-b838-cb3870a7d9f0
+		lineageTag: 3f3bf39d-0422-4bb2-b682-87c8881ec773
 
-	measure 'Cor Estado Alerta' = SWITCH ( SELECTEDVALUE ( ATIVOS_Renovações[Estado_Alerta] ), "Expirado", "#F1948A", "Urgente", "#F5B041", "Em Breve", "#F9E79F", "OK", "#82E0AA" )
+	measure 'Cor Estado Alerta' = SWITCH ( SELECTEDVALUE ( 'ATIVOS_Renovações'[Estado_Alerta] ), "Expirado", "#F1948A", "Urgente", "#F5B041", "Em Breve", "#F9E79F", "OK", "#82E0AA" )
 		displayFolder: Ativos TI\Renovações
-		lineageTag: 1561d90b-0d81-46dd-8448-db9ac4ded457
+		lineageTag: f1f95735-64fd-4996-af0e-d44d67a4e601
 
 	column ID
 		dataType: string

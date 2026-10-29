@@ -122,7 +122,7 @@ AVERAGE ( HELPDESK_Tickets[Satisfação] )
 Tabela `HELPDESK_Tickets` · pasta *Help Desk* · formato `#,0.00`
 ```dax
 Satisfação Equipa =
-CALCULATE ( [Satisfação Média], REMOVEFILTERS ( HELPDESK_Técnicos ), REMOVEFILTERS ( HELPDESK_Tickets[Técnico] ) )
+CALCULATE ( [Satisfação Média], REMOVEFILTERS ( 'HELPDESK_Técnicos' ), REMOVEFILTERS ( HELPDESK_Tickets[Técnico] ) )
 ```
 
 ### Satisfação Mínima
@@ -164,7 +164,7 @@ DIVIDE ( [Total Tickets], CALCULATE ( [Total Tickets], ALLSELECTED () ) )
 Tabela `HELPDESK_Tickets` · pasta *Help Desk*
 ```dax
 Técnico Selecionado =
-SELECTEDVALUE ( HELPDESK_Técnicos[Técnico], "Todos os Técnicos" )
+SELECTEDVALUE ( 'HELPDESK_Técnicos'[Técnico], "Todos os Técnicos" )
 ```
 
 ### Cor SLA
@@ -544,42 +544,42 @@ SUMX ( ATIVOS_Software, ATIVOS_Software[Licenças_Disponíveis] * ATIVOS_Softwar
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações* · formato `#,0`
 ```dax
 Total Renovações =
-COUNTROWS ( ATIVOS_Renovações )
+COUNTROWS ( 'ATIVOS_Renovações' )
 ```
 
 ### Renovações Urgentes
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações* · formato `#,0`
 ```dax
 Renovações Urgentes =
-CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Urgente" ) + 0
+CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Urgente" ) + 0
 ```
 
 ### Renovações Em Breve
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações* · formato `#,0`
 ```dax
 Renovações Em Breve =
-CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Em Breve" ) + 0
+CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Em Breve" ) + 0
 ```
 
 ### Renovações Expiradas
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações* · formato `#,0`
 ```dax
 Renovações Expiradas =
-CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Expirado" ) + 0
+CALCULATE ( [Total Renovações], 'ATIVOS_Renovações'[Estado_Alerta] = "Expirado" ) + 0
 ```
 
 ### Custo Renovações
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações* · formato `#,0.00 €;-#,0.00 €;#,0.00 €`
 ```dax
 Custo Renovações =
-SUM ( ATIVOS_Renovações[Custo_€] )
+SUM ( 'ATIVOS_Renovações'[Custo_€] )
 ```
 
 ### Cor Estado Alerta
 Tabela `ATIVOS_Renovações` · pasta *Ativos TI\Renovações*
 ```dax
 Cor Estado Alerta =
-SWITCH ( SELECTEDVALUE ( ATIVOS_Renovações[Estado_Alerta] ), "Expirado", "#F1948A", "Urgente", "#F5B041", "Em Breve", "#F9E79F", "OK", "#82E0AA" )
+SWITCH ( SELECTEDVALUE ( 'ATIVOS_Renovações'[Estado_Alerta] ), "Expirado", "#F1948A", "Urgente", "#F5B041", "Em Breve", "#F9E79F", "OK", "#82E0AA" )
 ```
 
 ### Custos TI Mês Atual

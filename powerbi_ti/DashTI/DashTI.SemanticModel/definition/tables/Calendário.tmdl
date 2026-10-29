@@ -1,12 +1,12 @@
 table Calendário
-	lineageTag: c5181d3c-e750-4b9c-919b-00f831963e54
+	lineageTag: 3fe45111-a40b-4629-93d6-8822a5edd607
 	dataCategory: Time
 
 	column Date
 		dataType: dateTime
 		isKey
 		formatString: Long Date
-		lineageTag: 0dad5692-1f06-4d11-9a84-c855548ddb2e
+		lineageTag: aed3a90e-e866-4db6-b304-51753775b7b4
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Date]
@@ -14,31 +14,31 @@ table Calendário
 	column Ano = YEAR ( 'Calendário'[Date] )
 		dataType: int64
 		formatString: 0
-		lineageTag: b32ab03d-f41f-40eb-a25f-237716700980
+		lineageTag: 5b4773ae-d733-41e4-94da-fd4a953d48e7
 		summarizeBy: none
 
 	column MêsNum = MONTH ( 'Calendário'[Date] )
 		dataType: int64
 		formatString: 0
-		lineageTag: 0883f1dc-d943-407c-9949-cabec34355c2
+		lineageTag: 9f1f0716-c0a9-4f99-9490-95c008efdc8c
 		summarizeBy: none
 
 	column AnoMês = YEAR ( 'Calendário'[Date] ) * 100 + MONTH ( 'Calendário'[Date] )
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 065b9393-04b5-4148-9f22-b5d54546334a
+		lineageTag: 8b4f19b7-536e-4e23-b7b8-2eea1fef698b
 		summarizeBy: none
 
 	column MesAno = FORMAT ( 'Calendário'[Date], "mmm yyyy" )
 		dataType: string
-		lineageTag: 73455c20-15b0-4f59-b3a5-25d54d78928c
+		lineageTag: 6054768f-607a-438e-a04b-83ec9bad790b
 		summarizeBy: none
 		sortByColumn: AnoMês
 
 	column Trimestre = "T" & QUARTER ( 'Calendário'[Date] )
 		dataType: string
-		lineageTag: 393df140-feb6-40ba-a0c9-2478496cfa7a
+		lineageTag: 46c9fa57-a5c9-4b98-95df-861125b2efa8
 		summarizeBy: none
 
 	partition Calendário = calculated

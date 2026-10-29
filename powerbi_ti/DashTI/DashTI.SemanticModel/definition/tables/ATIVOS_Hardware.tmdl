@@ -4,22 +4,22 @@ table ATIVOS_Hardware
 	measure 'Total Hardware' = COUNTROWS ( ATIVOS_Hardware )
 		formatString: #,0
 		displayFolder: Ativos TI
-		lineageTag: 3772f535-b2ba-4464-aced-9c3b85585f7f
+		lineageTag: 66f5abdd-cf2a-45af-b8dc-5f65b01b5a6c
 
 	measure 'Hardware Ativo' = CALCULATE ( [Total Hardware], ATIVOS_Hardware[Estado] = "Ativo" ) + 0
 		formatString: #,0
 		displayFolder: Ativos TI
-		lineageTag: 02554f61-5119-4fb9-837c-e1334ad2e6ad
+		lineageTag: 32bd518b-39d2-4eb8-bc6a-bbdd182640a8
 
 	measure 'Valor Total HW' = SUM ( ATIVOS_Hardware[Custo_Aquisição_€] )
 		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: Ativos TI
-		lineageTag: b32f17bf-b833-46ee-acb3-c5070d52933a
+		lineageTag: 21352237-d6be-481c-854c-edc08a39e0f7
 
 	measure 'Custo Manutenção HW' = SUM ( ATIVOS_Hardware[Custo_Manutenção_€] )
 		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: Ativos TI
-		lineageTag: 92539b34-1ee9-42bc-958d-a8327be3faa4
+		lineageTag: 7109bae1-dcec-4a87-b456-6e8e003df786
 
 	measure 'Garantias a Expirar 90d' =
 			VAR _hoje = TODAY ()
@@ -27,7 +27,7 @@ table ATIVOS_Hardware
 			    CALCULATE ( [Total Hardware], ATIVOS_Hardware[Data_Garantia] >= _hoje && ATIVOS_Hardware[Data_Garantia] <= _hoje + 90 ) + 0
 		formatString: #,0
 		displayFolder: Ativos TI
-		lineageTag: ed8c7e5f-82fb-4658-90e0-9a5cd82681a2
+		lineageTag: 05f6731a-1475-4339-b537-8c83d3d36952
 
 	column ID_Ativo
 		dataType: string

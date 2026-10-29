@@ -4,37 +4,37 @@ table ATIVOS_Software
 	measure 'Licenças Adquiridas' = SUM ( ATIVOS_Software[Licenças_Adquiridas] )
 		formatString: #,0
 		displayFolder: Ativos TI\Software
-		lineageTag: 010837aa-7c01-49c0-bc1b-999871043684
+		lineageTag: 0b4a4f71-e6be-4e99-a860-f26b2f701795
 
 	measure 'Licenças Utilizadas' = SUM ( ATIVOS_Software[Licenças_Utilizadas] )
 		formatString: #,0
 		displayFolder: Ativos TI\Software
-		lineageTag: db91dd20-1ead-467e-96c1-075efb062d63
+		lineageTag: 9eee9e44-6c5b-4b93-8ab9-161e13c48b7d
 
 	measure 'Licenças Disponíveis' = SUM ( ATIVOS_Software[Licenças_Disponíveis] )
 		formatString: #,0
 		displayFolder: Ativos TI\Software
-		lineageTag: 2060982f-ccfc-45bf-92cd-aa23e136c970
+		lineageTag: fe0750c9-c461-4f9a-a5f6-1694935444d3
 
 	measure '% Licenças Utilizadas' = DIVIDE ( [Licenças Utilizadas], [Licenças Adquiridas] )
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Ativos TI\Software
-		lineageTag: cc88b1c9-154f-49ba-9515-1ce787f62287
+		lineageTag: 66924498-0c87-4f50-8426-bb53e563e966
 
 	measure 'Drift Licenças' = [Licenças Adquiridas] - [Licenças Utilizadas]
 		formatString: #,0
 		displayFolder: Ativos TI\Software
-		lineageTag: a4510fc6-8b85-4686-908c-22b12384addb
+		lineageTag: ed488513-2197-4c86-a1cd-2b4d33fec930
 
 	measure 'Custo Anual Software' = SUM ( ATIVOS_Software[Custo_Anual_€] )
 		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
 		displayFolder: Ativos TI\Software
-		lineageTag: a6d7bdb6-9892-4199-9ad6-58797912204a
+		lineageTag: e954f302-74e9-41d8-a1cc-975e8864fbc8
 
 	measure 'Custo Licenças Desperdiçadas' = SUMX ( ATIVOS_Software, ATIVOS_Software[Licenças_Disponíveis] * ATIVOS_Software[Custo_Por_Licença_€] )
 		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
 		displayFolder: Ativos TI\Software
-		lineageTag: 3763c202-95da-4efc-bbce-306568c7f814
+		lineageTag: ed3cd594-d525-46ca-928a-86950a5ae37d
 
 	column ID_Licença
 		dataType: string
