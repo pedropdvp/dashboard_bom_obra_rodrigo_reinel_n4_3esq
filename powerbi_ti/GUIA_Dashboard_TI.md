@@ -5,8 +5,8 @@ Projecto Final TI · Power BI — Help Desk · Cibersegurança · Gestão de Ati
 ## Como abrir e gerar o .pbix (cerca de 2 minutos)
 O dashboard é entregue como **projecto Power BI (.pbip)**, o formato de texto oficial da Microsoft. O Power BI Desktop constrói o modelo sozinho e, se encontrar algum problema, indica o ficheiro e a linha.
 
-1. Descompactar `Exercicio2_Pedro_Varela_Pinto_VF02.zip`. Ficam a pasta `.Report`, a pasta `.SemanticModel` e o ficheiro `.pbip`, todos lado a lado.
-2. Fazer duplo clique em **`Exercicio2_Pedro_Varela_Pinto_VF02.pbip`**.
+1. Descompactar `DashTI.zip` numa pasta curta, por exemplo `C:\PBI\`. Fica a pasta `DashTI` com `DashTI.pbip`, `DashTI.Report` e `DashTI.SemanticModel`. O caminho mais longo dentro do zip tem 97 caracteres.
+2. Fazer duplo clique em **`DashTI.pbip`**.
 3. Os visuais aparecem vazios. Clicar em **Home › Refresh** para carregar os dados do Excel `IT_Dashboard_Dados.xlsx`, que está no mesmo caminho do ficheiro VF original.
    - Se o Excel estiver noutra pasta: **Transform data › Data source settings › Change Source**.
 4. **File › Save as** → escolher o tipo **.pbix** → `Exercicio2_Pedro_Varela_Pinto_VF02.pbix`.
