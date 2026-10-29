@@ -1,0 +1,140 @@
+table ATIVOS_Software
+	lineageTag: 5c1b7054-9740-48fb-b63b-60dd9039e9e4
+
+	measure 'Licenças Adquiridas' = SUM ( ATIVOS_Software[Licenças_Adquiridas] )
+		formatString: #,0
+		displayFolder: Ativos TI\Software
+		lineageTag: 010837aa-7c01-49c0-bc1b-999871043684
+
+	measure 'Licenças Utilizadas' = SUM ( ATIVOS_Software[Licenças_Utilizadas] )
+		formatString: #,0
+		displayFolder: Ativos TI\Software
+		lineageTag: db91dd20-1ead-467e-96c1-075efb062d63
+
+	measure 'Licenças Disponíveis' = SUM ( ATIVOS_Software[Licenças_Disponíveis] )
+		formatString: #,0
+		displayFolder: Ativos TI\Software
+		lineageTag: 2060982f-ccfc-45bf-92cd-aa23e136c970
+
+	measure '% Licenças Utilizadas' = DIVIDE ( [Licenças Utilizadas], [Licenças Adquiridas] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ativos TI\Software
+		lineageTag: cc88b1c9-154f-49ba-9515-1ce787f62287
+
+	measure 'Drift Licenças' = [Licenças Adquiridas] - [Licenças Utilizadas]
+		formatString: #,0
+		displayFolder: Ativos TI\Software
+		lineageTag: a4510fc6-8b85-4686-908c-22b12384addb
+
+	measure 'Custo Anual Software' = SUM ( ATIVOS_Software[Custo_Anual_€] )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Ativos TI\Software
+		lineageTag: a6d7bdb6-9892-4199-9ad6-58797912204a
+
+	measure 'Custo Licenças Desperdiçadas' = SUMX ( ATIVOS_Software, ATIVOS_Software[Licenças_Disponíveis] * ATIVOS_Software[Custo_Por_Licença_€] )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Ativos TI\Software
+		lineageTag: 3763c202-95da-4efc-bbce-306568c7f814
+
+	column ID_Licença
+		dataType: string
+		lineageTag: 5d9f802b-f22e-485c-a2b5-4e853195adc7
+		summarizeBy: none
+		sourceColumn: ID_Licença
+
+	column Software
+		dataType: string
+		lineageTag: 4fd90d6d-d6ca-4b26-89bb-94613bc7e88b
+		summarizeBy: none
+		sourceColumn: Software
+
+	column Fabricante
+		dataType: string
+		lineageTag: dcbfaab8-c590-43cb-9fbb-55b905453572
+		summarizeBy: none
+		sourceColumn: Fabricante
+
+	column Versão
+		dataType: double
+		lineageTag: 72c85ee2-5edf-4e9a-8cf1-4ab73a0c637c
+		summarizeBy: sum
+		sourceColumn: Versão
+
+	column Tipo_Licença
+		dataType: string
+		lineageTag: 29e6c000-46be-438b-93e4-a55ed3a763bc
+		summarizeBy: none
+		sourceColumn: Tipo_Licença
+
+	column Licenças_Adquiridas
+		dataType: int64
+		formatString: 0
+		lineageTag: f9094aed-5a4c-4840-a27c-b3ee0e9a6218
+		summarizeBy: sum
+		sourceColumn: Licenças_Adquiridas
+
+	column Licenças_Utilizadas
+		dataType: int64
+		formatString: 0
+		lineageTag: 53cc14a9-3189-47f5-9822-4174de1bf5b5
+		summarizeBy: sum
+		sourceColumn: Licenças_Utilizadas
+
+	column Licenças_Disponíveis
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c48ae32-80fa-4419-a814-3b4966b0be2e
+		summarizeBy: sum
+		sourceColumn: Licenças_Disponíveis
+
+	column Data_Compra
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f4e8b21a-0855-4175-8a12-e79c276bf9a1
+		summarizeBy: none
+		sourceColumn: Data_Compra
+
+	column Data_Renovação
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a7c033d7-104f-4d71-98f0-e52ee67ec9cc
+		summarizeBy: none
+		sourceColumn: Data_Renovação
+
+	column Custo_Anual_€
+		dataType: double
+		lineageTag: fcf0db7a-dde2-498e-946b-d38bac40d812
+		summarizeBy: sum
+		sourceColumn: Custo_Anual_€
+
+	column Custo_Por_Licença_€
+		dataType: double
+		lineageTag: aecd6b4b-e310-4f0e-b672-c46bf935d89f
+		summarizeBy: sum
+		sourceColumn: Custo_Por_Licença_€
+
+	column Departamento
+		dataType: string
+		lineageTag: ba369c21-5253-4cfb-a244-a8f401f24cfb
+		summarizeBy: none
+		sourceColumn: Departamento
+
+	column Conformidade
+		dataType: string
+		lineageTag: cfcf4503-500e-432b-83fa-881358444a0e
+		summarizeBy: none
+		sourceColumn: Conformidade
+
+	partition ATIVOS_Software = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "ATIVOS_Software", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID_Licença", type text}, {"Software", type text}, {"Fabricante", type text}, {"Versão", type number}, {"Tipo_Licença", type text}, {"Licenças_Adquiridas", Int64.Type}, {"Licenças_Utilizadas", Int64.Type}, {"Licenças_Disponíveis", Int64.Type}, {"Data_Compra", type date}, {"Data_Renovação", type date}, {"Custo_Anual_€", type number}, {"Custo_Por_Licença_€", type number}, {"Departamento", type text}, {"Conformidade", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

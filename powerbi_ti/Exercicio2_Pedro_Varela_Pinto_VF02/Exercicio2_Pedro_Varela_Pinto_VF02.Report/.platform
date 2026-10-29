@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Exercicio2_Pedro_Varela_Pinto_VF02"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3d305011-f908-40ed-96db-12432380b7bc"
+  }
+}

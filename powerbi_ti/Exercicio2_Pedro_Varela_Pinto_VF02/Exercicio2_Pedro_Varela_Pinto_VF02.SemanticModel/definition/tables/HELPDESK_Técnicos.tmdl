@@ -1,0 +1,53 @@
+table HELPDESK_Técnicos
+	lineageTag: 19616a74-e5c6-41d4-bba4-7df7bbaa4194
+
+	column Técnico
+		dataType: string
+		lineageTag: fe4b8586-aff3-4b3e-8c28-1d14b4925c4b
+		summarizeBy: none
+		sourceColumn: Técnico
+
+	column Equipa
+		dataType: string
+		lineageTag: 0338a849-3993-4c6d-9970-179580bb77a1
+		summarizeBy: none
+		sourceColumn: Equipa
+
+	column Nível
+		dataType: string
+		lineageTag: 79b42bde-a627-4337-85a5-3c971f8664cd
+		summarizeBy: none
+		sourceColumn: Nível
+
+	column Data_Entrada
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 09a3aaa2-0e00-4f9e-95b5-b7926a19ee08
+		summarizeBy: none
+		sourceColumn: Data_Entrada
+
+	column Email
+		dataType: string
+		lineageTag: abb2ec06-d63a-4271-8306-7c0dfa04055d
+		summarizeBy: none
+		sourceColumn: Email
+
+	column Turno
+		dataType: string
+		lineageTag: 43b766f0-59f5-45dd-bdc5-4d4daa557ae9
+		summarizeBy: none
+		sourceColumn: Turno
+
+	partition HELPDESK_Técnicos = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "HELPDESK_Técnicos", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Técnico", type text}, {"Equipa", type text}, {"Nível", type text}, {"Data_Entrada", type date}, {"Email", type text}, {"Turno", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

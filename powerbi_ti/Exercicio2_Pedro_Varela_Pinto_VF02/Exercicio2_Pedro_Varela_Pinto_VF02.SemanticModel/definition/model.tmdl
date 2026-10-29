@@ -1,0 +1,24 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-PT
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["HELPDESK_Tickets", "Departamentos", "HELPDESK_Técnicos", "CYBER_Incidentes", "CYBER_Vulnerabilidades", "ATIVOS_Hardware", "ATIVOS_Software", "ATIVOS_Renovações", "PQ_Instruções", "GUIA RÁPIDO – POWER QUERY (PQ_Instruções)"]
+
+ref table HELPDESK_Tickets
+ref table Departamentos
+ref table HELPDESK_Técnicos
+ref table CYBER_Incidentes
+ref table CYBER_Vulnerabilidades
+ref table ATIVOS_Hardware
+ref table ATIVOS_Software
+ref table ATIVOS_Renovações
+ref table PQ_Instruções
+ref table 'GUIA RÁPIDO – POWER QUERY (PQ_Instruções)'
+ref table Calendário
+

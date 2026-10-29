@@ -1,0 +1,411 @@
+table HELPDESK_Tickets
+	lineageTag: 9957963b-86ce-4c89-94f9-e104a30d120b
+
+	measure 'Total Tickets' = COUNTROWS ( HELPDESK_Tickets )
+		formatString: #,0
+		displayFolder: Help Desk
+		lineageTag: 58eeaae4-8000-4c99-9410-4e708de3770d
+
+	measure 'Tickets Abertos' = CALCULATE ( [Total Tickets], HELPDESK_Tickets[Estado] = "Aberto" ) + 0
+		formatString: #,0
+		displayFolder: Help Desk
+		lineageTag: 9f819a77-ec44-4ae7-9213-225b8ac832d4
+
+	measure 'Tickets Fechados' = CALCULATE ( [Total Tickets], HELPDESK_Tickets[Estado] = "Fechado" ) + 0
+		formatString: #,0
+		displayFolder: Help Desk
+		lineageTag: 92cd5e40-64b0-4993-96e5-757dd03cdb1d
+
+	measure 'Tickets Não Fechados' = CALCULATE ( [Total Tickets], HELPDESK_Tickets[Estado] <> "Fechado" ) + 0
+		formatString: #,0
+		displayFolder: Help Desk
+		lineageTag: 212b1360-c7a1-4965-849b-3be919297109
+
+	measure 'Tickets SLA Cumprido' = CALCULATE ( [Total Tickets], HELPDESK_Tickets[SLA_Cumprido] = "Sim" ) + 0
+		formatString: #,0
+		displayFolder: Help Desk
+		lineageTag: a08335b9-d56a-40d0-bbc1-6f63e1854ed1
+
+	measure '% SLA Cumprido' = DIVIDE ( [Tickets SLA Cumprido], [Total Tickets] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk
+		lineageTag: 2d970ef6-e099-4e22-8e58-e31f40c3650d
+
+	measure 'Meta SLA' = 0.95
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk
+		lineageTag: df746f03-069f-44e3-bcbc-95d80a95dd3c
+
+	measure 'SLA Mínimo' = 0
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk
+		lineageTag: da0c85b5-3a20-4883-8441-b631e73e11ab
+
+	measure 'SLA Máximo' = 1
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk
+		lineageTag: 6dd112e8-3c01-469c-b0bc-148d57a3c23e
+
+	measure 'Tempo Médio Resolução' = AVERAGE ( HELPDESK_Tickets[Tempo_Resolução_H] )
+		formatString: #,0.00
+		displayFolder: Help Desk
+		lineageTag: f1287dd3-7caf-4efc-938a-36e2d0762c9b
+
+	measure 'Satisfação Média' = AVERAGE ( HELPDESK_Tickets[Satisfação] )
+		formatString: #,0.00
+		displayFolder: Help Desk
+		lineageTag: 905212cf-20dc-4ff4-b457-ab2dd9d5e21e
+
+	measure 'Satisfação Equipa' = CALCULATE ( [Satisfação Média], REMOVEFILTERS ( HELPDESK_Técnicos ), REMOVEFILTERS ( HELPDESK_Tickets[Técnico] ) )
+		formatString: #,0.00
+		displayFolder: Help Desk
+		lineageTag: 4feee80f-fbd1-4047-92d6-44a20f881be4
+
+	measure 'Satisfação Mínima' = 1
+		formatString: #,0.00
+		displayFolder: Help Desk
+		lineageTag: 15d12840-ec2b-4cb0-9e41-c79f4b13c4f0
+
+	measure 'Satisfação Máxima' = 5
+		formatString: #,0.00
+		displayFolder: Help Desk
+		lineageTag: 048144e1-ec2e-4c0e-bf3f-eaace292e14d
+
+	measure 'Custo Total Tickets' = SUM ( HELPDESK_Tickets[Custo_€] )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Help Desk
+		lineageTag: 87a2748b-47b7-4455-904b-bfe050164027
+
+	measure 'Custo Médio por Ticket' = DIVIDE ( [Custo Total Tickets], [Total Tickets] )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Help Desk
+		lineageTag: 2decb08c-f458-46a0-8a7e-5f2be3cf17e2
+
+	measure '% Total Tickets' = DIVIDE ( [Total Tickets], CALCULATE ( [Total Tickets], ALLSELECTED () ) )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Help Desk
+		lineageTag: a46819d1-ec95-48b8-9658-99ebe566e13c
+
+	measure 'Técnico Selecionado' = SELECTEDVALUE ( HELPDESK_Técnicos[Técnico], "Todos os Técnicos" )
+		displayFolder: Help Desk
+		lineageTag: 2534eda5-9599-4c84-81ee-34b3dadf26fc
+
+	measure 'Cor SLA' = SWITCH ( TRUE (), ISBLANK ( [% SLA Cumprido] ), "#9AA5B1", [% SLA Cumprido] >= [Meta SLA], "#2ECC71", [% SLA Cumprido] >= 0.85, "#F39C12", "#E74C3C" )
+		displayFolder: Help Desk
+		lineageTag: 8d8707a9-8277-4360-9a41-082081d09764
+
+	measure 'Cor SLA Ticket' = SWITCH ( SELECTEDVALUE ( HELPDESK_Tickets[SLA_Cumprido] ), "Sim", "#82E0AA", "Não", "#F1948A" )
+		displayFolder: Help Desk
+		lineageTag: b117064d-09f2-4e35-889f-fc97afe35502
+
+	measure 'Tickets Mês Atual' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -1 ) + 1
+			VAR _fim = EOMONTH ( _ref, 0 )
+			RETURN
+			    CALCULATE (
+			        [Total Tickets],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: #,0
+		displayFolder: Help Desk\MoM
+		lineageTag: 3ed9848c-3e6f-44ee-9ada-76725f61f4a5
+
+	measure 'Tickets Mês Anterior' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -2 ) + 1
+			VAR _fim = EOMONTH ( _ref, -1 )
+			RETURN
+			    CALCULATE (
+			        [Total Tickets],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: #,0
+		displayFolder: Help Desk\MoM
+		lineageTag: 6f321525-c2d3-45b8-b995-56873e88341b
+
+	measure 'MoM Tickets %' = DIVIDE ( [Tickets Mês Atual] - [Tickets Mês Anterior], [Tickets Mês Anterior] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Help Desk\MoM
+		lineageTag: 88731031-e122-47a0-a5ef-f2034fd69d69
+
+	measure '% SLA Mês Atual' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -1 ) + 1
+			VAR _fim = EOMONTH ( _ref, 0 )
+			RETURN
+			    CALCULATE (
+			        [% SLA Cumprido],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk\MoM
+		lineageTag: 1bbfb59f-f89e-43d8-96d2-f042378fddb4
+
+	measure '% SLA Mês Anterior' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -2 ) + 1
+			VAR _fim = EOMONTH ( _ref, -1 )
+			RETURN
+			    CALCULATE (
+			        [% SLA Cumprido],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Help Desk\MoM
+		lineageTag: 0fefded3-bbc3-4d39-8051-42a76777a91a
+
+	measure 'Var SLA p.p.' = ( [% SLA Mês Atual] - [% SLA Mês Anterior] ) * 100
+		formatString: +0.0;-0.0;0.0
+		displayFolder: Help Desk\MoM
+		lineageTag: 007782e4-1425-46cf-b9f9-60d02fe772b3
+
+	measure 'Tickets YTD' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			RETURN
+			    CALCULATE ( [Total Tickets], REMOVEFILTERS ( HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ), HELPDESK_Tickets[Data_Abertura] >= DATE ( YEAR ( _ref ), 1, 1 ) && HELPDESK_Tickets[Data_Abertura] <= _ref )
+		formatString: #,0
+		displayFolder: Help Desk\MoM
+		lineageTag: 26f87e78-4b79-466b-ae1d-22c4e289f7b4
+
+	measure 'Custos TI Mês Atual' = [Custo Total Tickets Mês Atual] + [Impacto Mês Atual]
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Visão Geral
+		lineageTag: ec30932e-0e71-4b35-acb0-adb20ed05a16
+
+	measure 'Custos TI Mês Anterior' = [Custo Total Tickets Mês Anterior] + [Impacto Mês Anterior]
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Visão Geral
+		lineageTag: 8393d40a-db1c-455c-8057-2bd938680be7
+
+	measure 'Custo Total Tickets Mês Atual' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -1 ) + 1
+			VAR _fim = EOMONTH ( _ref, 0 )
+			RETURN
+			    CALCULATE (
+			        [Custo Total Tickets],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Visão Geral
+		lineageTag: ea4155cc-9ced-437b-8d39-ac6d14fa6564
+
+	measure 'Custo Total Tickets Mês Anterior' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			VAR _ini = EOMONTH ( _ref, -2 ) + 1
+			VAR _fim = EOMONTH ( _ref, -1 )
+			RETURN
+			    CALCULATE (
+			        [Custo Total Tickets],
+			        REMOVEFILTERS ( HELPDESK_Tickets[Ano], HELPDESK_Tickets[Mês], HELPDESK_Tickets[Semana] ),
+			        HELPDESK_Tickets[Data_Abertura] >= _ini && HELPDESK_Tickets[Data_Abertura] <= _fim
+			    )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Visão Geral
+		lineageTag: 5883645d-cbb3-4c99-a8e3-da7b816a584a
+
+	measure 'MoM Custos TI %' = DIVIDE ( [Custos TI Mês Atual] - [Custos TI Mês Anterior], [Custos TI Mês Anterior] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Visão Geral
+		lineageTag: bcd9d7ca-c711-4cd2-b0e9-7a8f032260cd
+
+	measure 'Scorecard Tickets' =
+			VAR _v = [MoM Tickets %]
+			RETURN
+			    IF (
+			        ISBLANK ( _v ), "–",
+			        SWITCH ( TRUE (), _v > 0, "▲ ", _v < 0, "▼ ", "→ " ) & FORMAT ( _v, "+0.0%;-0.0%;0.0%" )
+			    )
+		displayFolder: Visão Geral
+		lineageTag: 9d6cb025-135e-4d04-b580-094e6d49ac92
+
+	measure 'Scorecard Incidentes' =
+			VAR _v = [MoM Incidentes %]
+			RETURN
+			    IF (
+			        ISBLANK ( _v ), "–",
+			        SWITCH ( TRUE (), _v > 0, "▲ ", _v < 0, "▼ ", "→ " ) & FORMAT ( _v, "+0.0%;-0.0%;0.0%" )
+			    )
+		displayFolder: Visão Geral
+		lineageTag: e3f76faf-fbbc-4e07-88c7-b4367ff3ead5
+
+	measure 'Scorecard SLA' =
+			VAR _v = [Var SLA p.p.]
+			RETURN
+			    IF (
+			        ISBLANK ( _v ), "–",
+			        SWITCH ( TRUE (), _v > 0, "▲ ", _v < 0, "▼ ", "→ " ) & FORMAT ( _v, "+0.0;-0.0;0.0" ) & " p.p."
+			    )
+		displayFolder: Visão Geral
+		lineageTag: 8022a4f9-fd46-46ba-ac8e-d11f9b1ac1db
+
+	measure 'Scorecard Custos' =
+			VAR _v = [MoM Custos TI %]
+			RETURN
+			    IF (
+			        ISBLANK ( _v ), "–",
+			        SWITCH ( TRUE (), _v > 0, "▲ ", _v < 0, "▼ ", "→ " ) & FORMAT ( _v, "+0.0%;-0.0%;0.0%" )
+			    )
+		displayFolder: Visão Geral
+		lineageTag: 28ab5a36-a991-47f8-80ed-02a5e8b7e0e2
+
+	measure 'Cor Scorecard Tickets' =
+			VAR _v = [MoM Tickets %]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _v ), "#9AA5B1", _v < 0, "#2ECC71", _v > 0, "#E74C3C", "#F39C12" )
+		displayFolder: Visão Geral
+		lineageTag: 162bd0f1-58fe-4b41-8908-9d3f1882b27d
+
+	measure 'Cor Scorecard Incidentes' =
+			VAR _v = [MoM Incidentes %]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _v ), "#9AA5B1", _v < 0, "#2ECC71", _v > 0, "#E74C3C", "#F39C12" )
+		displayFolder: Visão Geral
+		lineageTag: 90c0c0de-bed7-4a6b-ad5a-e11f616662dd
+
+	measure 'Cor Scorecard SLA' =
+			VAR _v = [Var SLA p.p.]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _v ), "#9AA5B1", _v > 0, "#2ECC71", _v < 0, "#E74C3C", "#F39C12" )
+		displayFolder: Visão Geral
+		lineageTag: 921cf410-8437-45e3-8abf-d1b2c7c634d8
+
+	measure 'Cor Scorecard Custos' =
+			VAR _v = [MoM Custos TI %]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _v ), "#9AA5B1", _v < 0, "#2ECC71", _v > 0, "#E74C3C", "#F39C12" )
+		displayFolder: Visão Geral
+		lineageTag: 3b65e49e-b32d-4a26-b77c-4981d7f66a15
+
+	measure 'Título Dashboard' = "Dashboard TI  ·  " & FORMAT ( MIN ( HELPDESK_Tickets[Data_Abertura] ), "yyyy" ) & "–" & FORMAT ( MAX ( HELPDESK_Tickets[Data_Abertura] ), "yyyy" )
+		displayFolder: Visão Geral
+		lineageTag: 0f551808-4026-4fae-af92-74b7790b9d54
+
+	measure 'Período Referência MoM' =
+			VAR _ref = MAX ( HELPDESK_Tickets[Data_Abertura] )
+			RETURN
+			    "Mês actual: " & FORMAT ( _ref, "mmm yyyy" ) & "  vs  " & FORMAT ( EOMONTH ( _ref, -1 ), "mmm yyyy" )
+		displayFolder: Visão Geral
+		lineageTag: 0f584fbb-630e-4fb0-bc68-343a4a871349
+
+	column ID_Ticket
+		dataType: string
+		lineageTag: 3f60a815-ce4e-402b-a0d1-4691c4dcab9e
+		summarizeBy: none
+		sourceColumn: ID_Ticket
+
+	column Data_Abertura
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 27e21de0-8644-41f1-93a3-a05894a79fec
+		summarizeBy: none
+		sourceColumn: Data_Abertura
+
+	column Data_Fecho
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 18a176db-351f-4b60-a8fc-f2ab369ddf3b
+		summarizeBy: none
+		sourceColumn: Data_Fecho
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 115ca406-a43e-4139-b094-d25797babe04
+		summarizeBy: sum
+		sourceColumn: Ano
+
+	column Mês
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b893176-49ba-4066-a0aa-ee896c7ce1b2
+		summarizeBy: sum
+		sourceColumn: Mês
+
+	column Semana
+		dataType: int64
+		formatString: 0
+		lineageTag: 88eb430d-7cfc-4913-b169-dc6536660adc
+		summarizeBy: sum
+		sourceColumn: Semana
+
+	column Categoria
+		dataType: string
+		lineageTag: d60ea6a3-9f6f-4ef5-99b8-7661884cb812
+		summarizeBy: none
+		sourceColumn: Categoria
+
+	column Prioridade
+		dataType: string
+		lineageTag: a28d24be-fcdc-4ecc-a6b5-9e2e3baee56a
+		summarizeBy: none
+		sourceColumn: Prioridade
+
+	column Estado
+		dataType: string
+		lineageTag: 6b37c574-872c-4600-a0ff-82a35d944c78
+		summarizeBy: none
+		sourceColumn: Estado
+
+	column Técnico
+		dataType: string
+		lineageTag: d49b6f98-f216-4dde-a65f-659984e743b1
+		summarizeBy: none
+		sourceColumn: Técnico
+
+	column Departamento
+		dataType: string
+		lineageTag: 9f0cba89-e334-4ef3-9167-0100ab3a7d24
+		summarizeBy: none
+		sourceColumn: Departamento
+
+	column Tempo_Resolução_H
+		dataType: double
+		lineageTag: cb8885b2-b27b-49de-ad17-4513db1549a8
+		summarizeBy: sum
+		sourceColumn: Tempo_Resolução_H
+
+	column SLA_Horas
+		dataType: int64
+		formatString: 0
+		lineageTag: dfca79b3-a6a3-4697-907f-1586aa6b3074
+		summarizeBy: sum
+		sourceColumn: SLA_Horas
+
+	column SLA_Cumprido
+		dataType: string
+		lineageTag: c870bb93-b9ae-442f-9002-4d954487cba8
+		summarizeBy: none
+		sourceColumn: SLA_Cumprido
+
+	column Satisfação
+		dataType: double
+		lineageTag: 655e929b-e236-4f19-b899-4d4c1b8a1819
+		summarizeBy: sum
+		sourceColumn: Satisfação
+
+	column Custo_€
+		dataType: double
+		lineageTag: 9cc0888e-44ce-4cba-bfd1-9c8372f54a22
+		summarizeBy: sum
+		sourceColumn: Custo_€
+
+	partition HELPDESK_Tickets = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "HELPDESK_Tickets", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID_Ticket", type text}, {"Data_Abertura", type date}, {"Data_Fecho", type date}, {"Ano", Int64.Type}, {"Mês", Int64.Type}, {"Semana", Int64.Type}, {"Categoria", type text}, {"Prioridade", type text}, {"Estado", type text}, {"Técnico", type text}, {"Departamento", type text}, {"Tempo_Resolução_H", type number}, {"SLA_Horas", Int64.Type}, {"SLA_Cumprido", type text}, {"Satisfação", type number}, {"Custo_€", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

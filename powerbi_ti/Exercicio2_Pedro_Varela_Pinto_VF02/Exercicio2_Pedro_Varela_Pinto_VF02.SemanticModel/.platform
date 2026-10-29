@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Exercicio2_Pedro_Varela_Pinto_VF02"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ba7cb053-ce0a-49de-8e11-7ab23f031da9"
+  }
+}

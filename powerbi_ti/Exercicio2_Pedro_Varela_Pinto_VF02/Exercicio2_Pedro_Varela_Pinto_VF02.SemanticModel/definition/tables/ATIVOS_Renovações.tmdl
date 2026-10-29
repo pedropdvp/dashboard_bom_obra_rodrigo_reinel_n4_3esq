@@ -1,0 +1,95 @@
+table ATIVOS_Renovações
+	lineageTag: 919931fe-2b55-470a-963e-26f5372f6132
+
+	measure 'Total Renovações' = COUNTROWS ( ATIVOS_Renovações )
+		formatString: #,0
+		displayFolder: Ativos TI\Renovações
+		lineageTag: b986f6fe-d579-4800-ac2c-e858d027cda4
+
+	measure 'Renovações Urgentes' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Urgente" ) + 0
+		formatString: #,0
+		displayFolder: Ativos TI\Renovações
+		lineageTag: b08b97ed-4692-413b-b7d1-9475b4587141
+
+	measure 'Renovações Em Breve' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Em Breve" ) + 0
+		formatString: #,0
+		displayFolder: Ativos TI\Renovações
+		lineageTag: 004c2500-85cc-4c59-ae3d-042a9e3f6a18
+
+	measure 'Renovações Expiradas' = CALCULATE ( [Total Renovações], ATIVOS_Renovações[Estado_Alerta] = "Expirado" ) + 0
+		formatString: #,0
+		displayFolder: Ativos TI\Renovações
+		lineageTag: 41ce9303-7a37-4abc-9d46-19ef1c364b2f
+
+	measure 'Custo Renovações' = SUM ( ATIVOS_Renovações[Custo_€] )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Ativos TI\Renovações
+		lineageTag: cd0f8b13-7257-429c-b838-cb3870a7d9f0
+
+	measure 'Cor Estado Alerta' = SWITCH ( SELECTEDVALUE ( ATIVOS_Renovações[Estado_Alerta] ), "Expirado", "#F1948A", "Urgente", "#F5B041", "Em Breve", "#F9E79F", "OK", "#82E0AA" )
+		displayFolder: Ativos TI\Renovações
+		lineageTag: 1561d90b-0d81-46dd-8448-db9ac4ded457
+
+	column ID
+		dataType: string
+		lineageTag: cb6bd64d-7c1d-4285-8fc1-350491f5ecfe
+		summarizeBy: none
+		sourceColumn: ID
+
+	column Tipo
+		dataType: string
+		lineageTag: b1cb84d4-4bf2-4990-8fd5-9649e9615162
+		summarizeBy: none
+		sourceColumn: Tipo
+
+	column Nome
+		dataType: string
+		lineageTag: 6efb721f-9b2a-4b52-9eb5-0d4921039352
+		summarizeBy: none
+		sourceColumn: Nome
+
+	column Departamento
+		dataType: string
+		lineageTag: 6fd75cca-9b25-4152-a8ac-4cac9866fcbd
+		summarizeBy: none
+		sourceColumn: Departamento
+
+	column Data_Renovação
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bed6c7f5-f6a8-4173-ab21-1e84a86fc337
+		summarizeBy: none
+		sourceColumn: Data_Renovação
+
+	column Custo_€
+		dataType: double
+		lineageTag: 3f4f9a17-efbd-4d28-956c-609724b81040
+		summarizeBy: sum
+		sourceColumn: Custo_€
+
+	column Alertar_Dias
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a4515e6-4874-4bb9-abad-57c52250543c
+		summarizeBy: sum
+		sourceColumn: Alertar_Dias
+
+	column Estado_Alerta
+		dataType: string
+		lineageTag: a4d7d865-013b-43da-b662-1a5c3931229f
+		summarizeBy: none
+		sourceColumn: Estado_Alerta
+
+	partition ATIVOS_Renovações = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "ATIVOS_Renovações", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID", type text}, {"Tipo", type text}, {"Nome", type text}, {"Departamento", type text}, {"Data_Renovação", type date}, {"Custo_€", type number}, {"Alertar_Dias", Int64.Type}, {"Estado_Alerta", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

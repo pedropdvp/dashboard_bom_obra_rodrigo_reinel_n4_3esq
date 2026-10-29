@@ -1,0 +1,59 @@
+table Departamentos
+	lineageTag: 6d2b0030-318d-473d-b6b6-d82664d94ec8
+
+	column Departamento
+		dataType: string
+		lineageTag: 6bba6cc6-3f5e-4f16-a85b-0b59385b81ac
+		summarizeBy: none
+		sourceColumn: Departamento
+
+	column Responsável
+		dataType: string
+		lineageTag: d9759d7e-a5d7-46b8-8d82-aafbb59a1348
+		summarizeBy: none
+		sourceColumn: Responsável
+
+	column Localização
+		dataType: string
+		lineageTag: 5a28283b-2763-443e-abb0-b6ede928886a
+		summarizeBy: none
+		sourceColumn: Localização
+
+	column Centro_Custo
+		dataType: string
+		lineageTag: b27dda6f-1d73-400f-a5f5-6aaee0cff1e1
+		summarizeBy: none
+		sourceColumn: Centro_Custo
+
+	column Categoria
+		dataType: string
+		lineageTag: 30748b21-4579-49a4-b7f7-5558957dc35c
+		summarizeBy: none
+		sourceColumn: Categoria
+
+	column Nº_Colaboradores
+		dataType: int64
+		formatString: 0
+		lineageTag: 36be3001-286b-4579-9870-30fb795abdab
+		summarizeBy: sum
+		sourceColumn: Nº_Colaboradores
+
+	column Email_Geral
+		dataType: string
+		lineageTag: 240a345e-9061-49fb-835f-5051de8d3512
+		summarizeBy: none
+		sourceColumn: Email_Geral
+
+	partition Departamentos = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "Departamentos", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Departamento", type text}, {"Responsável", type text}, {"Localização", type text}, {"Centro_Custo", type text}, {"Categoria", type text}, {"Nº_Colaboradores", Int64.Type}, {"Email_Geral", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,27 @@
+table PQ_Instruções
+	lineageTag: 57bc14c5-a78c-4cd2-80cf-90d64c6eed01
+
+	column Column1
+		dataType: string
+		lineageTag: 606965ec-3a99-4aa1-8f5a-f28be0492226
+		summarizeBy: none
+		sourceColumn: Column1
+
+	column Column2
+		dataType: string
+		lineageTag: 179e8393-4935-4e5e-b039-04656977592f
+		summarizeBy: none
+		sourceColumn: Column2
+
+	partition PQ_Instruções = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "PQ_Instruções", Kind = "Sheet"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"Column1", type text}, {"Column2", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

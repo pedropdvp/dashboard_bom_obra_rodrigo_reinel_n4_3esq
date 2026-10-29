@@ -1,0 +1,224 @@
+table CYBER_Incidentes
+	lineageTag: 5df73588-06de-47b1-9f9c-37d7e98291cc
+
+	measure 'Total Incidentes' = COUNTROWS ( CYBER_Incidentes )
+		formatString: #,0
+		displayFolder: Cibersegurança
+		lineageTag: 9465d38d-b32d-4830-973b-49e3a9cc1385
+
+	measure 'Incidentes Críticos' = CALCULATE ( [Total Incidentes], CYBER_Incidentes[Severidade] = "Crítico" ) + 0
+		formatString: #,0
+		displayFolder: Cibersegurança
+		lineageTag: e1624848-73d2-486b-bd25-278461dc5bd7
+
+	measure 'Incidentes Bloqueados' = CALCULATE ( [Total Incidentes], CYBER_Incidentes[Bloqueado] = "Sim" ) + 0
+		formatString: #,0
+		displayFolder: Cibersegurança
+		lineageTag: 269402bf-f10b-45ab-8d42-e7ae43ca5b31
+
+	measure 'Taxa de Bloqueio' = DIVIDE ( [Incidentes Bloqueados], [Total Incidentes] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cibersegurança
+		lineageTag: d0e805d9-09b6-4b58-a25d-99a7fa4bba0a
+
+	measure 'Impacto Total' = SUM ( CYBER_Incidentes[Impacto_€] )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Cibersegurança
+		lineageTag: 90601fe7-af75-4002-bbc6-75c5f12bb8c0
+
+	measure 'Impacto Não Bloqueado' = CALCULATE ( [Impacto Total], CYBER_Incidentes[Bloqueado] = "Não" )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Cibersegurança
+		lineageTag: 92317941-ea82-4af8-8f4b-8a74986f78b4
+
+	measure 'Impacto Médio por Incidente' = DIVIDE ( [Impacto Total], [Total Incidentes] )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Cibersegurança
+		lineageTag: d2a6b2ee-e3ab-4c6c-a11c-bc6dcf5ebf04
+
+	measure 'Tempo Médio Deteção (min)' = AVERAGE ( CYBER_Incidentes[Tempo_Deteção_Min] )
+		formatString: #,0.00
+		displayFolder: Cibersegurança
+		lineageTag: b3f9e488-7466-47f9-8be3-6a6a7c335772
+
+	measure 'Incidentes Mês Atual' =
+			VAR _ref = MAX ( CYBER_Incidentes[Data_Hora] )
+			VAR _ini = EOMONTH ( _ref, -1 ) + 1
+			VAR _fim = EOMONTH ( _ref, 0 ) + 1
+			RETURN
+			    CALCULATE (
+			        [Total Incidentes],
+			        REMOVEFILTERS ( CYBER_Incidentes[Ano], CYBER_Incidentes[Mês] ),
+			        CYBER_Incidentes[Data_Hora] >= _ini && CYBER_Incidentes[Data_Hora] < _fim
+			    )
+		formatString: #,0
+		displayFolder: Cibersegurança\MoM
+		lineageTag: c448557a-b152-47ad-8eb4-8c7d3c03ad3b
+
+	measure 'Incidentes Mês Anterior' =
+			VAR _ref = MAX ( CYBER_Incidentes[Data_Hora] )
+			VAR _ini = EOMONTH ( _ref, -2 ) + 1
+			VAR _fim = EOMONTH ( _ref, -1 ) + 1
+			RETURN
+			    CALCULATE (
+			        [Total Incidentes],
+			        REMOVEFILTERS ( CYBER_Incidentes[Ano], CYBER_Incidentes[Mês] ),
+			        CYBER_Incidentes[Data_Hora] >= _ini && CYBER_Incidentes[Data_Hora] < _fim
+			    )
+		formatString: #,0
+		displayFolder: Cibersegurança\MoM
+		lineageTag: 57a07cb8-9b71-49fc-84cc-f4bcfeafdfd7
+
+	measure 'MoM Incidentes %' = DIVIDE ( [Incidentes Mês Atual] - [Incidentes Mês Anterior], [Incidentes Mês Anterior] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cibersegurança\MoM
+		lineageTag: c72c711e-a727-4527-a312-fb0a79f5c942
+
+	measure 'Impacto Mês Atual' =
+			VAR _ref = MAX ( CYBER_Incidentes[Data_Hora] )
+			VAR _ini = EOMONTH ( _ref, -1 ) + 1
+			VAR _fim = EOMONTH ( _ref, 0 ) + 1
+			RETURN
+			    CALCULATE (
+			        [Impacto Total],
+			        REMOVEFILTERS ( CYBER_Incidentes[Ano], CYBER_Incidentes[Mês] ),
+			        CYBER_Incidentes[Data_Hora] >= _ini && CYBER_Incidentes[Data_Hora] < _fim
+			    )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Cibersegurança\MoM
+		lineageTag: 11ac76f8-7cdd-47d1-9e80-dbd4a280e8b5
+
+	measure 'Impacto Mês Anterior' =
+			VAR _ref = MAX ( CYBER_Incidentes[Data_Hora] )
+			VAR _ini = EOMONTH ( _ref, -2 ) + 1
+			VAR _fim = EOMONTH ( _ref, -1 ) + 1
+			RETURN
+			    CALCULATE (
+			        [Impacto Total],
+			        REMOVEFILTERS ( CYBER_Incidentes[Ano], CYBER_Incidentes[Mês] ),
+			        CYBER_Incidentes[Data_Hora] >= _ini && CYBER_Incidentes[Data_Hora] < _fim
+			    )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Cibersegurança\MoM
+		lineageTag: 5070a4cd-a3f8-42ab-8cea-961e6223d163
+
+	measure 'Incidentes YTD' =
+			VAR _ref = MAX ( CYBER_Incidentes[Data_Hora] )
+			RETURN
+			    CALCULATE ( [Total Incidentes], REMOVEFILTERS ( CYBER_Incidentes[Mês] ), CYBER_Incidentes[Data_Hora] >= DATE ( YEAR ( _ref ), 1, 1 ) && CYBER_Incidentes[Data_Hora] <= _ref )
+		formatString: #,0
+		displayFolder: Cibersegurança\MoM
+		lineageTag: 81ac2531-92a4-4ee9-a001-463eaa7c7e6e
+
+	measure 'Total Incidentes (por Ano)' = CALCULATE ( [Total Incidentes], TREATAS ( VALUES ( HELPDESK_Tickets[Ano] ), CYBER_Incidentes[Ano] ) )
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: 031fbafd-ab49-4639-80b6-fd4cb73b906c
+
+	measure 'Impacto (por Ano)' = CALCULATE ( [Impacto Total], TREATAS ( VALUES ( HELPDESK_Tickets[Ano] ), CYBER_Incidentes[Ano] ) )
+		formatString: #,0.00 €;-#,0.00 €;#,0.00 €
+		displayFolder: Visão Geral
+		lineageTag: 5d7ca743-35c0-4160-bd76-5c8c67653647
+
+	column ID_Incidente
+		dataType: string
+		lineageTag: 352b9cc2-fb83-4a0f-86c7-82e80215b3d8
+		summarizeBy: none
+		sourceColumn: ID_Incidente
+
+	column Data_Hora
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 114083e8-d3a0-4666-891e-147b21dbef60
+		summarizeBy: none
+		sourceColumn: Data_Hora
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 61b07a41-eca1-4823-9787-c0f9b5c74318
+		summarizeBy: sum
+		sourceColumn: Ano
+
+	column Mês
+		dataType: int64
+		formatString: 0
+		lineageTag: f7759b08-40fa-4d2e-92a3-5dd837381f0b
+		summarizeBy: sum
+		sourceColumn: Mês
+
+	column Tipo_Ataque
+		dataType: string
+		lineageTag: 56b4f481-8c37-48b8-a5cd-9bec860c9dd2
+		summarizeBy: none
+		sourceColumn: Tipo_Ataque
+
+	column Severidade
+		dataType: string
+		lineageTag: 37ab5c44-f180-40e6-ba56-3f79f04f5c20
+		summarizeBy: none
+		sourceColumn: Severidade
+
+	column País_Origem
+		dataType: string
+		lineageTag: cf1bae31-faf0-42b0-9741-a4b7fb7ba3b2
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: País_Origem
+
+	column IP_Origem
+		dataType: string
+		lineageTag: b6a75841-8aed-4a29-b429-9b1ca4afa715
+		summarizeBy: none
+		sourceColumn: IP_Origem
+
+	column Sistema_Alvo
+		dataType: string
+		lineageTag: 7a919f35-20e9-4f1f-81b8-6ba2482adace
+		summarizeBy: none
+		sourceColumn: Sistema_Alvo
+
+	column Bloqueado
+		dataType: string
+		lineageTag: ce812304-9126-4e22-b21c-f5d78d60d658
+		summarizeBy: none
+		sourceColumn: Bloqueado
+
+	column Tempo_Deteção_Min
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ce5df59-0749-449f-ba49-268ed8b7071f
+		summarizeBy: sum
+		sourceColumn: Tempo_Deteção_Min
+
+	column Impacto_€
+		dataType: double
+		lineageTag: 5165b7c9-f455-417b-9b57-305cfb1d3f01
+		summarizeBy: sum
+		sourceColumn: Impacto_€
+
+	column Investigador
+		dataType: string
+		lineageTag: 7505b74a-9a65-4444-a4e5-172627b7924c
+		summarizeBy: none
+		sourceColumn: Investigador
+
+	column Resolvido
+		dataType: string
+		lineageTag: 28de1e30-c9ea-4514-828b-1c99d2cdadb9
+		summarizeBy: none
+		sourceColumn: Resolvido
+
+	partition CYBER_Incidentes = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "CYBER_Incidentes", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID_Incidente", type text}, {"Data_Hora", type datetime}, {"Ano", Int64.Type}, {"Mês", Int64.Type}, {"Tipo_Ataque", type text}, {"Severidade", type text}, {"País_Origem", type text}, {"IP_Origem", type text}, {"Sistema_Alvo", type text}, {"Bloqueado", type text}, {"Tempo_Deteção_Min", Int64.Type}, {"Impacto_€", type number}, {"Investigador", type text}, {"Resolvido", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,104 @@
+table CYBER_Vulnerabilidades
+	lineageTag: e39dee59-d452-4eb1-a4ae-f27053a2ac1e
+
+	measure 'Total Vulnerabilidades' = COUNTROWS ( CYBER_Vulnerabilidades )
+		formatString: #,0
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: db0c9871-388b-436c-9618-3ae2418bf2f5
+
+	measure 'Vulnerabilidades Abertas' = CALCULATE ( [Total Vulnerabilidades], CYBER_Vulnerabilidades[Estado] = "Aberta" ) + 0
+		formatString: #,0
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: e4ac7b14-6542-4bf3-9a1d-bfdcbf4e518c
+
+	measure 'Vulnerabilidades Críticas Abertas' = CALCULATE ( [Total Vulnerabilidades], CYBER_Vulnerabilidades[Estado] = "Aberta", CYBER_Vulnerabilidades[Criticidade] = "Crítico" ) + 0
+		formatString: #,0
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: cd90cccc-5df4-4340-a189-2ab4c13bb960
+
+	measure 'CVSS Médio' = AVERAGE ( CYBER_Vulnerabilidades[CVSS_Score] )
+		formatString: #,0.00
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: 35c6b519-f4a4-457e-9539-a0e1a35794e4
+
+	measure 'Dias em Aberto Médio' = CALCULATE ( AVERAGE ( CYBER_Vulnerabilidades[Dias_Aberto] ), CYBER_Vulnerabilidades[Estado] = "Aberta" )
+		formatString: #,0.00
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: b9f99e83-894c-495c-a51a-69f450a9a54c
+
+	measure 'Cor CVSS' =
+			VAR _s = MAX ( CYBER_Vulnerabilidades[CVSS_Score] )
+			RETURN
+			    SWITCH ( TRUE (), _s >= 9, "#F1948A", _s >= 7, "#F5B041", _s >= 4, "#F9E79F", "#82E0AA" )
+		displayFolder: Cibersegurança\Vulnerabilidades
+		lineageTag: 7cc1a02c-a753-44ec-a79b-15eac76b7c98
+
+	column ID_Vuln
+		dataType: string
+		lineageTag: cd5eee3e-160a-4c9c-9a7b-54d82a2baa99
+		summarizeBy: none
+		sourceColumn: ID_Vuln
+
+	column Data_Descoberta
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7bd52a03-15dc-4ed9-bd55-132a7ca16043
+		summarizeBy: none
+		sourceColumn: Data_Descoberta
+
+	column Sistema
+		dataType: string
+		lineageTag: f387b5bb-ef98-4c07-8c7a-74cb8251c773
+		summarizeBy: none
+		sourceColumn: Sistema
+
+	column CVE
+		dataType: string
+		lineageTag: 37ddb8fc-84e2-4ab4-a180-2bc9b30282a5
+		summarizeBy: none
+		sourceColumn: CVE
+
+	column CVSS_Score
+		dataType: double
+		lineageTag: c816c048-8e1a-49c1-a3fa-5a046c1f7646
+		summarizeBy: sum
+		sourceColumn: CVSS_Score
+
+	column Criticidade
+		dataType: string
+		lineageTag: 094af435-3b2b-461d-ac0c-2b2ff63e95d2
+		summarizeBy: none
+		sourceColumn: Criticidade
+
+	column Estado
+		dataType: string
+		lineageTag: caa7af02-f81b-4c4c-ad31-631259a8037e
+		summarizeBy: none
+		sourceColumn: Estado
+
+	column Dias_Aberto
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d832547-a950-45b1-94e6-ce8877010b1c
+		summarizeBy: sum
+		sourceColumn: Dias_Aberto
+
+	column Responsável
+		dataType: string
+		lineageTag: 762d8e87-9178-461c-a3e3-9cd1bf1dede3
+		summarizeBy: none
+		sourceColumn: Responsável
+
+	partition CYBER_Vulnerabilidades = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "CYBER_Vulnerabilidades", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID_Vuln", type text}, {"Data_Descoberta", type date}, {"Sistema", type text}, {"CVE", type text}, {"CVSS_Score", type number}, {"Criticidade", type text}, {"Estado", type text}, {"Dias_Aberto", Int64.Type}, {"Responsável", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

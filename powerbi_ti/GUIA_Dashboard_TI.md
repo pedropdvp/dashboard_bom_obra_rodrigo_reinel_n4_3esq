@@ -1,15 +1,33 @@
-# Dashboard TI — Exercicio2_Pedro_Varela_Pinto_VF02.pbix
+# Dashboard TI — Exercicio2_Pedro_Varela_Pinto_VF02
 
 Projecto Final TI · Power BI — Help Desk · Cibersegurança · Gestão de Ativos TI.
 
-## O que foi acrescentado ao ficheiro VF
+## Como abrir e gerar o .pbix (cerca de 2 minutos)
+O dashboard é entregue como **projecto Power BI (.pbip)**, o formato de texto oficial da Microsoft. O Power BI Desktop constrói o modelo sozinho e, se encontrar algum problema, indica o ficheiro e a linha.
 
-**Modelo de dados**
-- 82 medidas DAX organizadas em pastas (Help Desk, Cibersegurança, Ativos TI, Visão Geral).
-- A coluna `CYBER_Incidentes[País_Origem]` passou a ter a categoria **País** (Country), para o mapa.
-- As tabelas, as consultas Power Query e as relações originais ficaram iguais.
+1. Descompactar `Exercicio2_Pedro_Varela_Pinto_VF02.zip`. Ficam a pasta `.Report`, a pasta `.SemanticModel` e o ficheiro `.pbip`, todos lado a lado.
+2. Fazer duplo clique em **`Exercicio2_Pedro_Varela_Pinto_VF02.pbip`**.
+3. Os visuais aparecem vazios. Clicar em **Home › Refresh** para carregar os dados do Excel `IT_Dashboard_Dados.xlsx`, que está no mesmo caminho do ficheiro VF original.
+   - Se o Excel estiver noutra pasta: **Transform data › Data source settings › Change Source**.
+4. **File › Save as** → escolher o tipo **.pbix** → `Exercicio2_Pedro_Varela_Pinto_VF02.pbix`.
 
-**Relatório (5 páginas, tema escuro + faixa bege, botões de navegação em todas as páginas)**
+Se o mapa aparecer em branco, activar **File › Options and settings › Options › Security › Map and Filled Map visuals**.
+
+## Conteúdo
+
+**Modelo de dados (modelo em estrela)**
+- 10 tabelas do Excel, com as mesmas consultas Power Query do VF.
+- Tabela **Calendário** em DAX: `CALENDAR ( DATE ( 2024, 1, 1 ), DATE ( 2025, 12, 31 ) )`, com Ano, MêsNum, MesAno (ordenado) e Trimestre. Está marcada como tabela de datas.
+- Relações:
+  - Tickets → Técnicos (N:1)
+  - Incidentes[Investigador] → Técnicos (N:1)
+  - Tickets, Hardware, Software e Renovações → Departamentos
+  - Calendário → Tickets[Data_Abertura] (activa)
+  - Calendário → Vulnerabilidades e Renovações (inactivas)
+- 82 medidas DAX em pastas (Help Desk, Cibersegurança, Ativos TI, Visão Geral).
+- `País_Origem` tem a categoria **País** (Country), para o mapa.
+
+**Relatório (5 páginas, fundo escuro + faixa bege, botões de navegação em todas as páginas)**
 
 | Página | Conteúdo |
 |---|---|
@@ -20,19 +38,6 @@ Projecto Final TI · Power BI — Help Desk · Cibersegurança · Gestão de Ati
 | 5. Detalhe Técnico | **Drill-through** em `HELPDESK_Técnicos[Técnico]` · Botão Voltar · Técnico seleccionado + 5 KPIs · Combo de tickets e custo médio por mês · Gauge de satisfação vs média da equipa · Tabela de tickets com SLA a cores |
 
 Drill-through: na página Help Desk, clicar com o botão direito num técnico (Top 5 ou Matriz) › *Drill through* › *Detalhe Técnico*.
-
-## Antes de usar
-1. Abrir no Power BI Desktop. Os dados já vêm carregados no ficheiro.
-2. Para actualizar a partir do Excel, usar **Home › Refresh**. O caminho original do `.xlsx` não foi alterado.
-3. Se o mapa aparecer em branco, activar **File › Options and settings › Options › Security › Map and Filled Map visuals**.
-
-## Opcional — tabela Calendário (slide 14)
-A tabela Calendário é calculada e tem de ser processada pelo motor do Power BI, por isso não foi injectada no ficheiro. As medidas MoM e YTD funcionam sem ela, porque usam as datas das próprias tabelas de factos. Para ficar igual ao modelo do slide 12:
-1. **Modeling › New table**: `Calendário = CALENDAR ( DATE ( 2024, 1, 1 ), DATE ( 2025, 12, 31 ) )`
-2. Na vista **Model**, criar as relações:
-   - `Calendário[Date]` → `HELPDESK_Tickets[Data_Abertura]` (activa)
-   - `Calendário[Date]` → `CYBER_Incidentes[Data_Hora]`, `CYBER_Vulnerabilidades[Data_Descoberta]` e `ATIVOS_Renovações[Data_Renovação]` (inactivas)
-3. Relação `CYBER_Incidentes[Investigador]` → `HELPDESK_Técnicos[Técnico]` (N:1; deixar inactiva para não criar ambiguidade com os Tickets).
 
 ## Medidas DAX
 

@@ -1,0 +1,29 @@
+table 'GUIA RÁPIDO – POWER QUERY (PQ_Instruções)'
+	lineageTag: 855e869c-87e1-4597-8fd2-8c1b67d80ee3
+
+	column Column1
+		dataType: string
+		lineageTag: d1516027-8361-4c7c-bd38-893bbd8fda44
+		summarizeBy: none
+		sourceColumn: Column1
+
+	column Column2
+		dataType: string
+		lineageTag: 4994354e-b4e5-41f6-a30b-f7a2897a3ed0
+		summarizeBy: none
+		sourceColumn: Column2
+
+	partition 'GUIA RÁPIDO – POWER QUERY (PQ_Instruções)' = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, false),
+				  PQ_Instruções_sheet = Source{[Item = "PQ_Instruções", Kind = "Sheet"]}[Data],
+				  #"Filter null and whitespace" = each List.Select(_, each _ <> null and (not (_ is text) or Text.Trim(_) <> "")),
+				  #"Removed bottom rows" = Table.RemoveLastN(PQ_Instruções_sheet, each try List.IsEmpty(List.Skip(#"Filter null and whitespace"(Record.FieldValues(_)), 1)) otherwise false),
+				  #"Removed top rows" = Table.Skip(#"Removed bottom rows", each try List.IsEmpty(List.Skip(#"Filter null and whitespace"(Record.FieldValues(_)), 1)) otherwise false)
+				in
+				  #"Removed top rows"
+
+	annotation PBI_ResultType = Table
+

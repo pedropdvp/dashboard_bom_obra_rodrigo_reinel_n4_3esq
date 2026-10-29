@@ -1,0 +1,38 @@
+relationship AutoDetected_b492dda4-fcb7-4ce3-810d-b6b243813358
+	fromColumn: HELPDESK_Tickets.Técnico
+	toColumn: HELPDESK_Técnicos.Técnico
+
+relationship AutoDetected_fda9e099-515f-42f0-b3c7-00ba7c902c29
+	fromColumn: HELPDESK_Tickets.Departamento
+	toColumn: Departamentos.Departamento
+
+relationship AutoDetected_35e44dbf-0f0c-436f-9c57-79cc0a513d5f
+	fromColumn: ATIVOS_Hardware.Departamento
+	toColumn: Departamentos.Departamento
+
+relationship AutoDetected_4e7d8220-8153-4658-9b63-25f158eab006
+	fromColumn: ATIVOS_Software.Departamento
+	toColumn: Departamentos.Departamento
+
+relationship AutoDetected_ea71a62c-3d2e-44f6-a613-a8634847e4d1
+	fromColumn: ATIVOS_Renovações.Departamento
+	toColumn: Departamentos.Departamento
+
+relationship ac0f89b0-4b7b-4231-a316-06c989361d6c
+	fromColumn: HELPDESK_Tickets.Data_Abertura
+	toColumn: Calendário.Date
+
+relationship dff07a81-bb57-4b12-934f-878d5c8d8b56
+	isActive: false
+	fromColumn: CYBER_Vulnerabilidades.Data_Descoberta
+	toColumn: Calendário.Date
+
+relationship 321fe1de-bd79-4653-bd58-b72afd9afab1
+	isActive: false
+	fromColumn: ATIVOS_Renovações.Data_Renovação
+	toColumn: Calendário.Date
+
+relationship e6c4aedb-42ff-48af-a9ac-c5a9eefe3324
+	fromColumn: CYBER_Incidentes.Investigador
+	toColumn: HELPDESK_Técnicos.Técnico
+

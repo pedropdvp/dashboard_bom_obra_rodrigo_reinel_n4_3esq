@@ -1,0 +1,131 @@
+table ATIVOS_Hardware
+	lineageTag: ae9f3b19-6b5e-4830-bfa6-049156a82143
+
+	measure 'Total Hardware' = COUNTROWS ( ATIVOS_Hardware )
+		formatString: #,0
+		displayFolder: Ativos TI
+		lineageTag: 3772f535-b2ba-4464-aced-9c3b85585f7f
+
+	measure 'Hardware Ativo' = CALCULATE ( [Total Hardware], ATIVOS_Hardware[Estado] = "Ativo" ) + 0
+		formatString: #,0
+		displayFolder: Ativos TI
+		lineageTag: 02554f61-5119-4fb9-837c-e1334ad2e6ad
+
+	measure 'Valor Total HW' = SUM ( ATIVOS_Hardware[Custo_Aquisição_€] )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Ativos TI
+		lineageTag: b32f17bf-b833-46ee-acb3-c5070d52933a
+
+	measure 'Custo Manutenção HW' = SUM ( ATIVOS_Hardware[Custo_Manutenção_€] )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Ativos TI
+		lineageTag: 92539b34-1ee9-42bc-958d-a8327be3faa4
+
+	measure 'Garantias a Expirar 90d' =
+			VAR _hoje = TODAY ()
+			RETURN
+			    CALCULATE ( [Total Hardware], ATIVOS_Hardware[Data_Garantia] >= _hoje && ATIVOS_Hardware[Data_Garantia] <= _hoje + 90 ) + 0
+		formatString: #,0
+		displayFolder: Ativos TI
+		lineageTag: ed8c7e5f-82fb-4658-90e0-9a5cd82681a2
+
+	column ID_Ativo
+		dataType: string
+		lineageTag: 1baf7447-2931-41c9-bbd9-718603698ddd
+		summarizeBy: none
+		sourceColumn: ID_Ativo
+
+	column Tipo
+		dataType: string
+		lineageTag: 364eb86c-ba17-4daa-a845-8e55db02ab28
+		summarizeBy: none
+		sourceColumn: Tipo
+
+	column Marca
+		dataType: string
+		lineageTag: 151d0881-9eb7-4742-89a0-02cfd5d86c4f
+		summarizeBy: none
+		sourceColumn: Marca
+
+	column Modelo
+		dataType: string
+		lineageTag: 9a081c5f-98f1-4395-a5c7-245b3dbfc30b
+		summarizeBy: none
+		sourceColumn: Modelo
+
+	column Número_Série
+		dataType: string
+		lineageTag: 541118b1-fa52-44e1-b519-d7ea0cec0779
+		summarizeBy: none
+		sourceColumn: Número_Série
+
+	column Departamento
+		dataType: string
+		lineageTag: 92c26aca-f1a7-4a9e-8302-7b8125758efb
+		summarizeBy: none
+		sourceColumn: Departamento
+
+	column Utilizador
+		dataType: string
+		lineageTag: 31c74cba-eb30-4cda-989f-765c98575ed9
+		summarizeBy: none
+		sourceColumn: Utilizador
+
+	column Data_Compra
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 35091ff7-6c9c-4f57-98b0-dbebb3cbd853
+		summarizeBy: none
+		sourceColumn: Data_Compra
+
+	column Data_Garantia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0846eee3-34ac-46c5-a7fa-aeb274f360ea
+		summarizeBy: none
+		sourceColumn: Data_Garantia
+
+	column Estado
+		dataType: string
+		lineageTag: 73359de7-4fa1-4c38-a936-49ed5f478341
+		summarizeBy: none
+		sourceColumn: Estado
+
+	column Custo_Aquisição_€
+		dataType: double
+		lineageTag: 4b1b8a25-7671-490e-b001-5e71bd67f43c
+		summarizeBy: sum
+		sourceColumn: Custo_Aquisição_€
+
+	column Custo_Manutenção_€
+		dataType: double
+		lineageTag: 77dfb4e0-1f49-4926-8663-efcd12316301
+		summarizeBy: sum
+		sourceColumn: Custo_Manutenção_€
+
+	column Localização
+		dataType: string
+		lineageTag: a78dc887-d40d-42f0-955f-1d10af0e8eee
+		summarizeBy: none
+		sourceColumn: Localização
+
+	column Ano_Compra
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a68490a-7fa5-4ac4-8926-bd81d963f17b
+		summarizeBy: sum
+		sourceColumn: Ano_Compra
+
+	partition ATIVOS_Hardware = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Area_de_Trabalho\Area_de_Trabalho_no_PC\INSTITUTO EMPREGO FORMAÇÃO PROFISSIONAL\POWER_BI\AULAS\Visualização-de-dados\EXERCICIO-ENTREGAR-2\IT_Dashboard_Dados.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "ATIVOS_Hardware", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ID_Ativo", type text}, {"Tipo", type text}, {"Marca", type text}, {"Modelo", type text}, {"Número_Série", type text}, {"Departamento", type text}, {"Utilizador", type text}, {"Data_Compra", type date}, {"Data_Garantia", type date}, {"Estado", type text}, {"Custo_Aquisição_€", type number}, {"Custo_Manutenção_€", type number}, {"Localização", type text}, {"Ano_Compra", Int64.Type}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
