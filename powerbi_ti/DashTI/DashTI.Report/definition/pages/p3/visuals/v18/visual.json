@@ -2,34 +2,167 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v18",
   "position": {
-    "x": 1100,
-    "y": 68,
+    "x": 16,
+    "y": 166,
     "z": 18000,
-    "height": 640,
-    "width": 164,
+    "height": 270,
+    "width": 520,
     "tabOrder": 18000
   },
   "visual": {
-    "visualType": "textbox",
+    "visualType": "filledMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "País_Origem"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.País_Origem",
+              "nativeQueryRef": "País_Origem"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Total Incidentes"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Total Incidentes",
+              "nativeQueryRef": "Total Incidentes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Incidentes Críticos"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Incidentes Críticos",
+              "nativeQueryRef": "Incidentes Críticos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Impacto Total"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Impacto Total",
+              "nativeQueryRef": "Impacto Total"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
-      "general": [
+      "dataPoint": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "Filtros",
-                    "textStyle": {
-                      "fontWeight": "bold",
-                      "fontSize": "12pt",
-                      "color": "#C9B99A"
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "CYBER_Incidentes"
+                            }
+                          },
+                          "Property": "Total Incidentes"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F9E79F'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#C0392B'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
-                ],
-                "horizontalTextAlignment": "center"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
               }
             ]
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapStyles": [
+        {
+          "properties": {
+            "mapTheme": {
+              "expr": {
+                "Literal": {
+                  "Value": "'darkGrayscale'"
+                }
+              }
+            }
           }
         }
       ]
@@ -90,7 +223,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "6.0D"
+                  "Value": "10.0D"
                 }
               }
             },
@@ -162,7 +295,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Países de Origem dos Ataques (intensidade = nº de incidentes)'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

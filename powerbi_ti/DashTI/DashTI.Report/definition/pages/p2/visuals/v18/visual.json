@@ -2,62 +2,124 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v18",
   "position": {
-    "x": 1108,
-    "y": 100,
+    "x": 708,
+    "y": 166,
     "z": 18000,
-    "height": 120,
-    "width": 148,
+    "height": 270,
+    "width": 380,
     "tabOrder": 18000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "gauge",
     "query": {
       "queryState": {
-        "Values": {
+        "Y": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "HELPDESK_Tickets"
                     }
                   },
-                  "Property": "Data_Abertura"
+                  "Property": "% SLA Cumprido"
                 }
               },
-              "queryRef": "HELPDESK_Tickets.Data_Abertura",
-              "nativeQueryRef": "Data_Abertura"
+              "queryRef": "HELPDESK_Tickets.% SLA Cumprido",
+              "nativeQueryRef": "% SLA Cumprido"
+            }
+          ]
+        },
+        "MinValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "SLA Mínimo"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.SLA Mínimo",
+              "nativeQueryRef": "SLA Mínimo"
+            }
+          ]
+        },
+        "MaxValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "SLA Máximo"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.SLA Máximo",
+              "nativeQueryRef": "SLA Máximo"
+            }
+          ]
+        },
+        "TargetValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Meta SLA"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Meta SLA",
+              "nativeQueryRef": "Meta SLA"
             }
           ]
         }
       }
     },
     "objects": {
-      "data": [
+      "dataPoint": [
         {
           "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Between'"
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F4A259'"
+                    }
+                  }
+                }
+              }
+            },
+            "target": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
                 }
               }
             }
           }
         }
       ],
-      "header": [
+      "calloutValue": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -71,31 +133,17 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Período'"
+                  "Value": "28.0D"
                 }
               }
             }
           }
         }
       ],
-      "items": [
+      "labels": [
         {
           "properties": {
-            "fontColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -105,120 +153,19 @@
                   }
                 }
               }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
             }
           }
         }
       ],
-      "selection": [
+      "target": [
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "singleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "date": [
-        {
-          "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "numericInputStyle": [
-        {
-          "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "slider": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#C9B99A'"
+                      "Value": "'#E8EDF3'"
                     }
                   }
                 }
@@ -356,7 +303,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'% SLA Cumprido vs Meta 95%'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

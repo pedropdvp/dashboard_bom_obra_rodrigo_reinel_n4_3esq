@@ -2,54 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v16",
   "position": {
-    "x": 468,
-    "y": 448,
+    "x": 666,
+    "y": 68,
     "z": 16000,
-    "height": 260,
-    "width": 380,
+    "height": 86,
+    "width": 205,
     "tabOrder": 16000
   },
   "visual": {
-    "visualType": "hundredPercentStackedColumnChart",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
-                    }
-                  },
-                  "Property": "Mês"
-                }
-              },
-              "queryRef": "CYBER_Incidentes.Mês",
-              "nativeQueryRef": "Mês"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
-                    }
-                  },
-                  "Property": "Tipo_Ataque"
-                }
-              },
-              "queryRef": "CYBER_Incidentes.Tipo_Ataque",
-              "nativeQueryRef": "Tipo_Ataque"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -59,26 +23,27 @@
                       "Entity": "CYBER_Incidentes"
                     }
                   },
-                  "Property": "Total Incidentes"
+                  "Property": "Impacto Total"
                 }
               },
-              "queryRef": "CYBER_Incidentes.Total Incidentes",
-              "nativeQueryRef": "Total Incidentes"
+              "queryRef": "CYBER_Incidentes.Impacto Total",
+              "nativeQueryRef": "Impacto Total",
+              "displayName": "Impacto Financeiro Total"
             }
           ]
         }
       }
     },
     "objects": {
-      "categoryAxis": [
+      "labels": [
         {
           "properties": {
-            "labelColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#AAB7C7'"
+                      "Value": "'#F4A259'"
                     }
                   }
                 }
@@ -87,77 +52,21 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9.0D"
+                  "Value": "22.0D"
                 }
               }
             },
-            "showAxisTitle": {
+            "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
+                  "Value": "0.0D"
                 }
               }
             }
           }
         }
       ],
-      "valueAxis": [
-        {
-          "properties": {
-            "labelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            },
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridlineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2B3E5A'"
-                    }
-                  }
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "legend": [
+      "categoryLabels": [
         {
           "properties": {
             "show": {
@@ -167,14 +76,7 @@
                 }
               }
             },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Top'"
-                }
-              }
-            },
-            "labelColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -189,6 +91,19 @@
               "expr": {
                 "Literal": {
                   "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -324,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Tipos de Ataque por Mês (%)'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

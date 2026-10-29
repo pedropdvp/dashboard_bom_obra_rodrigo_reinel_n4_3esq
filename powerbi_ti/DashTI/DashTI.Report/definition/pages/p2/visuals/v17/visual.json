@@ -2,34 +2,266 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v17",
   "position": {
-    "x": 1100,
-    "y": 68,
+    "x": 16,
+    "y": 166,
     "z": 17000,
-    "height": 640,
-    "width": 164,
+    "height": 270,
+    "width": 680,
     "tabOrder": 17000
   },
   "visual": {
-    "visualType": "textbox",
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Ano"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Ano",
+              "nativeQueryRef": "Ano",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Mês"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Mês",
+              "nativeQueryRef": "Mês",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Total Tickets"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Total Tickets",
+              "nativeQueryRef": "Total Tickets"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Tickets Fechados"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Tickets Fechados",
+              "nativeQueryRef": "Tickets Fechados"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
-      "general": [
+      "categoryAxis": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "Filtros",
-                    "textStyle": {
-                      "fontWeight": "bold",
-                      "fontSize": "12pt",
-                      "color": "#C9B99A"
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
                     }
                   }
-                ],
-                "horizontalTextAlignment": "center"
+                }
               }
-            ]
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2B3E5A'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9B99A'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "HELPDESK_Tickets.Total Tickets"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3A86FF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "HELPDESK_Tickets.Tickets Fechados"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "2.0D"
+                }
+              }
+            }
           }
         }
       ]
@@ -90,7 +322,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "6.0D"
+                  "Value": "10.0D"
                 }
               }
             },
@@ -162,7 +394,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Evolução Mensal de Tickets — Total vs Fechados'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }
@@ -170,6 +441,29 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true
+    "drillFilterOtherVisuals": true,
+    "expansionStates": [
+      {
+        "roles": [
+          "Category"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "HELPDESK_Tickets.Ano"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "HELPDESK_Tickets.Mês"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {}
+      }
+    ]
   }
 }

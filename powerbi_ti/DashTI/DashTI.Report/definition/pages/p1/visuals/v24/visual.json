@@ -2,78 +2,86 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v24",
   "position": {
-    "x": 890,
-    "y": 166,
+    "x": 736,
+    "y": 284,
     "z": 24000,
-    "height": 270,
-    "width": 374,
+    "height": 42,
+    "width": 134,
     "tabOrder": 24000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
-                    }
-                  },
-                  "Property": "Tipo_Ataque"
-                }
-              },
-              "queryRef": "CYBER_Incidentes.Tipo_Ataque",
-              "nativeQueryRef": "Tipo_Ataque"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
-                    }
-                  },
-                  "Property": "Ano"
-                }
-              },
-              "queryRef": "CYBER_Incidentes.Ano",
-              "nativeQueryRef": "Ano"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
+                      "Entity": "HELPDESK_Tickets"
                     }
                   },
-                  "Property": "Total Incidentes"
+                  "Property": "Scorecard Incidentes"
                 }
               },
-              "queryRef": "CYBER_Incidentes.Total Incidentes",
-              "nativeQueryRef": "Total Incidentes"
+              "queryRef": "HELPDESK_Tickets.Scorecard Incidentes",
+              "nativeQueryRef": "Scorecard Incidentes",
+              "displayName": "Incidentes Cyber"
             }
           ]
         }
       }
     },
     "objects": {
-      "categoryAxis": [
+      "labels": [
         {
           "properties": {
-            "labelColor": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "HELPDESK_Tickets"
+                        }
+                      },
+                      "Property": "Cor Scorecard Incidentes"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -90,105 +98,17 @@
                   "Value": "9.0D"
                 }
               }
-            },
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
             }
           }
         }
       ],
-      "valueAxis": [
-        {
-          "properties": {
-            "labelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            },
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridlineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2B3E5A'"
-                    }
-                  }
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "legend": [
+      "wordWrap": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Top'"
-                }
-              }
-            },
-            "labelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
                 }
               }
             }
@@ -324,46 +244,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Nº de Ataques por Tipo e Ano'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

@@ -2,82 +2,19 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v15",
   "position": {
-    "x": 16,
-    "y": 428,
+    "x": 450,
+    "y": 68,
     "z": 15000,
-    "height": 280,
-    "width": 470,
+    "height": 86,
+    "width": 205,
     "tabOrder": 15000
   },
   "visual": {
-    "visualType": "pivotTable",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Software"
-                    }
-                  },
-                  "Property": "Software"
-                }
-              },
-              "queryRef": "ATIVOS_Software.Software",
-              "nativeQueryRef": "Software"
-            }
-          ]
-        },
         "Values": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Software"
-                    }
-                  },
-                  "Property": "Licenças Adquiridas"
-                }
-              },
-              "queryRef": "ATIVOS_Software.Licenças Adquiridas",
-              "nativeQueryRef": "Licenças Adquiridas",
-              "displayName": "Adquiridas"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Software"
-                    }
-                  },
-                  "Property": "Licenças Utilizadas"
-                }
-              },
-              "queryRef": "ATIVOS_Software.Licenças Utilizadas",
-              "nativeQueryRef": "Licenças Utilizadas",
-              "displayName": "Utilizadas"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Software"
-                    }
-                  },
-                  "Property": "Licenças Disponíveis"
-                }
-              },
-              "queryRef": "ATIVOS_Software.Licenças Disponíveis",
-              "nativeQueryRef": "Licenças Disponíveis",
-              "displayName": "Disponíveis"
-            },
             {
               "field": {
                 "Measure": {
@@ -91,126 +28,22 @@
               },
               "queryRef": "ATIVOS_Software.% Licenças Utilizadas",
               "nativeQueryRef": "% Licenças Utilizadas",
-              "displayName": "% Utilizadas"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Software"
-                    }
-                  },
-                  "Property": "Custo Anual Software"
-                }
-              },
-              "queryRef": "ATIVOS_Software.Custo Anual Software",
-              "nativeQueryRef": "Custo Anual Software",
-              "displayName": "Custo Anual"
+              "displayName": "% Licenças Utilizadas"
             }
           ]
         }
       }
     },
     "objects": {
-      "columnHeaders": [
+      "labels": [
         {
           "properties": {
-            "fontColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#C9B99A'"
-                    }
-                  }
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Center'"
-                }
-              }
-            },
-            "wordWrap": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "values": [
-        {
-          "properties": {
-            "fontColorPrimary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColorPrimary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontColorSecondary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColorSecondary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#22344F'"
+                      "Value": "'#F4A259'"
                     }
                   }
                 }
@@ -219,173 +52,36 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9.0D"
+                  "Value": "22.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
                 }
               }
             }
-          }
-        },
-        {
-          "properties": {
-            "dataBars": {
-              "positiveColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#1E8449'"
-                      }
-                    }
-                  }
-                }
-              },
-              "negativeColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#E74C3C'"
-                      }
-                    }
-                  }
-                }
-              },
-              "axisColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#AAB7C7'"
-                      }
-                    }
-                  }
-                }
-              },
-              "reverseDirection": {
-                "expr": {
-                  "Literal": {
-                    "Value": "false"
-                  }
-                }
-              },
-              "hideText": {
-                "expr": {
-                  "Literal": {
-                    "Value": "false"
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "ATIVOS_Software.Licenças Utilizadas"
           }
         }
       ],
-      "total": [
+      "categoryLabels": [
         {
           "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#C9B99A'"
-                    }
-                  }
-                }
-              }
-            },
-            "bold": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "grid": [
-        {
-          "properties": {
-            "gridVertical": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridHorizontalColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#2B3E5A'"
-                    }
-                  }
-                }
-              }
-            },
-            "outlineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#33496A'"
-                    }
-                  }
-                }
-              }
-            },
-            "rowPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "3.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "rowHeaders": [
-        {
-          "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#22344F'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
                 }
@@ -401,17 +97,10 @@
           }
         }
       ],
-      "subTotals": [
+      "wordWrap": [
         {
           "properties": {
-            "rowSubtotals": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "columnSubtotals": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -550,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Software — Licenças e Custos'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

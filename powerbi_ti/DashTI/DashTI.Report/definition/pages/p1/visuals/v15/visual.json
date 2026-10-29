@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v15",
   "position": {
-    "x": 506,
-    "y": 196,
+    "x": 520,
+    "y": 68,
     "z": 15000,
-    "height": 34,
-    "width": 364,
+    "height": 86,
+    "width": 240,
     "tabOrder": 15000
   },
   "visual": {
@@ -20,15 +20,15 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
+                      "Entity": "CYBER_Incidentes"
                     }
                   },
-                  "Property": "Período Referência MoM"
+                  "Property": "Incidentes Críticos"
                 }
               },
-              "queryRef": "HELPDESK_Tickets.Período Referência MoM",
-              "nativeQueryRef": "Período Referência MoM",
-              "displayName": "Período"
+              "queryRef": "CYBER_Incidentes.Incidentes Críticos",
+              "nativeQueryRef": "Incidentes Críticos",
+              "displayName": "Incidentes Críticos"
             }
           ]
         }
@@ -43,7 +43,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#AAB7C7'"
+                      "Value": "'#E74C3C'"
                     }
                   }
                 }
@@ -52,7 +52,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9.0D"
+                  "Value": "22.0D"
                 }
               }
             },
@@ -72,7 +72,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },

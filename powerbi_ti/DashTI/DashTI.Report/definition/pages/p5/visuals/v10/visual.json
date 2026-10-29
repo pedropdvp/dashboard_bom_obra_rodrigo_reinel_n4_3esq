@@ -2,40 +2,57 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v10",
   "position": {
-    "x": 600,
-    "y": 68,
+    "x": 490,
+    "y": 14,
     "z": 10000,
-    "height": 60,
-    "width": 664,
+    "height": 32,
+    "width": 150,
     "tabOrder": 10000
   },
   "visual": {
-    "visualType": "textbox",
+    "visualType": "actionButton",
     "objects": {
-      "general": [
+      "icon": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "Clique com o botão direito num técnico (Help Desk) › Drill through › Detalhe Técnico",
-                    "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#AAB7C7",
-                      "fontStyle": "italic"
-                    }
-                  }
-                ],
-                "horizontalTextAlignment": "right"
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
-            ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "shapeType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'blank'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
           }
         }
-      ]
-    },
-    "visualContainerObjects": {
-      "background": [
+      ],
+      "text": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "fill": [
         {
           "properties": {
             "show": {
@@ -44,13 +61,17 @@
                   "Value": "true"
                 }
               }
-            },
-            "color": {
+            }
+          }
+        },
+        {
+          "properties": {
+            "fillColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A41'"
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -63,48 +84,38 @@
                 }
               }
             }
+          },
+          "selector": {
+            "id": "default"
           }
-        }
-      ],
-      "border": [
+        },
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "color": {
+            "fillColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#33496A'"
+                      "Value": "'#C9B99A'"
                     }
                   }
                 }
               }
             },
-            "radius": {
+            "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "6.0D"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "1.0D"
+                  "Value": "70.0D"
                 }
               }
             }
+          },
+          "selector": {
+            "id": "hover"
           }
         }
       ],
-      "dropShadow": [
+      "outline": [
         {
           "properties": {
             "show": {
@@ -116,40 +127,37 @@
             }
           }
         }
-      ],
-      "visualHeader": [
+      ]
+    },
+    "visualContainerObjects": {
+      "visualLink": [
         {
           "properties": {
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
-            "foreground": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
+            "tooltip": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ativos TI'"
                 }
               }
             },
-            "border": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#33496A'"
-                    }
-                  }
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'PageNavigation'"
+                }
+              }
+            },
+            "navigationSection": {
+              "expr": {
+                "Literal": {
+                  "Value": "'p4'"
                 }
               }
             }
@@ -157,6 +165,32 @@
         }
       ],
       "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
         {
           "properties": {
             "show": {

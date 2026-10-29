@@ -3,219 +3,85 @@
   "name": "v13",
   "position": {
     "x": 16,
-    "y": 166,
+    "y": 68,
     "z": 13000,
-    "height": 250,
-    "width": 560,
+    "height": 86,
+    "width": 205,
     "tabOrder": 13000
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "card",
     "query": {
       "queryState": {
         "Values": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "ATIVOS_Renovações"
+                      "Entity": "ATIVOS_Hardware"
                     }
                   },
-                  "Property": "Nome"
+                  "Property": "Total Hardware"
                 }
               },
-              "queryRef": "ATIVOS_Renovações.Nome",
-              "nativeQueryRef": "Nome",
-              "displayName": "Nome"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Renovações"
-                    }
-                  },
-                  "Property": "Tipo"
-                }
-              },
-              "queryRef": "ATIVOS_Renovações.Tipo",
-              "nativeQueryRef": "Tipo",
-              "displayName": "Tipo"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Renovações"
-                    }
-                  },
-                  "Property": "Data_Renovação"
-                }
-              },
-              "queryRef": "ATIVOS_Renovações.Data_Renovação",
-              "nativeQueryRef": "Data_Renovação",
-              "displayName": "Data Renovação"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Renovações"
-                    }
-                  },
-                  "Property": "Estado_Alerta"
-                }
-              },
-              "queryRef": "ATIVOS_Renovações.Estado_Alerta",
-              "nativeQueryRef": "Estado_Alerta",
-              "displayName": "Estado"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "ATIVOS_Renovações"
-                        }
-                      },
-                      "Property": "Custo_€"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(ATIVOS_Renovações.Custo_€)",
-              "nativeQueryRef": "Custo_€",
-              "displayName": "Custo"
+              "queryRef": "ATIVOS_Hardware.Total Hardware",
+              "nativeQueryRef": "Total Hardware",
+              "displayName": "Total Hardware"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "ATIVOS_Renovações"
-                  }
-                },
-                "Property": "Data_Renovação"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ],
-        "isDefaultSort": false
       }
     },
     "objects": {
-      "columnHeaders": [
+      "labels": [
         {
           "properties": {
-            "fontColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A41'"
+                      "Value": "'#3A86FF'"
                     }
                   }
-                }
-              }
-            },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#C9B99A'"
-                    }
-                  }
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9.0D"
+                  "Value": "22.0D"
                 }
               }
             },
-            "alignment": {
+            "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "'Center'"
-                }
-              }
-            },
-            "wordWrap": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+                  "Value": "0.0D"
                 }
               }
             }
           }
         }
       ],
-      "values": [
+      "categoryLabels": [
         {
           "properties": {
-            "fontColorPrimary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
-            "backColorPrimary": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontColorSecondary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColorSecondary": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#22344F'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
                 }
@@ -229,127 +95,15 @@
               }
             }
           }
-        },
-        {
-          "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "ATIVOS_Renovações"
-                        }
-                      },
-                      "Property": "Cor Estado Alerta"
-                    }
-                  }
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "ATIVOS_Renovações.Estado_Alerta"
-          }
         }
       ],
-      "total": [
+      "wordWrap": [
         {
           "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#C9B99A'"
-                    }
-                  }
-                }
-              }
-            },
-            "bold": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "grid": [
-        {
-          "properties": {
-            "gridVertical": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "gridHorizontalColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2B3E5A'"
-                    }
-                  }
-                }
-              }
-            },
-            "outlineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#33496A'"
-                    }
-                  }
-                }
-              }
-            },
-            "rowPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "3.0D"
                 }
               }
             }
@@ -485,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Controlo de Renovações (Expirado · Urgente · Em Breve · OK)'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

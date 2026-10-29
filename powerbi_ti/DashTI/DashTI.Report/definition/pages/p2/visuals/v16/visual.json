@@ -2,35 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v16",
   "position": {
-    "x": 760,
-    "y": 448,
+    "x": 829,
+    "y": 68,
     "z": 16000,
-    "height": 260,
-    "width": 328,
+    "height": 86,
+    "width": 259,
     "tabOrder": 16000
   },
   "visual": {
-    "visualType": "treemap",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Group": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
-                    }
-                  },
-                  "Property": "Categoria"
-                }
-              },
-              "queryRef": "HELPDESK_Tickets.Categoria",
-              "nativeQueryRef": "Categoria"
-            }
-          ]
-        },
         "Values": {
           "projections": [
             {
@@ -41,46 +23,27 @@
                       "Entity": "HELPDESK_Tickets"
                     }
                   },
-                  "Property": "Total Tickets"
+                  "Property": "Satisfação Média"
                 }
               },
-              "queryRef": "HELPDESK_Tickets.Total Tickets",
-              "nativeQueryRef": "Total Tickets"
+              "queryRef": "HELPDESK_Tickets.Satisfação Média",
+              "nativeQueryRef": "Satisfação Média",
+              "displayName": "Satisfação Média (1–5)"
             }
           ]
         }
       }
     },
     "objects": {
-      "legend": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
       "labels": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFFFFF'"
+                      "Value": "'#2ECC71'"
                     }
                   }
                 }
@@ -89,7 +52,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9.0D"
+                  "Value": "22.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
                 }
               }
             }
@@ -111,9 +81,29 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFFFFF'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -249,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Tickets por Categoria'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

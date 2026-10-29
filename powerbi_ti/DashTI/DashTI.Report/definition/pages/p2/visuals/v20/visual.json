@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v20",
   "position": {
-    "x": 1108,
-    "y": 536,
+    "x": 328,
+    "y": 448,
     "z": 20000,
-    "height": 80,
-    "width": 148,
+    "height": 260,
+    "width": 420,
     "tabOrder": 20000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Values": {
+        "Rows": {
           "projections": [
             {
               "field": {
@@ -30,33 +30,356 @@
               "nativeQueryRef": "Técnico"
             }
           ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Ano"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Ano",
+              "nativeQueryRef": "Ano"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Total Tickets"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Total Tickets",
+              "nativeQueryRef": "Total Tickets",
+              "displayName": "Tickets"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "% Total Tickets"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.% Total Tickets",
+              "nativeQueryRef": "% Total Tickets",
+              "displayName": "% Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "% SLA Cumprido"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.% SLA Cumprido",
+              "nativeQueryRef": "% SLA Cumprido",
+              "displayName": "% SLA"
+            }
+          ]
         }
       }
     },
     "objects": {
-      "data": [
+      "columnHeaders": [
         {
           "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dropdown'"
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
                 }
               }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "show": {
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9B99A'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#22344F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#1E8449'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#E74C3C'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#AAB7C7'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "HELPDESK_Tickets.% Total Tickets"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "HELPDESK_Tickets"
+                        }
+                      },
+                      "Property": "Cor SLA"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "HELPDESK_Tickets.% SLA Cumprido"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9B99A'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2B3E5A'"
+                    }
+                  }
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#33496A'"
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "3.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
             "fontColor": {
               "solid": {
                 "color": {
@@ -68,50 +391,12 @@
                 }
               }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Técnico'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "fontColor": {
+            "backColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
+                      "Value": "'#22344F'"
                     }
                   }
                 }
@@ -127,20 +412,20 @@
           }
         }
       ],
-      "selection": [
+      "subTotals": [
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
+            "rowSubtotals": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "singleSelect": {
+            "columnSubtotals": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -276,7 +561,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Técnicos × Ano — Tickets e SLA'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

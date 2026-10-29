@@ -2,111 +2,34 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v11",
   "position": {
-    "x": 772,
-    "y": 68,
+    "x": 648,
+    "y": 14,
     "z": 11000,
-    "height": 86,
-    "width": 240,
+    "height": 32,
+    "width": 150,
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "card",
-    "query": {
-      "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
-                    }
-                  },
-                  "Property": "% SLA Cumprido"
-                }
-              },
-              "queryRef": "HELPDESK_Tickets.% SLA Cumprido",
-              "nativeQueryRef": "% SLA Cumprido",
-              "displayName": "% SLA Cumprido"
-            }
-          ]
-        }
-      }
-    },
+    "visualType": "textbox",
     "objects": {
-      "labels": [
+      "general": [
         {
           "properties": {
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#F4A259'"
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Detalhe Técnico",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#FFFFFF"
                     }
                   }
-                }
+                ],
+                "horizontalTextAlignment": "center"
               }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "22.0D"
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "0.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryLabels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "wordWrap": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
+            ]
           }
         }
       ]
@@ -167,7 +90,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "10.0D"
+                  "Value": "6.0D"
                 }
               }
             },

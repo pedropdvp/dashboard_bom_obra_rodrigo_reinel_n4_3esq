@@ -2,18 +2,36 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v21",
   "position": {
-    "x": 1108,
-    "y": 426,
+    "x": 468,
+    "y": 448,
     "z": 21000,
-    "height": 80,
-    "width": 148,
+    "height": 260,
+    "width": 380,
     "tabOrder": 21000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "hundredPercentStackedColumnChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Mês"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Mês",
+              "nativeQueryRef": "Mês"
+            }
+          ]
+        },
+        "Series": {
           "projections": [
             {
               "field": {
@@ -30,88 +48,37 @@
               "nativeQueryRef": "Tipo_Ataque"
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Total Incidentes"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Total Incidentes",
+              "nativeQueryRef": "Total Incidentes"
+            }
+          ]
         }
       }
     },
     "objects": {
-      "data": [
+      "categoryAxis": [
         {
           "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dropdown'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Tipo de Ataque'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "fontColor": {
+            "labelColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
                       "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
                     }
                   }
                 }
@@ -123,24 +90,105 @@
                   "Value": "9.0D"
                 }
               }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
       ],
-      "selection": [
+      "valueAxis": [
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2B3E5A'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "singleSelect": {
+            "position": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
                 }
               }
             }
@@ -276,7 +324,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tipos de Ataque por Mês (%)'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

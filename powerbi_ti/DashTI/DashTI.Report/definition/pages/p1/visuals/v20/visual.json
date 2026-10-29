@@ -3,32 +3,110 @@
   "name": "v20",
   "position": {
     "x": 506,
-    "y": 332,
+    "y": 196,
     "z": 20000,
-    "height": 42,
-    "width": 230,
+    "height": 34,
+    "width": 364,
     "tabOrder": 20000
   },
   "visual": {
-    "visualType": "textbox",
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HELPDESK_Tickets"
+                    }
+                  },
+                  "Property": "Período Referência MoM"
+                }
+              },
+              "queryRef": "HELPDESK_Tickets.Período Referência MoM",
+              "nativeQueryRef": "Período Referência MoM",
+              "displayName": "Período"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
-      "general": [
+      "labels": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "% SLA",
-                    "textStyle": {
-                      "fontSize": "11pt",
-                      "color": "#E8EDF3"
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
                     }
                   }
-                ],
-                "horizontalTextAlignment": "left"
+                }
               }
-            ]
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
           }
         }
       ]
@@ -49,7 +127,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#123B2E'"
+                      "Value": "'#1B2A41'"
                     }
                   }
                 }
@@ -71,7 +149,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -89,7 +167,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "6.0D"
+                  "Value": "10.0D"
                 }
               }
             },

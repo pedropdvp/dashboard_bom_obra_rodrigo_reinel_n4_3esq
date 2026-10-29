@@ -2,36 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v14",
   "position": {
-    "x": 588,
-    "y": 166,
+    "x": 233,
+    "y": 68,
     "z": 14000,
-    "height": 250,
-    "width": 500,
+    "height": 86,
+    "width": 205,
     "tabOrder": 14000
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "ATIVOS_Hardware"
-                    }
-                  },
-                  "Property": "Tipo"
-                }
-              },
-              "queryRef": "ATIVOS_Hardware.Tipo",
-              "nativeQueryRef": "Tipo"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -41,49 +23,50 @@
                       "Entity": "ATIVOS_Hardware"
                     }
                   },
-                  "Property": "Total Hardware"
+                  "Property": "Valor Total HW"
                 }
               },
-              "queryRef": "ATIVOS_Hardware.Total Hardware",
-              "nativeQueryRef": "Total Hardware"
+              "queryRef": "ATIVOS_Hardware.Valor Total HW",
+              "nativeQueryRef": "Valor Total HW",
+              "displayName": "Valor Total Hardware"
             }
           ]
         }
       }
     },
     "objects": {
-      "legend": [
+      "labels": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Right'"
-                }
-              }
-            },
-            "labelColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#AAB7C7'"
+                      "Value": "'#E8EDF3'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "22.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
                 }
               }
             }
           }
         }
       ],
-      "labels": [
+      "categoryLabels": [
         {
           "properties": {
             "show": {
@@ -98,16 +81,29 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E8EDF3'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
                 }
               }
             },
-            "labelStyle": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "'Percent of total'"
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -243,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Hardware por Tipo'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

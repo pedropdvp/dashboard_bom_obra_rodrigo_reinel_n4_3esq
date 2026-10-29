@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v19",
   "position": {
-    "x": 1108,
-    "y": 100,
+    "x": 548,
+    "y": 166,
     "z": 19000,
-    "height": 120,
-    "width": 148,
+    "height": 270,
+    "width": 540,
     "tabOrder": 19000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "ribbonChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
           "projections": [
             {
               "field": {
@@ -23,95 +23,78 @@
                       "Entity": "CYBER_Incidentes"
                     }
                   },
-                  "Property": "Data_Hora"
+                  "Property": "Ano"
                 }
               },
-              "queryRef": "CYBER_Incidentes.Data_Hora",
-              "nativeQueryRef": "Data_Hora"
+              "queryRef": "CYBER_Incidentes.Ano",
+              "nativeQueryRef": "Ano",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Mês"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Mês",
+              "nativeQueryRef": "Mês",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Severidade"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Severidade",
+              "nativeQueryRef": "Severidade"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Incidentes"
+                    }
+                  },
+                  "Property": "Total Incidentes"
+                }
+              },
+              "queryRef": "CYBER_Incidentes.Total Incidentes",
+              "nativeQueryRef": "Total Incidentes"
             }
           ]
         }
       }
     },
     "objects": {
-      "data": [
+      "categoryAxis": [
         {
           "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Between'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Período'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "fontColor": {
+            "labelColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
                       "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
                     }
                   }
                 }
@@ -123,21 +106,15 @@
                   "Value": "9.0D"
                 }
               }
-            }
-          }
-        }
-      ],
-      "selection": [
-        {
-          "properties": {
-            "selectAllCheckboxEnabled": {
+            },
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
-            "singleSelect": {
+            "gridlineShow": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -147,63 +124,56 @@
           }
         }
       ],
-      "date": [
+      "valueAxis": [
         {
           "properties": {
-            "fontColor": {
+            "labelColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B2A41'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
                 }
               }
             },
-            "background": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFFFFF'"
+                      "Value": "'#2B3E5A'"
                     }
                   }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
           }
         }
       ],
-      "numericInputStyle": [
-        {
-          "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "slider": [
+      "legend": [
         {
           "properties": {
             "show": {
@@ -213,14 +183,28 @@
                 }
               }
             },
-            "color": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "labelColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#C9B99A'"
+                      "Value": "'#AAB7C7'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
                 }
               }
             }
@@ -356,7 +340,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Severidade dos Ataques por Mês'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }
@@ -364,6 +387,29 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true
+    "drillFilterOtherVisuals": true,
+    "expansionStates": [
+      {
+        "roles": [
+          "Category"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "CYBER_Incidentes.Ano"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "CYBER_Incidentes.Mês"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {}
+      }
+    ]
   }
 }

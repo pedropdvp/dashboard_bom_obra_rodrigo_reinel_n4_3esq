@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v13",
   "position": {
-    "x": 708,
-    "y": 166,
+    "x": 16,
+    "y": 68,
     "z": 13000,
-    "height": 270,
-    "width": 380,
+    "height": 86,
+    "width": 259,
     "tabOrder": 13000
   },
   "visual": {
-    "visualType": "gauge",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -23,100 +23,19 @@
                       "Entity": "HELPDESK_Tickets"
                     }
                   },
-                  "Property": "% SLA Cumprido"
+                  "Property": "Tickets Abertos"
                 }
               },
-              "queryRef": "HELPDESK_Tickets.% SLA Cumprido",
-              "nativeQueryRef": "% SLA Cumprido"
-            }
-          ]
-        },
-        "MinValue": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
-                    }
-                  },
-                  "Property": "SLA Mínimo"
-                }
-              },
-              "queryRef": "HELPDESK_Tickets.SLA Mínimo",
-              "nativeQueryRef": "SLA Mínimo"
-            }
-          ]
-        },
-        "MaxValue": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
-                    }
-                  },
-                  "Property": "SLA Máximo"
-                }
-              },
-              "queryRef": "HELPDESK_Tickets.SLA Máximo",
-              "nativeQueryRef": "SLA Máximo"
-            }
-          ]
-        },
-        "TargetValue": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HELPDESK_Tickets"
-                    }
-                  },
-                  "Property": "Meta SLA"
-                }
-              },
-              "queryRef": "HELPDESK_Tickets.Meta SLA",
-              "nativeQueryRef": "Meta SLA"
+              "queryRef": "HELPDESK_Tickets.Tickets Abertos",
+              "nativeQueryRef": "Tickets Abertos",
+              "displayName": "Tickets Abertos"
             }
           ]
         }
       }
     },
     "objects": {
-      "dataPoint": [
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#F4A259'"
-                    }
-                  }
-                }
-              }
-            },
-            "target": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "calloutValue": [
+      "labels": [
         {
           "properties": {
             "color": {
@@ -124,7 +43,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E8EDF3'"
+                      "Value": "'#3A86FF'"
                     }
                   }
                 }
@@ -133,16 +52,30 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "28.0D"
+                  "Value": "22.0D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.0D"
                 }
               }
             }
           }
         }
       ],
-      "labels": [
+      "categoryLabels": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
             "color": {
               "solid": {
                 "color": {
@@ -153,21 +86,24 @@
                   }
                 }
               }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
             }
           }
         }
       ],
-      "target": [
+      "wordWrap": [
         {
           "properties": {
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -303,46 +239,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'% SLA Cumprido vs Meta 95%'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E8EDF3'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
+                  "Value": "false"
                 }
               }
             }

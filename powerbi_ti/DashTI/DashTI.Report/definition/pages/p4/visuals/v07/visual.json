@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v07",
   "position": {
-    "x": 648,
+    "x": 332,
     "y": 14,
     "z": 7000,
     "height": 32,
@@ -10,80 +10,32 @@
     "tabOrder": 7000
   },
   "visual": {
-    "visualType": "actionButton",
+    "visualType": "textbox",
     "objects": {
-      "icon": [
+      "general": [
         {
           "properties": {
-            "shapeType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'blank'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "text": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Detalhe Técnico'"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cibersegurança",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#FFFFFF"
                     }
                   }
-                }
+                ],
+                "horizontalTextAlignment": "center"
               }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "horizontalAlignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
+            ]
           }
         }
-      ],
-      "fill": [
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
         {
           "properties": {
             "show": {
@@ -93,7 +45,7 @@
                 }
               }
             },
-            "fillColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -111,13 +63,10 @@
                 }
               }
             }
-          },
-          "selector": {
-            "id": "default"
           }
         }
       ],
-      "outline": [
+      "border": [
         {
           "properties": {
             "show": {
@@ -127,7 +76,7 @@
                 }
               }
             },
-            "lineColor": {
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -138,49 +87,24 @@
                 }
               }
             },
-            "weight": {
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "6.0D"
+                }
+              }
+            },
+            "width": {
               "expr": {
                 "Literal": {
                   "Value": "1.0D"
                 }
               }
             }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "visualLink": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "type": {
-              "expr": {
-                "Literal": {
-                  "Value": "'PageNavigation'"
-                }
-              }
-            },
-            "navigationSection": {
-              "expr": {
-                "Literal": {
-                  "Value": "'p5'"
-                }
-              }
-            }
           }
         }
       ],
-      "title": [
+      "dropShadow": [
         {
           "properties": {
             "show": {
@@ -193,7 +117,46 @@
           }
         }
       ],
-      "background": [
+      "visualHeader": [
+        {
+          "properties": {
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            },
+            "foreground": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "border": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#33496A'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
         {
           "properties": {
             "show": {

@@ -2,52 +2,57 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v19",
   "position": {
-    "x": 1108,
-    "y": 100,
+    "x": 588,
+    "y": 166,
     "z": 19000,
-    "height": 300,
-    "width": 148,
+    "height": 250,
+    "width": 500,
     "tabOrder": 19000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Departamentos"
+                      "Entity": "ATIVOS_Hardware"
                     }
                   },
-                  "Property": "Departamento"
+                  "Property": "Tipo"
                 }
               },
-              "queryRef": "Departamentos.Departamento",
-              "nativeQueryRef": "Departamento"
+              "queryRef": "ATIVOS_Hardware.Tipo",
+              "nativeQueryRef": "Tipo"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATIVOS_Hardware"
+                    }
+                  },
+                  "Property": "Total Hardware"
+                }
+              },
+              "queryRef": "ATIVOS_Hardware.Total Hardware",
+              "nativeQueryRef": "Total Hardware"
             }
           ]
         }
       }
     },
     "objects": {
-      "data": [
-        {
-          "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Basic'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
+      "legend": [
         {
           "properties": {
             "show": {
@@ -57,7 +62,38 @@
                 }
               }
             },
-            "fontColor": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#AAB7C7'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
@@ -68,79 +104,10 @@
                 }
               }
             },
-            "fontSize": {
+            "labelStyle": {
               "expr": {
                 "Literal": {
-                  "Value": "10.0D"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Departamento'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#AAB7C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1B2A41'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "selection": [
-        {
-          "properties": {
-            "selectAllCheckboxEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "singleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
+                  "Value": "'Percent of total'"
                 }
               }
             }
@@ -276,7 +243,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Hardware por Tipo'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }
@@ -284,11 +290,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
-    "syncGroup": {
-      "groupName": "Departamento",
-      "fieldChanges": true,
-      "filterChanges": true
-    }
+    "drillFilterOtherVisuals": true
   }
 }

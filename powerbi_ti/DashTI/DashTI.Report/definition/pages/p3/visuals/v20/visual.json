@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v20",
   "position": {
-    "x": 1108,
-    "y": 228,
+    "x": 16,
+    "y": 448,
     "z": 20000,
-    "height": 190,
-    "width": 148,
+    "height": 260,
+    "width": 440,
     "tabOrder": 20000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
         "Values": {
@@ -20,58 +20,121 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CYBER_Incidentes"
+                      "Entity": "CYBER_Vulnerabilidades"
                     }
                   },
-                  "Property": "Severidade"
+                  "Property": "CVE"
                 }
               },
-              "queryRef": "CYBER_Incidentes.Severidade",
-              "nativeQueryRef": "Severidade"
+              "queryRef": "CYBER_Vulnerabilidades.CVE",
+              "nativeQueryRef": "CVE",
+              "displayName": "CVE"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Vulnerabilidades"
+                    }
+                  },
+                  "Property": "Sistema"
+                }
+              },
+              "queryRef": "CYBER_Vulnerabilidades.Sistema",
+              "nativeQueryRef": "Sistema",
+              "displayName": "Sistema"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Vulnerabilidades"
+                    }
+                  },
+                  "Property": "CVSS_Score"
+                }
+              },
+              "queryRef": "CYBER_Vulnerabilidades.CVSS_Score",
+              "nativeQueryRef": "CVSS_Score",
+              "displayName": "CVSS"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Vulnerabilidades"
+                    }
+                  },
+                  "Property": "Dias_Aberto"
+                }
+              },
+              "queryRef": "CYBER_Vulnerabilidades.Dias_Aberto",
+              "nativeQueryRef": "Dias_Aberto",
+              "displayName": "Dias em Aberto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CYBER_Vulnerabilidades"
+                    }
+                  },
+                  "Property": "Responsável"
+                }
+              },
+              "queryRef": "CYBER_Vulnerabilidades.Responsável",
+              "nativeQueryRef": "Responsável",
+              "displayName": "Responsável"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "CYBER_Vulnerabilidades"
+                  }
+                },
+                "Property": "CVSS_Score"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
-      "data": [
+      "columnHeaders": [
         {
           "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Basic'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "fontColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E8EDF3'"
+                      "Value": "'#1B2A41'"
                     }
                   }
                 }
               }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10.0D"
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9B99A'"
+                    }
+                  }
                 }
               }
             },
@@ -82,36 +145,72 @@
                 }
               }
             },
-            "text": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "'Severidade'"
+                  "Value": "9.0D"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
           }
         }
       ],
-      "items": [
+      "values": [
         {
           "properties": {
-            "fontColor": {
+            "fontColorPrimary": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#AAB7C7'"
+                      "Value": "'#E8EDF3'"
                     }
                   }
                 }
               }
             },
-            "background": {
+            "backColorPrimary": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
                       "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#22344F'"
                     }
                   }
                 }
@@ -125,22 +224,127 @@
               }
             }
           }
-        }
-      ],
-      "selection": [
+        },
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "CYBER_Vulnerabilidades"
+                        }
+                      },
+                      "Property": "Cor CVSS"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "CYBER_Vulnerabilidades.CVSS_Score"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B2A41'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9B99A'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "singleSelect": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2B3E5A'"
+                    }
+                  }
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#33496A'"
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "3.0D"
                 }
               }
             }
@@ -276,7 +480,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Vulnerabilidades em Aberto (ordenadas por CVSS)'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8EDF3'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }
@@ -285,5 +528,63 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "vulnAberta",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "CYBER_Vulnerabilidades"
+              }
+            },
+            "Property": "Estado"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "CYBER_Vulnerabilidades",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "Estado"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Aberta'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }

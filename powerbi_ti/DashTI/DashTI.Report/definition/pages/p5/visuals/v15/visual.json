@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "v15",
   "position": {
-    "x": 1024,
-    "y": 140,
+    "x": 68,
+    "y": 68,
     "z": 15000,
-    "height": 80,
-    "width": 240,
+    "height": 60,
+    "width": 520,
     "tabOrder": 15000
   },
   "visual": {
@@ -23,12 +23,12 @@
                       "Entity": "HELPDESK_Tickets"
                     }
                   },
-                  "Property": "Custo Médio por Ticket"
+                  "Property": "Técnico Selecionado"
                 }
               },
-              "queryRef": "HELPDESK_Tickets.Custo Médio por Ticket",
-              "nativeQueryRef": "Custo Médio por Ticket",
-              "displayName": "Custo Médio por Ticket"
+              "queryRef": "HELPDESK_Tickets.Técnico Selecionado",
+              "nativeQueryRef": "Técnico Selecionado",
+              "displayName": "Técnico Selecionado"
             }
           ]
         }
@@ -43,7 +43,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E8EDF3'"
+                      "Value": "'#C9B99A'"
                     }
                   }
                 }
@@ -52,7 +52,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22.0D"
+                  "Value": "20.0D"
                 }
               }
             },
